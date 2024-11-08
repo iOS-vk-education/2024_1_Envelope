@@ -27,11 +27,11 @@ class IntroViewController: UIViewController {
         print("tap working")
     }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        super.prepare(for: segue, sender: sender)
-        if segue.identifier == "showLoginSegue" {
-            guard let viewController : LoginViewController = segue.destination as? LoginViewController else { return }
-            
-        }
-    }
+//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+//        super.prepare(for: segue, sender: sender)
+//        if segue.identifier == "showLoginSegue" {
+//            guard let viewController : LoginViewController = segue.destination as? LoginViewController else { return }
+//            
+//        }
+//    }
 }

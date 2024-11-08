@@ -9,6 +9,12 @@ import UIKit
 
 class LoginViewController: UIViewController {
     
+    @IBOutlet weak var emailField: UITextField!
+   
+    @IBOutlet weak var passwordField: UITextField!
+    
+    @IBOutlet weak var signUpButton: UIButton!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 //        let customBackButton = UIButton(type: .system)
@@ -22,7 +28,7 @@ class LoginViewController: UIViewController {
 //        navigationItem.leftBarButtonItem = backButtonItem
 //        
     }
-    @objc func backButtonTapped() {
-        navigationController?.popViewController(animated: true)
-    }
+//    @objc func backButtonTapped() {
+//        navigationController?.popViewController(animated: true)
+//    }
 }
