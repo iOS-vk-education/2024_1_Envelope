@@ -30,7 +30,11 @@ class IntroViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        [vkLoginButton, googleLoginButton, appleLoginButton, guestLoginButton, passwordLoginButton].forEach({$0?.translatesAutoresizingMaskIntoConstraints = false})
         setupButtons(buttons: vkLoginButton, googleLoginButton, appleLoginButton, guestLoginButton)
+        
+        
+        
         //        let tap = UITapGestureRecognizer(target: self, action: #selector("tapFunction:"))
         //        signUpLabel.addGestureRecognizer(tap)
     }
