@@ -58,7 +58,7 @@
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" title="Continue with Apple"/>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LwM-hV-EFr">
+                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LwM-hV-EFr">
                                 <rect key="frame" x="30" y="624" width="333" height="58"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="333" id="6fs-Vk-NWR"/>
@@ -76,7 +76,7 @@
                                     <segue destination="jaN-fI-qLf" kind="show" id="hKR-M9-kMj"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="x8t-sx-7RX">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="x8t-sx-7RX">
                                 <rect key="frame" x="78" y="725" width="236" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="236" id="P34-e0-dfx"/>
@@ -108,15 +108,6 @@
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" title="Continue as Guest "/>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="or" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Nzc-CM-Kdi">
-                                <rect key="frame" x="30" y="584" width="333" height="20"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="333" id="3Jh-db-3iJ"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" name="AppleSDGothicNeo-Bold" family="Apple SD Gothic Neo" pointSize="16"/>
-                                <color key="textColor" red="0.46274507050000002" green="0.5411764979" blue="0.67058825489999996" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jo8-lB-5lp">
                                 <rect key="frame" x="30" y="294" width="333" height="58"/>
                                 <constraints>
@@ -133,17 +124,13 @@
                         <constraints>
                             <constraint firstItem="ElS-Y7-IGI" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="88" id="0Ce-2c-3kZ"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="DOg-b2-wQ1" secondAttribute="trailing" constant="30" id="18J-SO-Z8r"/>
-                            <constraint firstItem="LwM-hV-EFr" firstAttribute="top" secondItem="Nzc-CM-Kdi" secondAttribute="bottom" constant="20" id="AlH-xW-kfS"/>
                             <constraint firstItem="ElS-Y7-IGI" firstAttribute="top" secondItem="F0e-GV-oBR" secondAttribute="bottom" constant="42.333333333333314" id="HPl-4g-OFe"/>
                             <constraint firstItem="SKw-sN-eCg" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="30" id="K16-9u-3Wv"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="SKw-sN-eCg" secondAttribute="trailing" constant="30" id="KgQ-hG-6h9"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="ZlV-LC-tHQ" secondAttribute="trailing" constant="30" id="OWu-Ef-HYP"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="LwM-hV-EFr" secondAttribute="trailing" constant="30" id="OZR-EG-5sS"/>
-                            <constraint firstItem="Nzc-CM-Kdi" firstAttribute="top" secondItem="DOg-b2-wQ1" secondAttribute="bottom" constant="10" id="OmB-0c-r64"/>
-                            <constraint firstItem="Nzc-CM-Kdi" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="30" id="RTF-p2-Ymd"/>
                             <constraint firstItem="DOg-b2-wQ1" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="30" id="Rbb-NW-FSp"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="jo8-lB-5lp" secondAttribute="trailing" constant="30" id="SGP-8P-cHi"/>
-                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="Nzc-CM-Kdi" secondAttribute="trailing" constant="30" id="YNR-i3-2rK"/>
                             <constraint firstItem="x8t-sx-7RX" firstAttribute="top" secondItem="LwM-hV-EFr" secondAttribute="bottom" constant="43" id="Zhw-VN-2YZ"/>
                             <constraint firstItem="jo8-lB-5lp" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="30" id="avC-tD-BKQ"/>
                             <constraint firstItem="SKw-sN-eCg" firstAttribute="top" secondItem="ZlV-LC-tHQ" secondAttribute="bottom" constant="16" id="eDs-XV-fHh"/>

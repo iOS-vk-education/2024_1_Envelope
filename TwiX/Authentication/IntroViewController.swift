@@ -16,6 +16,65 @@ extension UIColor {
     }
 }
 
+struct Divider {
+    let view: UIView = UIView()
+    init(text: String = "or", lineColor: UIColor = .lightGray, lineHeight: CGFloat = 1.0, fontSize: CGFloat = 16.0) {
+        view.translatesAutoresizingMaskIntoConstraints = false
+        
+        let leftLine = UIView()
+        leftLine.backgroundColor = lineColor
+        leftLine.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(leftLine)
+        
+        let textLabel = UILabel()
+        textLabel.text = text
+        textLabel.textColor = lineColor
+        textLabel.font = UIFont.systemFont(ofSize: fontSize)
+        textLabel.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(textLabel)
+        
+        let rightLine = UIView()
+        rightLine.backgroundColor = lineColor
+        rightLine.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(rightLine)
+        
+        NSLayoutConstraint.activate([
+            leftLine.heightAnchor.constraint(equalToConstant: lineHeight),
+            leftLine.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            leftLine.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            leftLine.trailingAnchor.constraint(equalTo: textLabel.leadingAnchor, constant: -8),
+            
+            textLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            textLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            
+            rightLine.heightAnchor.constraint(equalToConstant: lineHeight),
+            rightLine.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            rightLine.leadingAnchor.constraint(equalTo: textLabel.trailingAnchor, constant: 8),
+            rightLine.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+        ])
+    }
+    
+    func addToView(
+        _ parentView: UIView,
+        leftAnchor: NSLayoutXAxisAnchor,
+        rightAnchor: NSLayoutXAxisAnchor,
+        topAnchor: NSLayoutYAxisAnchor,
+        bottomAnchor: NSLayoutYAxisAnchor,
+        leftPadding: CGFloat = 0,
+        rightPadding: CGFloat = 0,
+        topPadding: CGFloat = 0,
+        bottomPadding: CGFloat = 0
+    ) {
+        parentView.addSubview(view)
+        NSLayoutConstraint.activate([
+            view.leadingAnchor.constraint(equalTo: leftAnchor, constant: leftPadding),
+            view.trailingAnchor.constraint(equalTo: rightAnchor, constant: -rightPadding),
+            view.topAnchor.constraint(equalTo: topAnchor, constant: topPadding),
+            view.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -bottomPadding)
+        ])
+    }
+}
+
 class IntroViewController: UIViewController {
     
     // Buttons
@@ -33,6 +92,9 @@ class IntroViewController: UIViewController {
         [vkLoginButton, googleLoginButton, appleLoginButton, guestLoginButton, passwordLoginButton].forEach({$0?.translatesAutoresizingMaskIntoConstraints = false})
         setupButtons(buttons: vkLoginButton, googleLoginButton, appleLoginButton, guestLoginButton)
         
+        // Adding custom divider
+        let divider = Divider(text: "or", lineColor: .hintedText, lineHeight: 1.0, fontSize: 16.0)
+        divider.addToView(view, leftAnchor: view.safeAreaLayoutGuide.leadingAnchor, rightAnchor: view.safeAreaLayoutGuide.trailingAnchor, topAnchor: guestLoginButton.bottomAnchor, bottomAnchor: passwordLoginButton.topAnchor, leftPadding: 30, rightPadding: 30, topPadding: 20, bottomPadding: 20)
         
         
         //        let tap = UITapGestureRecognizer(target: self, action: #selector("tapFunction:"))
