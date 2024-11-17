@@ -67,12 +67,12 @@ class IntroViewController: UIViewController {
     }
     
     
-//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        super.prepare(for: segue, sender: sender)
-//        if segue.identifier == "SignUpSegue" {
-//
-//        }
-//    }
+    //    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    //        super.prepare(for: segue, sender: sender)
+    //        if segue.identifier == "SignUpSegue" {
+    //
+    //        }
+    //    }
     
     private func setupButtons(buttons : UIButton...) {
         buttons.forEach({

@@ -328,7 +328,8 @@ Account</string>
         <!--Navigation Controller-->
         <scene sceneID="S6e-j9-8W0">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="SH8-7g-jhO" customClass="NavigationController" customModule="TwiX" customModuleProvider="target" sceneMemberID="viewController">
+                <placeholder placeholderIdentifier="IBFirstResponder" id="HL4-bN-DlU" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="SH8-7g-jhO" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="Kre-2H-SGW">
                         <rect key="frame" x="0.0" y="59" width="393" height="44"/>
@@ -337,10 +338,8 @@ Account</string>
                     <nil name="viewControllers"/>
                     <connections>
                         <segue destination="Y6W-OH-hqX" kind="relationship" relationship="rootViewController" id="OOw-0j-wao"/>
-                        <segue destination="9YO-VT-CcV" kind="custom" id="KVH-Co-Qzo"/>
                     </connections>
                 </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="HL4-bN-DlU" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="46.564885496183201" y="18.30985915492958"/>
         </scene>
