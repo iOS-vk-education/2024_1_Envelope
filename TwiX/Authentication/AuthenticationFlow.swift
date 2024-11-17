@@ -80,11 +80,12 @@ struct AuthenticationFlowUIView: View {
                 HStack(spacing: 5) {
                     Text("Don`t have an account?")
                         .foregroundStyle(Color.textFieldsBorders)
-                    Button(action: signIn) {
+                    NavigationLink(destination: RegisterUIView()) {
                         Text("Sign up")
                             .foregroundStyle(Color.orangeButton)
                     }
                 }.font(Font.custom(Fonts.Urbanist_Medium, size: 12))
+                
                 Spacer()
             }
             .background(Color.background)
@@ -196,6 +197,96 @@ struct LoginUIView: View {
         }
     }
 }
+
+struct RegisterUIView: View {
+    @State private var email: String = ""
+    @State private var password: String = ""
+    
+    var body: some View {
+        NavigationStack {
+            VStack {
+                Header(showBackButton: true)
+                Spacer().frame(height: 40)
+                
+                HStack{
+                    Text("Create to your \nAccount")
+                        .font(Font.custom(Fonts.Urbanist_Bold, size: 40))
+                        .foregroundStyle(.text)
+                        .padding(.leading, 30)
+                    Spacer()
+                }
+                
+                Spacer().frame(height: 25)
+                
+                VStack(alignment: .leading, spacing: 5) {
+                    Text("Email")
+                        .foregroundStyle(.text)
+                        .padding(.leading, 40)
+                    
+                    TextField("Enter Email", text: $email)
+                        .padding()
+                        .background(Color.textFieldsBorders)
+                        .cornerRadius(8)
+                        .padding(.horizontal, 30)
+                    
+                    Spacer().frame(height: 15)
+                    
+                    Text("Password")
+                        .foregroundStyle(.text)
+                        .padding(.leading, 40)
+                    SecureField("Enter Password", text: $password)
+                        .padding()
+                        .foregroundStyle(.text)
+                        .background(Color.textFieldsBorders)
+                        .cornerRadius(8)
+                        .padding(.horizontal, 30)
+                }.font(Font.custom(Fonts.Urbanist_Light, size: 16))
+                
+                
+                NavigationLink(destination: SignUpUIView()) {
+                    Text("Sign Up")
+                        .font(Font.custom(Fonts.Urbanist_Bold, size: 16))
+                        .foregroundColor(Color.orangeButton)
+                        .padding()
+                        .frame(width: UIScreen.main.bounds.width * 0.8, height: 58)
+                        .background(Color.alternativeButtonLight)
+                        .cornerRadius(100)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 100)
+                                .stroke(Color.alternativeButtonLight, lineWidth: 1)
+                                .shadow(color: Color.alternativeButtonLight.opacity(0.5), radius: 10, x: 0, y: 0)
+                        )
+                        .shadow(color: Color.alternativeButtonLight.opacity(0.3), radius: 10, x: 0, y: 0)
+                }
+                
+                Spacer().frame(height: 25)
+                
+                Button(action: signIn) {
+                    Text("Forgor the password?").font(Font.custom(Fonts.Urbanist_Medium, size: 14))
+                        .foregroundColor(Color.orangeButton)
+                }
+                
+                Spacer().frame(height: 35)
+                
+                CustomDivider(text: "or continue with")
+                
+                Spacer().frame(height: 25)
+                
+                HStack(spacing: 15) {
+                    AbstractSmallButton(icon: Strings.Icons.vkIconString, action: signIn)
+                    AbstractSmallButton(icon: Strings.Icons.googleIconString, action: signIn)
+                    AbstractSmallButton(icon: Strings.Icons.appleIconString, action: signIn)
+                }
+                
+                
+                Spacer()
+            }
+            .background(Color.background)
+            .navigationBarBackButtonHidden(true)
+        }
+    }
+}
+
 
 struct SignUpUIView: View {
     var body: some View {
