@@ -36,6 +36,7 @@ struct Constants {
         }
         struct Dimensions {
             static let buttonCornerRadius: CGFloat = 100
+            static let buttonHeight: CGFloat = 60
         }
     }
     
@@ -95,6 +96,8 @@ struct Constants {
             static let smallButtonCornerRadius: CGFloat = 6
             static let smallButtonWidth: CGFloat = 70
             static let smallButtonHeight: CGFloat = 60
+            
+            static let bigButtonHeight: CGFloat = 60
         }
     }
     

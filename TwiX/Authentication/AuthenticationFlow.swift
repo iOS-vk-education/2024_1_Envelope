@@ -78,7 +78,7 @@ struct AuthenticationFlowUIView: View {
                         .padding()
                         .frame(maxWidth: .infinity)
                         .background(Color.orangeButton)
-                        .cornerRadius(100)
+                        .cornerRadius(Constants.AuthenticationFlow.Dimensions.buttonCornerRadius)
                         .padding(.horizontal, Constants.AuthenticationFlow.Padding.horizontal)
                 }
                 
@@ -271,7 +271,7 @@ struct RegisterUIView: View {
                 // MARK: - Navigation to next screen
                 NavigationLink(destination: SignUpUIView()) {
                     Text(Strings.Register.signUpButton)
-                        .font(Font.custom(Fonts.Urbanist_Bold, size: 16))
+                        .font(Font.custom(Fonts.Urbanist_Bold, size: Constants.Register.FontSizes.fieldLabel))
                         .foregroundColor(Color.orangeButton)
                         .padding()
                         .frame(maxWidth: .infinity, maxHeight: Constants.Register.Dimensions.buttonHeight)
@@ -329,7 +329,7 @@ struct AbstractSocialMediaLoginButton: View {
                 .font(Font.custom(Fonts.Urbanist_Medium, size: 16))
                 .foregroundColor(.text)
                 .padding()
-                .frame(maxWidth: .infinity, maxHeight: Constants.Register.Dimensions.buttonHeight)
+                .frame(maxWidth: .infinity, maxHeight: Constants.Buttons.Dimensions.bigButtonHeight)
                 .background(Color.background)
                 .cornerRadius(6)
                 .overlay(
