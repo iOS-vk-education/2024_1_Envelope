@@ -13,6 +13,7 @@ struct Header: View {
     
     var body: some View {
         VStack {
+            // MARK: - title in header
             HStack(alignment: .top, spacing: 16) {
                 Text(Strings.App.name)
                     .font(Font.custom(Fonts.Urbanist_Bold, size: Constants.Header.FontSizes.title))
@@ -22,6 +23,7 @@ struct Header: View {
             .padding(.top, Constants.Header.Padding.top)
             .padding(.leading, Constants.Header.Padding.leading)
             
+            // MARK: - custom back button logic
             if showBackButton {
                 HStack {
                     Button(action: {
@@ -47,6 +49,8 @@ struct AuthenticationFlowUIView: View {
             VStack {
                 Header()
                 Spacer().frame(maxHeight: Constants.AuthenticationFlow.Spacing.headerTopPadding)
+                
+                // MARK: - title
                 Text(Strings.Authentication.title)
                     .offset(y: 15)
                     .font(Font.custom(Fonts.Urbanist_Bold, size: Constants.AuthenticationFlow.FontSizes.title))
@@ -54,6 +58,7 @@ struct AuthenticationFlowUIView: View {
                 
                 Spacer().frame(maxHeight: Constants.AuthenticationFlow.Spacing.labelPadding)
                 
+                // MARK: - big social media login buttons
                 VStack(spacing: Constants.AuthenticationFlow.Spacing.buttonsSpacing) {
                     AbstractSocialMediaLoginButton(label: Strings.Buttons.continueWithVK, icon: Strings.Icons.vkIconString, action: signIn)
                     AbstractSocialMediaLoginButton(label: Strings.Buttons.continueWithGoogle, icon: Strings.Icons.googleIconString, action: signIn)
@@ -65,6 +70,7 @@ struct AuthenticationFlowUIView: View {
                 CustomDivider(text: Strings.Dividers.or)
                 Spacer().frame(height: Constants.AuthenticationFlow.Spacing.dividerSpacing)
                 
+                // MARK: - sign in button
                 NavigationLink(destination: LoginUIView()) {
                     Text(Strings.Authentication.signInWithPassword)
                         .font(.headline)
@@ -78,6 +84,7 @@ struct AuthenticationFlowUIView: View {
                 
                 Spacer().frame(height: Constants.AuthenticationFlow.Spacing.bottomSpacing)
                 
+                // MARK: - registration hint
                 HStack(spacing: 5) {
                     Text(Strings.Authentication.dontHaveAccount)
                         .foregroundStyle(Color.textFieldsBorders)
@@ -106,6 +113,7 @@ struct LoginUIView: View {
                 Header(showBackButton: true)
                 Spacer().frame(height: Constants.Login.Spacing.headerTopPadding)
                 
+                // MARK: - title
                 HStack{
                     Text(Strings.Login.title)
                         .font(Font.custom(Fonts.Urbanist_Bold, size: Constants.Login.FontSizes.title))
@@ -116,7 +124,9 @@ struct LoginUIView: View {
                 
                 Spacer().frame(height: Constants.Login.Spacing.sectionSpacing)
                 
+                // MARK: - Text fields
                 VStack(alignment: .leading, spacing: 5) {
+                    // MARK: - email field
                     Text(Strings.Login.emailLabel)
                         .foregroundStyle(.text)
                         .padding(.leading, Constants.Login.Padding.horizontal + 10)
@@ -129,6 +139,7 @@ struct LoginUIView: View {
                     
                     Spacer().frame(height: Constants.Login.Spacing.fieldSpacing)
                     
+                    // MARK: - password field
                     Text(Strings.Login.passwordLabel)
                         .foregroundStyle(.text)
                         .padding(.leading, Constants.Login.Padding.horizontal + 10)
@@ -142,6 +153,7 @@ struct LoginUIView: View {
                 
                 Spacer().frame(height: Constants.Login.Spacing.fieldSpacing)
                 
+                // MARK: - "Remember me" checkbox
                 HStack(alignment: .center) {
                     Button(action: {
                         isRememberMeChecked.toggle()
@@ -157,6 +169,7 @@ struct LoginUIView: View {
                 
                 Spacer().frame(height: Constants.Login.Spacing.fieldSpacing)
                 
+                // MARK: - Navigation to next screen
                 NavigationLink(destination: SignUpUIView()) {
                     Text(Strings.Login.signIn)
                         .font(Font.custom(Fonts.Urbanist_Bold, size: Constants.Login.FontSizes.fieldLabel))
@@ -176,17 +189,17 @@ struct LoginUIView: View {
                 
                 Spacer().frame(height: Constants.Login.Spacing.fieldSpacing)
                 
+                // MARK: - Forgor password hint
                 Button(action: signIn) {
                     Text(Strings.Login.forgotPassword).font(Font.custom(Fonts.Urbanist_Medium, size: Constants.Login.FontSizes.smallText))
                         .foregroundColor(Color.orangeButton)
                 }
                 
                 Spacer().frame(height: Constants.Login.Spacing.bottomSpacing)
-                
                 CustomDivider(text: Strings.Dividers.orContinueWith)
-                
                 Spacer().frame(height: Constants.Login.Spacing.sectionSpacing)
                 
+                // MARK: - Small social media login button
                 HStack(spacing: Constants.Login.Spacing.fieldSpacing) {
                     AbstractSocialMediaNoTextButton(icon: Strings.Icons.vkIconString, action: signIn)
                     AbstractSocialMediaNoTextButton(icon: Strings.Icons.googleIconString, action: signIn)
@@ -212,6 +225,7 @@ struct RegisterUIView: View {
                 Header(showBackButton: true)
                 Spacer().frame(height: Constants.Register.Spacing.headerTopPadding)
                 
+                // MARK: - Title
                 HStack{
                     Text(Strings.Register.title)
                         .font(Font.custom(Fonts.Urbanist_Bold, size: Constants.Register.FontSizes.title))
@@ -222,7 +236,10 @@ struct RegisterUIView: View {
                 
                 Spacer().frame(height: Constants.Register.Spacing.sectionSpacing)
                 
+                // MARK: - Text fields
                 VStack(alignment: .leading, spacing: 5) {
+                    
+                    // MARK: - email field
                     Text(Strings.Register.emailLabel)
                         .foregroundStyle(.text)
                         .padding(.leading, Constants.Register.Padding.horizontal + 10)
@@ -235,9 +252,11 @@ struct RegisterUIView: View {
                     
                     Spacer().frame(height: Constants.Register.Spacing.fieldSpacing)
                     
+                    // MARK: - password field
                     Text(Strings.Register.passwordLabel)
                         .foregroundStyle(.text)
                         .padding(.leading, Constants.Register.Padding.horizontal + 10)
+                    
                     SecureField(Strings.Register.passwordPlaceholder, text: $password)
                         .padding()
                         .foregroundStyle(.text)
@@ -248,6 +267,7 @@ struct RegisterUIView: View {
                 
                 Spacer().frame(maxHeight: Constants.Register.Spacing.bottomSpacing)
                 
+                // MARK: - Navigation to next screen
                 NavigationLink(destination: SignUpUIView()) {
                     Text(Strings.Register.signUpButton)
                         .font(Font.custom(Fonts.Urbanist_Bold, size: 16))
@@ -271,6 +291,7 @@ struct RegisterUIView: View {
                 
                 Spacer().frame(height: Constants.Register.Spacing.fieldVerticalSpacing)
                 
+                // MARK: - Small social media login button
                 HStack(spacing: Constants.Register.Spacing.fieldSpacing) {
                     AbstractSocialMediaNoTextButton(icon: Strings.Icons.vkIconString, action: signIn)
                     AbstractSocialMediaNoTextButton(icon: Strings.Icons.googleIconString, action: signIn)
