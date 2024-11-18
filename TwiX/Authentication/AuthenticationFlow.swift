@@ -160,11 +160,12 @@ struct LoginUIView: View {
                     }) {
                         Image(systemName: isRememberMeChecked ? Strings.Icons.checkboxChecked : Strings.Icons.checkboxUnchecked)
                             .foregroundColor(Color.orangeButton)
+                        Text(Strings.Login.rememberMe)
+                            .font(Font.custom(Fonts.Urbanist_Light, size: Constants.Login.FontSizes.fieldLabel))
+                            .foregroundStyle(.text)
                     }
                     
-                    Text(Strings.Login.rememberMe)
-                        .font(Font.custom(Fonts.Urbanist_Light, size: Constants.Login.FontSizes.fieldLabel))
-                        .foregroundStyle(.text)
+                    
                 }
                 
                 Spacer().frame(height: Constants.Login.Spacing.fieldSpacing)
