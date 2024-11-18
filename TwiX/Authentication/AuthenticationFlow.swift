@@ -14,28 +14,28 @@ struct Header: View {
     var body: some View {
         VStack {
             HStack(alignment: .top, spacing: 16) {
-                Text("TwiX")
-                    .font(Font.custom(Fonts.Urbanist_Bold, size: 30))
+                Text(Strings.App.name)
+                    .font(Font.custom(Fonts.Urbanist_Bold, size: Constants.Header.FontSizes.title))
                     .foregroundStyle(.text)
                 Spacer()
             }
-            .padding(.top, 10)
-            .padding(.leading, 20)
+            .padding(.top, Constants.Header.Padding.top)
+            .padding(.leading, Constants.Header.Padding.leading)
             
             if showBackButton {
                 HStack {
                     Button(action: {
                         presentationMode.wrappedValue.dismiss()
                     }) {
-                        Image(systemName: "chevron.backward")
+                        Image(systemName: Strings.Icons.backArrow)
                             .foregroundColor(.text)
                             .padding(.top, 3)
-                            .padding(.leading, 10)
+                            .padding(.leading, Constants.Header.Padding.leading)
                             .animation(.easeInOut)
                     }
                     Spacer()
                 }
-                .padding(.leading, 20)
+                .padding(.leading, Constants.Header.Padding.backButtonLeading)
             }
         }
     }
@@ -46,45 +46,46 @@ struct AuthenticationFlowUIView: View {
         NavigationStack {
             VStack {
                 Header()
-                Spacer().frame(height: 50)
-                Text("Let`s you in")
+                Spacer().frame(maxHeight: Constants.AuthenticationFlow.Spacing.headerTopPadding)
+                Text(Strings.Authentication.title)
                     .offset(y: 15)
-                    .font(Font.custom(Fonts.Urbanist_Bold, size: 40))
+                    .font(Font.custom(Fonts.Urbanist_Bold, size: Constants.AuthenticationFlow.FontSizes.title))
                     .foregroundStyle(.text)
                 
-                Spacer().frame(minHeight: 50, maxHeight: 80)
+                Spacer().frame(maxHeight: Constants.AuthenticationFlow.Spacing.labelPadding)
                 
-                VStack(spacing: 16) {
-                    AbstractBigButton(label: "Continue with VK ID", icon: Strings.Icons.vkIconString, action: signIn)
-                    AbstractBigButton(label: "Continue with Google", icon: Strings.Icons.googleIconString, action: signIn)
-                    AbstractBigButton(label: "Continue with Apple", icon: Strings.Icons.appleIconString, action: signIn)
-                    AbstractBigButton(label: "Continue as Guest", icon: Strings.Icons.guestIconString, action: signIn)
+                VStack(spacing: Constants.AuthenticationFlow.Spacing.buttonsSpacing) {
+                    AbstractSocialMediaLoginButton(label: Strings.Buttons.continueWithVK, icon: Strings.Icons.vkIconString, action: signIn)
+                    AbstractSocialMediaLoginButton(label: Strings.Buttons.continueWithGoogle, icon: Strings.Icons.googleIconString, action: signIn)
+                    AbstractSocialMediaLoginButton(label: Strings.Buttons.continueWithApple, icon: Strings.Icons.appleIconString, action: signIn)
+                    AbstractSocialMediaLoginButton(label: Strings.Buttons.continueAsGuest, icon: Strings.Icons.guestIconString, action: signIn)
                 }
-                Spacer().frame(height: 10)
-                CustomDivider(text: "or")
-                Spacer().frame(height: 20)
+                
+                Spacer().frame(height: Constants.AuthenticationFlow.Spacing.dividerSpacing)
+                CustomDivider(text: Strings.Dividers.or)
+                Spacer().frame(height: Constants.AuthenticationFlow.Spacing.dividerSpacing)
                 
                 NavigationLink(destination: LoginUIView()) {
-                    Text("Sign in with password")
+                    Text(Strings.Authentication.signInWithPassword)
                         .font(.headline)
                         .foregroundColor(.white)
                         .padding()
                         .frame(maxWidth: .infinity)
                         .background(Color.orangeButton)
                         .cornerRadius(100)
-                        .padding(.horizontal, 30)
+                        .padding(.horizontal, Constants.AuthenticationFlow.Padding.horizontal)
                 }
                 
-                Spacer().frame(height: 75)
+                Spacer().frame(height: Constants.AuthenticationFlow.Spacing.bottomSpacing)
                 
                 HStack(spacing: 5) {
-                    Text("Don`t have an account?")
+                    Text(Strings.Authentication.dontHaveAccount)
                         .foregroundStyle(Color.textFieldsBorders)
                     NavigationLink(destination: RegisterUIView()) {
-                        Text("Sign up")
+                        Text(Strings.Authentication.signUp)
                             .foregroundStyle(Color.orangeButton)
                     }
-                }.font(Font.custom(Fonts.Urbanist_Medium, size: 12))
+                }.font(Font.custom(Fonts.Urbanist_Medium, size: Constants.AuthenticationFlow.FontSizes.signUpText))
                 
                 Spacer()
             }
@@ -98,96 +99,98 @@ struct LoginUIView: View {
     @State private var email: String = ""
     @State private var password: String = ""
     @State private var isRememberMeChecked: Bool = false
+    
     var body: some View {
         NavigationStack {
             VStack {
                 Header(showBackButton: true)
-                Spacer().frame(height: 40)
+                Spacer().frame(height: Constants.Login.Spacing.headerTopPadding)
                 
                 HStack{
-                    Text("Login to your \nAccount")
-                        .font(Font.custom(Fonts.Urbanist_Bold, size: 40))
+                    Text(Strings.Login.title)
+                        .font(Font.custom(Fonts.Urbanist_Bold, size: Constants.Login.FontSizes.title))
                         .foregroundStyle(.text)
-                        .padding(.leading, 30)
+                        .padding(.leading, Constants.Login.Padding.horizontal)
                     Spacer()
                 }
                 
-                Spacer().frame(height: 25)
+                Spacer().frame(height: Constants.Login.Spacing.sectionSpacing)
                 
                 VStack(alignment: .leading, spacing: 5) {
-                    Text("Email")
+                    Text(Strings.Login.emailLabel)
                         .foregroundStyle(.text)
-                        .padding(.leading, 40)
+                        .padding(.leading, Constants.Login.Padding.horizontal + 10)
                     
-                    TextField("Enter Email", text: $email)
+                    TextField(Strings.Login.emailPlaceholder, text: $email)
                         .padding()
                         .background(Color.textFieldsBorders)
                         .cornerRadius(8)
-                        .padding(.horizontal, 30)
+                        .padding(.horizontal, Constants.Login.Padding.horizontal)
                     
-                    Spacer().frame(height: 15)
+                    Spacer().frame(height: Constants.Login.Spacing.fieldSpacing)
                     
-                    Text("Password")
+                    Text(Strings.Login.passwordLabel)
                         .foregroundStyle(.text)
-                        .padding(.leading, 40)
-                    SecureField("Enter Password", text: $password)
+                        .padding(.leading, Constants.Login.Padding.horizontal + 10)
+                    SecureField(Strings.Login.passwordPlaceholder, text: $password)
                         .padding()
                         .foregroundStyle(.text)
                         .background(Color.textFieldsBorders)
                         .cornerRadius(8)
-                        .padding(.horizontal, 30)
-                }.font(Font.custom(Fonts.Urbanist_Light, size: 16))
+                        .padding(.horizontal, Constants.Login.Padding.horizontal + 10)
+                }.font(Font.custom(Fonts.Urbanist_Light, size: Constants.Login.FontSizes.fieldLabel))
                 
-                Spacer().frame(height: 20)
+                Spacer().frame(height: Constants.Login.Spacing.fieldSpacing)
+                
                 HStack(alignment: .center) {
                     Button(action: {
                         isRememberMeChecked.toggle()
                     }) {
-                        Image(systemName: isRememberMeChecked ? "checkmark.square" : "square")
+                        Image(systemName: isRememberMeChecked ? Strings.Icons.checkboxChecked : Strings.Icons.checkboxUnchecked)
                             .foregroundColor(Color.orangeButton)
                     }
                     
-                    Text("Remember me")
-                        .font(Font.custom(Fonts.Urbanist_Light, size: 16))
+                    Text(Strings.Login.rememberMe)
+                        .font(Font.custom(Fonts.Urbanist_Light, size: Constants.Login.FontSizes.fieldLabel))
                         .foregroundStyle(.text)
                 }
-                Spacer().frame(height: 20)
                 
+                Spacer().frame(height: Constants.Login.Spacing.fieldSpacing)
                 
                 NavigationLink(destination: SignUpUIView()) {
-                    Text("Sign Up")
-                        .font(Font.custom(Fonts.Urbanist_Bold, size: 16))
+                    Text(Strings.Login.signIn)
+                        .font(Font.custom(Fonts.Urbanist_Bold, size: Constants.Login.FontSizes.fieldLabel))
                         .foregroundColor(Color.orangeButton)
                         .padding()
-                        .frame(maxWidth: .infinity, maxHeight: 60)
+                        .frame(maxWidth: .infinity, maxHeight: Constants.Login.Dimensions.buttonHeight)
                         .background(Color.alternativeButtonLight)
-                        .cornerRadius(100)
+                        .cornerRadius(Constants.Login.Dimensions.buttonCornerRadius)
                         .overlay(
-                            RoundedRectangle(cornerRadius: 100)
+                            RoundedRectangle(cornerRadius: Constants.Login.Dimensions.buttonCornerRadius)
                                 .stroke(Color.alternativeButtonLight, lineWidth: 1)
-                                .shadow(color: Color.alternativeButtonLight.opacity(0.5), radius: 10, x: 0, y: 0)
+                                .shadow(color: Color.alternativeButtonLight.opacity(0.5), radius: Constants.Login.Dimensions.smallCornerRadius, x: 0, y: 0)
                         )
-                        .shadow(color: Color.alternativeButtonLight.opacity(0.3), radius: 10, x: 0, y: 0)
-                        .padding(.horizontal, 30)
+                        .shadow(color: Color.alternativeButtonLight.opacity(0.3), radius: Constants.Login.Dimensions.smallCornerRadius, x: 0, y: 0)
+                        .padding(.horizontal, Constants.Login.Padding.horizontal)
                 }
                 
-                Spacer().frame(height: 25)
+                Spacer().frame(height: Constants.Login.Spacing.fieldSpacing)
                 
                 Button(action: signIn) {
-                    Text("Forgor the password?").font(Font.custom(Fonts.Urbanist_Medium, size: 14))
+                    Text(Strings.Login.forgotPassword).font(Font.custom(Fonts.Urbanist_Medium, size: Constants.Login.FontSizes.smallText))
                         .foregroundColor(Color.orangeButton)
                 }
                 
-                Spacer().frame(height: 35)
+                Spacer().frame(height: Constants.Login.Spacing.bottomSpacing)
                 
-                CustomDivider(text: "or continue with")
+                CustomDivider(text: Strings.Dividers.orContinueWith)
                 
-                Spacer().frame(height: 25)
+                Spacer().frame(height: Constants.Login.Spacing.sectionSpacing)
                 
-                HStack(spacing: 15) {
-                    AbstractSmallButton(icon: Strings.Icons.vkIconString, action: signIn)
-                    AbstractSmallButton(icon: Strings.Icons.googleIconString, action: signIn)
-                    AbstractSmallButton(icon: Strings.Icons.appleIconString, action: signIn)
+                HStack(spacing: Constants.Login.Spacing.fieldSpacing) {
+                    AbstractSocialMediaNoTextButton(icon: Strings.Icons.vkIconString, action: signIn)
+                    AbstractSocialMediaNoTextButton(icon: Strings.Icons.googleIconString, action: signIn)
+                    AbstractSocialMediaNoTextButton(icon: Strings.Icons.appleIconString, action: signIn)
                 }
                 
                 
@@ -207,80 +210,72 @@ struct RegisterUIView: View {
         NavigationStack {
             VStack {
                 Header(showBackButton: true)
-                Spacer().frame(height: 40)
+                Spacer().frame(height: Constants.Register.Spacing.headerTopPadding)
                 
                 HStack{
-                    Text("Create to your \nAccount")
-                        .font(Font.custom(Fonts.Urbanist_Bold, size: 40))
+                    Text(Strings.Register.title)
+                        .font(Font.custom(Fonts.Urbanist_Bold, size: Constants.Register.FontSizes.title))
                         .foregroundStyle(.text)
-                        .padding(.leading, 30)
+                        .padding(.leading, Constants.Register.Padding.horizontal)
                     Spacer()
                 }
                 
-                Spacer().frame(height: 25)
+                Spacer().frame(height: Constants.Register.Spacing.sectionSpacing)
                 
                 VStack(alignment: .leading, spacing: 5) {
-                    Text("Email")
+                    Text(Strings.Register.emailLabel)
                         .foregroundStyle(.text)
-                        .padding(.leading, 40)
+                        .padding(.leading, Constants.Register.Padding.horizontal + 10)
                     
-                    TextField("Enter Email", text: $email)
+                    TextField(Strings.Register.emailPlaceholder, text: $email)
                         .padding()
                         .background(Color.textFieldsBorders)
-                        .cornerRadius(8)
-                        .padding(.horizontal, 30)
+                        .cornerRadius(Constants.Register.Dimensions.fieldCornerRadius)
+                        .padding(.horizontal, Constants.Register.Padding.horizontal)
                     
-                    Spacer().frame(height: 15)
+                    Spacer().frame(height: Constants.Register.Spacing.fieldSpacing)
                     
-                    Text("Password")
+                    Text(Strings.Register.passwordLabel)
                         .foregroundStyle(.text)
-                        .padding(.leading, 40)
-                    SecureField("Enter Password", text: $password)
+                        .padding(.leading, Constants.Register.Padding.horizontal + 10)
+                    SecureField(Strings.Register.passwordPlaceholder, text: $password)
                         .padding()
                         .foregroundStyle(.text)
                         .background(Color.textFieldsBorders)
-                        .cornerRadius(8)
-                        .padding(.horizontal, 30)
-                }.font(Font.custom(Fonts.Urbanist_Light, size: 16))
+                        .cornerRadius(Constants.Register.Dimensions.fieldCornerRadius)
+                        .padding(.horizontal, Constants.Register.Padding.horizontal)
+                }.font(Font.custom(Fonts.Urbanist_Light, size: Constants.Register.FontSizes.fieldLabel))
                 
-                Spacer().frame(maxHeight: 50)
+                Spacer().frame(maxHeight: Constants.Register.Spacing.bottomSpacing)
                 
                 NavigationLink(destination: SignUpUIView()) {
-                    Text("Sign Up")
+                    Text(Strings.Register.signUpButton)
                         .font(Font.custom(Fonts.Urbanist_Bold, size: 16))
                         .foregroundColor(Color.orangeButton)
                         .padding()
-                        .frame(maxWidth: .infinity, maxHeight: 60)
+                        .frame(maxWidth: .infinity, maxHeight: Constants.Register.Dimensions.buttonHeight)
                         .background(Color.alternativeButtonLight)
-                        .cornerRadius(100)
+                        .cornerRadius(Constants.Register.Dimensions.buttonCornerRadius)
                         .overlay(
-                            RoundedRectangle(cornerRadius: 100)
+                            RoundedRectangle(cornerRadius: Constants.Register.Dimensions.buttonCornerRadius)
                                 .stroke(Color.alternativeButtonLight, lineWidth: 1)
-                                .shadow(color: Color.alternativeButtonLight.opacity(0.5), radius: 10, x: 0, y: 0)
+                                .shadow(color: Color.alternativeButtonLight.opacity(0.5), radius: Constants.Register.Dimensions.smallCornerRadius, x: 0, y: 0)
                         )
-                        
-                        .shadow(color: Color.alternativeButtonLight.opacity(0.3), radius: 10, x: 0, y: 0)
-                }.padding(.horizontal, 30)
+                    
+                        .shadow(color: Color.alternativeButtonLight.opacity(0.3), radius: Constants.Register.Dimensions.smallCornerRadius, x: 0, y: 0)
+                }.padding(.horizontal, Constants.Register.Padding.horizontal)
                 
-                Spacer().frame(height: 25)
+                Spacer().frame(height: Constants.Register.Spacing.fieldVerticalSpacing)
                 
-                Button(action: signIn) {
-                    Text("Forgor the password?").font(Font.custom(Fonts.Urbanist_Medium, size: 14))
-                        .foregroundColor(Color.orangeButton)
+                CustomDivider(text: Strings.Dividers.orContinueWith)
+                
+                Spacer().frame(height: Constants.Register.Spacing.fieldVerticalSpacing)
+                
+                HStack(spacing: Constants.Register.Spacing.fieldSpacing) {
+                    AbstractSocialMediaNoTextButton(icon: Strings.Icons.vkIconString, action: signIn)
+                    AbstractSocialMediaNoTextButton(icon: Strings.Icons.googleIconString, action: signIn)
+                    AbstractSocialMediaNoTextButton(icon: Strings.Icons.appleIconString, action: signIn)
                 }
-                
-                Spacer().frame(height: 35)
-                
-                CustomDivider(text: "or continue with")
-                
-                Spacer().frame(height: 25)
-                
-                HStack(spacing: 15) {
-                    AbstractSmallButton(icon: Strings.Icons.vkIconString, action: signIn)
-                    AbstractSmallButton(icon: Strings.Icons.googleIconString, action: signIn)
-                    AbstractSmallButton(icon: Strings.Icons.appleIconString, action: signIn)
-                }
-                
                 
                 Spacer()
             }
@@ -301,7 +296,7 @@ struct SignUpUIView: View {
     }
 }
 
-struct AbstractBigButton: View {
+struct AbstractSocialMediaLoginButton: View {
     var label: String
     var icon: String
     var action: () -> Void
@@ -312,21 +307,21 @@ struct AbstractBigButton: View {
                 .font(Font.custom(Fonts.Urbanist_Medium, size: 16))
                 .foregroundColor(.text)
                 .padding()
-                .frame(maxWidth: .infinity, maxHeight: 60)
+                .frame(maxWidth: .infinity, maxHeight: Constants.Register.Dimensions.buttonHeight)
                 .background(Color.background)
                 .cornerRadius(6)
                 .overlay(
-                    RoundedRectangle(cornerRadius: 6)
+                    RoundedRectangle(cornerRadius: Constants.Buttons.Dimensions.smallButtonCornerRadius)
                         .stroke(Color.white, lineWidth: 1)
                 )
         }
         .frame(maxWidth: .infinity)
-        .padding(.horizontal, 30)
+        .padding(.horizontal, Constants.Register.Padding.horizontal)
         
     }
 }
 
-struct AbstractSmallButton: View {
+struct AbstractSocialMediaNoTextButton: View {
     var icon: String
     var action: () -> Void
     
@@ -335,13 +330,13 @@ struct AbstractSmallButton: View {
             Image(icon)
                 .resizable()
                 .scaledToFit()
-                .frame(width: 25, height: 25)
+                .frame(width: Constants.Buttons.Dimensions.iconSize, height: Constants.Buttons.Dimensions.iconSize)
         }
-        .frame(width: 70, height: 60)
+        .frame(width: Constants.Buttons.Dimensions.smallButtonWidth, height: Constants.Buttons.Dimensions.smallButtonHeight)
         .background(Color.background)
-        .cornerRadius(6)
+        .cornerRadius(Constants.Buttons.Dimensions.smallButtonCornerRadius)
         .overlay(
-            RoundedRectangle(cornerRadius: 6)
+            RoundedRectangle(cornerRadius: Constants.Buttons.Dimensions.smallButtonCornerRadius)
                 .stroke(Color.white, lineWidth: 1)
         )
     }
@@ -349,16 +344,17 @@ struct AbstractSmallButton: View {
 
 struct CustomDivider: View {
     var text: String
+    
     var body: some View {
         HStack(alignment: .center) {
             Rectangle().frame(maxWidth: .infinity, maxHeight: 1)
             Text(text).layoutPriority(1)
             Rectangle().frame(maxWidth: .infinity, maxHeight: 1)
         }
-        .frame(height: 20)
+        .frame(height: Constants.Divider.height)
         .fixedSize(horizontal: false, vertical: true)
-        .padding(.horizontal, 30)
-        .font(Font.custom(Fonts.Urbanist_Medium, size: 16))
+        .padding(.horizontal, Constants.AuthenticationFlow.Padding.horizontal)
+        .font(Font.custom(Fonts.Urbanist_Medium, size: Constants.Login.FontSizes.fieldLabel))
         .foregroundColor(.textFieldsDarker)
     }
 }

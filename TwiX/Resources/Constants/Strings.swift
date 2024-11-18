@@ -19,10 +19,10 @@ class Strings {
         static let appleIconString: String = "appleIcon"
         static let guestIconString: String = "guestIcon"
         
-        static let back: String = "chevron.arrow.left"
+        static let backArrow: String = "chevron.backward"
         
-        static let checkboxChecked: String = "icon_checkbox_active"
-        static let checkboxUnchecked: String = "icon_checkbox_inactive"
+        static let checkboxChecked: String = "checkmark.square"
+        static let checkboxUnchecked: String = "square"
         
     }
     
@@ -31,26 +31,27 @@ class Strings {
     }
     
     enum Authentication {
-        static let letsYouIn = "Let`s you in"
+        static let title = "Let`s you in"
         static let signInWithPassword = "Sign in with password"
         static let dontHaveAccount = "Don`t have an account?"
         static let signUp = "Sign up"
     }
     
     enum Login {
-        static let loginToAccount = "Login to your \nAccount"
-        static let email = "Email"
-        static let enterEmail = "Enter Email"
-        static let password = "Password"
-        static let enterPassword = "Enter Password"
+        static let title = "Login to your \nAccount"
+        static let emailLabel = "Email"
+        static let emailPlaceholder = "Enter Email"
+        static let passwordLabel = "Password"
+        static let passwordPlaceholder = "Enter Password"
         static let rememberMe = "Remember me"
         static let forgotPassword = "Forgor the password?"
         static let orContinueWith = "or continue with"
+        static let signIn = "Sign in"
     }
     
     
     struct Register {
-        static let title = "Create Account"
+        static let title = "Create your \nAccount"
         static let emailLabel = "Email"
         static let emailPlaceholder = "Enter your email"
         static let passwordLabel = "Password"
