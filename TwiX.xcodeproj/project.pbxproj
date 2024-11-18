@@ -6,7 +6,14 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		3957D23D2CEB2FDA003E6F56 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3957D23C2CEB2FDA003E6F56 /* SwiftUI.framework */; };
+		3957D23F2CEB2FDF003E6F56 /* Combine.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3957D23E2CEB2FDF003E6F56 /* Combine.framework */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
+		3957D23C2CEB2FDA003E6F56 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		3957D23E2CEB2FDF003E6F56 /* Combine.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Combine.framework; path = System/Library/Frameworks/Combine.framework; sourceTree = SDKROOT; };
 		542DD1572CC1831300494768 /* TwiX.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TwiX.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -36,16 +43,28 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3957D23F2CEB2FDF003E6F56 /* Combine.framework in Frameworks */,
+				3957D23D2CEB2FDA003E6F56 /* SwiftUI.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3957D23B2CEB2FDA003E6F56 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				3957D23E2CEB2FDF003E6F56 /* Combine.framework */,
+				3957D23C2CEB2FDA003E6F56 /* SwiftUI.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		542DD14E2CC1831300494768 = {
 			isa = PBXGroup;
 			children = (
 				542DD1592CC1831300494768 /* TwiX */,
+				3957D23B2CEB2FDA003E6F56 /* Frameworks */,
 				542DD1582CC1831300494768 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -150,7 +169,7 @@
 				INFOPLIST_FILE = TwiX/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = "";
-				INFOPLIST_KEY_UIMainStoryboardFile = Authentication;
+				INFOPLIST_KEY_UIMainStoryboardFile = "";
 				INFOPLIST_KEY_UIRequiresFullScreen = NO;
 				INFOPLIST_KEY_UIStatusBarHidden = NO;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -180,7 +199,7 @@
 				INFOPLIST_FILE = TwiX/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = "";
-				INFOPLIST_KEY_UIMainStoryboardFile = Authentication;
+				INFOPLIST_KEY_UIMainStoryboardFile = "";
 				INFOPLIST_KEY_UIRequiresFullScreen = NO;
 				INFOPLIST_KEY_UIStatusBarHidden = NO;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";

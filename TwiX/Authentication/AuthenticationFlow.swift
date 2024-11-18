@@ -159,7 +159,7 @@ struct LoginUIView: View {
                         .font(Font.custom(Fonts.Urbanist_Bold, size: 16))
                         .foregroundColor(Color.orangeButton)
                         .padding()
-                        .frame(width: UIScreen.main.bounds.width * 0.8, height: 58)
+                        .frame(maxWidth: .infinity, maxHeight: 60)
                         .background(Color.alternativeButtonLight)
                         .cornerRadius(100)
                         .overlay(
@@ -168,6 +168,7 @@ struct LoginUIView: View {
                                 .shadow(color: Color.alternativeButtonLight.opacity(0.5), radius: 10, x: 0, y: 0)
                         )
                         .shadow(color: Color.alternativeButtonLight.opacity(0.3), radius: 10, x: 0, y: 0)
+                        .padding(.horizontal, 30)
                 }
                 
                 Spacer().frame(height: 25)
@@ -242,13 +243,14 @@ struct RegisterUIView: View {
                         .padding(.horizontal, 30)
                 }.font(Font.custom(Fonts.Urbanist_Light, size: 16))
                 
+                Spacer().frame(maxHeight: 50)
                 
                 NavigationLink(destination: SignUpUIView()) {
                     Text("Sign Up")
                         .font(Font.custom(Fonts.Urbanist_Bold, size: 16))
                         .foregroundColor(Color.orangeButton)
                         .padding()
-                        .frame(width: UIScreen.main.bounds.width * 0.8, height: 58)
+                        .frame(maxWidth: .infinity, maxHeight: 60)
                         .background(Color.alternativeButtonLight)
                         .cornerRadius(100)
                         .overlay(
@@ -256,8 +258,9 @@ struct RegisterUIView: View {
                                 .stroke(Color.alternativeButtonLight, lineWidth: 1)
                                 .shadow(color: Color.alternativeButtonLight.opacity(0.5), radius: 10, x: 0, y: 0)
                         )
+                        
                         .shadow(color: Color.alternativeButtonLight.opacity(0.3), radius: 10, x: 0, y: 0)
-                }
+                }.padding(.horizontal, 30)
                 
                 Spacer().frame(height: 25)
                 
@@ -309,7 +312,7 @@ struct AbstractBigButton: View {
                 .font(Font.custom(Fonts.Urbanist_Medium, size: 16))
                 .foregroundColor(.text)
                 .padding()
-                .frame(maxWidth: .infinity)
+                .frame(maxWidth: .infinity, maxHeight: 60)
                 .background(Color.background)
                 .cornerRadius(6)
                 .overlay(
@@ -348,10 +351,15 @@ struct CustomDivider: View {
     var text: String
     var body: some View {
         HStack(alignment: .center) {
-            Rectangle().frame(width: .infinity, height: 1)
+            Rectangle().frame(maxWidth: .infinity, maxHeight: 1)
             Text(text).layoutPriority(1)
-            Rectangle().frame(width: .infinity, height: 1)
-        }.frame(height: 20).fixedSize(horizontal: false, vertical: true).padding(.horizontal, 30).font(Font.custom(Fonts.Urbanist_Medium, size: 16)).foregroundColor(.textFieldsDarker)
+            Rectangle().frame(maxWidth: .infinity, maxHeight: 1)
+        }
+        .frame(height: 20)
+        .fixedSize(horizontal: false, vertical: true)
+        .padding(.horizontal, 30)
+        .font(Font.custom(Fonts.Urbanist_Medium, size: 16))
+        .foregroundColor(.textFieldsDarker)
     }
 }
 
