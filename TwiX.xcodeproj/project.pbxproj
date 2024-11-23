@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		20E26DC9E40C77AB97CA8D5D /* Pods_TwiX.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DCF5215B71C63DF32D4EE38C /* Pods_TwiX.framework */; };
 		3957D23D2CEB2FDA003E6F56 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3957D23C2CEB2FDA003E6F56 /* SwiftUI.framework */; };
 		3957D23F2CEB2FDF003E6F56 /* Combine.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3957D23E2CEB2FDF003E6F56 /* Combine.framework */; };
 /* End PBXBuildFile section */
@@ -15,6 +16,9 @@
 		3957D23C2CEB2FDA003E6F56 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
 		3957D23E2CEB2FDF003E6F56 /* Combine.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Combine.framework; path = System/Library/Frameworks/Combine.framework; sourceTree = SDKROOT; };
 		542DD1572CC1831300494768 /* TwiX.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TwiX.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		75B2DF282AE4A3D964EEA55A /* Pods-TwiX.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TwiX.debug.xcconfig"; path = "Target Support Files/Pods-TwiX/Pods-TwiX.debug.xcconfig"; sourceTree = "<group>"; };
+		D711A0CB6C9507961D19C243 /* Pods-TwiX.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TwiX.release.xcconfig"; path = "Target Support Files/Pods-TwiX/Pods-TwiX.release.xcconfig"; sourceTree = "<group>"; };
+		DCF5215B71C63DF32D4EE38C /* Pods_TwiX.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TwiX.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -45,6 +49,7 @@
 			files = (
 				3957D23F2CEB2FDF003E6F56 /* Combine.framework in Frameworks */,
 				3957D23D2CEB2FDA003E6F56 /* SwiftUI.framework in Frameworks */,
+				20E26DC9E40C77AB97CA8D5D /* Pods_TwiX.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -56,8 +61,19 @@
 			children = (
 				3957D23E2CEB2FDF003E6F56 /* Combine.framework */,
 				3957D23C2CEB2FDA003E6F56 /* SwiftUI.framework */,
+				DCF5215B71C63DF32D4EE38C /* Pods_TwiX.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		504BBEBB1DCAC6D4EC0C26C7 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				75B2DF282AE4A3D964EEA55A /* Pods-TwiX.debug.xcconfig */,
+				D711A0CB6C9507961D19C243 /* Pods-TwiX.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
 			sourceTree = "<group>";
 		};
 		542DD14E2CC1831300494768 = {
@@ -66,6 +82,7 @@
 				542DD1592CC1831300494768 /* TwiX */,
 				3957D23B2CEB2FDA003E6F56 /* Frameworks */,
 				542DD1582CC1831300494768 /* Products */,
+				504BBEBB1DCAC6D4EC0C26C7 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -84,9 +101,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 542DD16A2CC1831400494768 /* Build configuration list for PBXNativeTarget "TwiX" */;
 			buildPhases = (
+				FD99D77C60DBD27BE92C25F5 /* [CP] Check Pods Manifest.lock */,
 				542DD1532CC1831300494768 /* Sources */,
 				542DD1542CC1831300494768 /* Frameworks */,
 				542DD1552CC1831300494768 /* Resources */,
+				0E93A1250E053AF7D9DAC5A7 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -96,8 +115,6 @@
 				542DD1592CC1831300494768 /* TwiX */,
 			);
 			name = TwiX;
-			packageProductDependencies = (
-			);
 			productName = TwiX;
 			productReference = 542DD1572CC1831300494768 /* TwiX.app */;
 			productType = "com.apple.product-type.application";
@@ -146,6 +163,48 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		0E93A1250E053AF7D9DAC5A7 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-TwiX/Pods-TwiX-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-TwiX/Pods-TwiX-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-TwiX/Pods-TwiX-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		FD99D77C60DBD27BE92C25F5 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-TwiX-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		542DD1532CC1831300494768 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -159,6 +218,7 @@
 /* Begin XCBuildConfiguration section */
 		542DD16B2CC1831400494768 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 75B2DF282AE4A3D964EEA55A /* Pods-TwiX.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -181,6 +241,10 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = Envelope.TwiX;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -189,6 +253,7 @@
 		};
 		542DD16C2CC1831400494768 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D711A0CB6C9507961D19C243 /* Pods-TwiX.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -211,6 +276,10 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = Envelope.TwiX;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
