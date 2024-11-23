@@ -16,12 +16,12 @@ struct Header: View {
             // MARK: - title in header
             HStack(alignment: .top, spacing: 16) {
                 Text(Strings.App.name)
-                    .font(Font.custom(Fonts.Urbanist_Bold, size: Constants.Header.FontSizes.title))
+                    .font(Font.custom(Fonts.Urbanist_Bold, size: Constants.FontSizes.title))
                     .foregroundStyle(.text)
                 Spacer()
             }
-            .padding(.top, Constants.Header.Padding.top)
-            .padding(.leading, Constants.Header.Padding.leading)
+            .padding(.top, Constants.Header.Paddings.top)
+            .padding(.leading, Constants.Header.Paddings.leading)
             
             // MARK: - custom back button logic
             if showBackButton {
@@ -32,12 +32,12 @@ struct Header: View {
                         Image(systemName: Strings.Icons.backArrow)
                             .foregroundColor(.text)
                             .padding(.top, 3)
-                            .padding(.leading, Constants.Header.Padding.leading)
+                            .padding(.leading, Constants.Header.Paddings.leading)
                             .animation(.easeInOut)
                     }
                     Spacer()
                 }
-                .padding(.leading, Constants.Header.Padding.backButtonLeading)
+                .padding(.leading, Constants.Header.Paddings.backButtonLeading)
             }
         }
     }
@@ -79,7 +79,7 @@ struct AuthenticationFlowUIView: View {
                         .frame(maxWidth: .infinity)
                         .background(Color.orangeButton)
                         .cornerRadius(Constants.AuthenticationFlow.Dimensions.buttonCornerRadius)
-                        .padding(.horizontal, Constants.AuthenticationFlow.Padding.horizontal)
+                        .padding(.horizontal, Constants.AuthenticationFlow.Paddings.horizontal)
                 }
                 
                 Spacer().frame(height: Constants.AuthenticationFlow.Spacing.bottomSpacing)
@@ -118,7 +118,7 @@ struct LoginUIView: View {
                     Text(Strings.Login.title)
                         .font(Font.custom(Fonts.Urbanist_Bold, size: Constants.Login.FontSizes.title))
                         .foregroundStyle(.text)
-                        .padding(.leading, Constants.Login.Padding.horizontal)
+                        .padding(.leading, Constants.Login.Paddings.horizontal)
                     Spacer()
                 }
                 
@@ -129,26 +129,26 @@ struct LoginUIView: View {
                     // MARK: - email field
                     Text(Strings.Login.emailLabel)
                         .foregroundStyle(.text)
-                        .padding(.leading, Constants.Login.Padding.horizontal + 10)
+                        .padding(.leading, Constants.Login.Paddings.horizontal + 10)
                     
                     TextField(Strings.Login.emailPlaceholder, text: $email)
                         .padding()
                         .background(Color.textFieldsBorders)
                         .cornerRadius(8)
-                        .padding(.horizontal, Constants.Login.Padding.horizontal)
+                        .padding(.horizontal, Constants.Login.Paddings.horizontal)
                     
                     Spacer().frame(height: Constants.Login.Spacing.fieldSpacing)
                     
                     // MARK: - password field
                     Text(Strings.Login.passwordLabel)
                         .foregroundStyle(.text)
-                        .padding(.leading, Constants.Login.Padding.horizontal + 10)
+                        .padding(.leading, Constants.Login.Paddings.horizontal + 10)
                     SecureField(Strings.Login.passwordPlaceholder, text: $password)
                         .padding()
                         .foregroundStyle(.text)
                         .background(Color.textFieldsBorders)
                         .cornerRadius(8)
-                        .padding(.horizontal, Constants.Login.Padding.horizontal + 10)
+                        .padding(.horizontal, Constants.Login.Paddings.horizontal + 10)
                 }.font(Font.custom(Fonts.Urbanist_Light, size: Constants.Login.FontSizes.fieldLabel))
                 
                 Spacer().frame(height: Constants.Login.Spacing.fieldSpacing)
@@ -185,7 +185,7 @@ struct LoginUIView: View {
                                 .shadow(color: Color.alternativeButtonLight.opacity(0.5), radius: Constants.Login.Dimensions.smallCornerRadius, x: 0, y: 0)
                         )
                         .shadow(color: Color.alternativeButtonLight.opacity(0.3), radius: Constants.Login.Dimensions.smallCornerRadius, x: 0, y: 0)
-                        .padding(.horizontal, Constants.Login.Padding.horizontal)
+                        .padding(.horizontal, Constants.Login.Paddings.horizontal)
                 }
                 
                 Spacer().frame(height: Constants.Login.Spacing.fieldSpacing)
@@ -231,7 +231,7 @@ struct RegisterUIView: View {
                     Text(Strings.Register.title)
                         .font(Font.custom(Fonts.Urbanist_Bold, size: Constants.Register.FontSizes.title))
                         .foregroundStyle(.text)
-                        .padding(.leading, Constants.Register.Padding.horizontal)
+                        .padding(.leading, Constants.Register.Paddings.horizontal)
                     Spacer()
                 }
                 
@@ -243,27 +243,27 @@ struct RegisterUIView: View {
                     // MARK: - email field
                     Text(Strings.Register.emailLabel)
                         .foregroundStyle(.text)
-                        .padding(.leading, Constants.Register.Padding.horizontal + 10)
+                        .padding(.leading, Constants.Register.Paddings.horizontal + 10)
                     
                     TextField(Strings.Register.emailPlaceholder, text: $email)
                         .padding()
                         .background(Color.textFieldsBorders)
                         .cornerRadius(Constants.Register.Dimensions.fieldCornerRadius)
-                        .padding(.horizontal, Constants.Register.Padding.horizontal)
+                        .padding(.horizontal, Constants.Register.Paddings.horizontal)
                     
                     Spacer().frame(height: Constants.Register.Spacing.fieldSpacing)
                     
                     // MARK: - password field
                     Text(Strings.Register.passwordLabel)
                         .foregroundStyle(.text)
-                        .padding(.leading, Constants.Register.Padding.horizontal + 10)
+                        .padding(.leading, Constants.Register.Paddings.horizontal + 10)
                     
                     SecureField(Strings.Register.passwordPlaceholder, text: $password)
                         .padding()
                         .foregroundStyle(.text)
                         .background(Color.textFieldsBorders)
                         .cornerRadius(Constants.Register.Dimensions.fieldCornerRadius)
-                        .padding(.horizontal, Constants.Register.Padding.horizontal)
+                        .padding(.horizontal, Constants.Register.Paddings.horizontal)
                 }.font(Font.custom(Fonts.Urbanist_Light, size: Constants.Register.FontSizes.fieldLabel))
                 
                 Spacer().frame(maxHeight: Constants.Register.Spacing.bottomSpacing)
@@ -284,7 +284,7 @@ struct RegisterUIView: View {
                         )
                     
                         .shadow(color: Color.alternativeButtonLight.opacity(0.3), radius: Constants.Register.Dimensions.smallCornerRadius, x: 0, y: 0)
-                }.padding(.horizontal, Constants.Register.Padding.horizontal)
+                }.padding(.horizontal, Constants.Register.Paddings.horizontal)
                 
                 Spacer().frame(height: Constants.Register.Spacing.fieldVerticalSpacing)
                 
@@ -338,7 +338,7 @@ struct AbstractSocialMediaLoginButton: View {
                 )
         }
         .frame(maxWidth: .infinity)
-        .padding(.horizontal, Constants.Register.Padding.horizontal)
+        .padding(.horizontal, Constants.Register.Paddings.horizontal)
         
     }
 }
@@ -375,7 +375,7 @@ struct CustomDivider: View {
         }
         .frame(height: Constants.Divider.height)
         .fixedSize(horizontal: false, vertical: true)
-        .padding(.horizontal, Constants.AuthenticationFlow.Padding.horizontal)
+        .padding(.horizontal, Constants.AuthenticationFlow.Paddings.horizontal)
         .font(Font.custom(Fonts.Urbanist_Medium, size: Constants.Login.FontSizes.fieldLabel))
         .foregroundColor(.textFieldsDarker)
     }

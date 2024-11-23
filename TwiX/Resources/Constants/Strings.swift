@@ -8,7 +8,7 @@
 import Foundation
 
 
-class Strings {
+enum Strings {
     enum App {
         static let name: String = "TwiX"
     }
@@ -23,11 +23,10 @@ class Strings {
         
         static let checkboxChecked: String = "checkmark.square"
         static let checkboxUnchecked: String = "square"
+        static let avatarIcon: String = "avatarIcon"
+        static let settingsIcon: String = "settingsIcon"
+        static let addPostIcon: String = "addPostIcon"
         
-    }
-    
-    enum Headers {
-        static let appName = "TwiX"
     }
     
     enum Authentication {

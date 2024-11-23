@@ -7,63 +7,69 @@
 
 import SwiftUI
 
-struct Constants {
-    struct Header {
-        struct Padding {
+enum Constants {
+    enum FontSizes {
+        static let title: CGFloat = 30
+    }
+    
+    enum Header {
+        enum Paddings {
             static let top: CGFloat = 10
             static let leading: CGFloat = 20
             static let backButtonLeading: CGFloat = 10
         }
-        struct FontSizes {
-            static let title: CGFloat = 30
-        }
     }
     
-    struct AuthenticationFlow {
-        struct Spacing {
+    enum AuthenticationFlow {
+        enum Spacing {
             static let headerTopPadding: CGFloat = 50
             static let labelPadding: CGFloat = 70
             static let buttonsSpacing: CGFloat = 16
             static let dividerSpacing: CGFloat = 15
             static let bottomSpacing: CGFloat = 75
         }
-        struct Padding {
+        
+        enum Paddings {
             static let horizontal: CGFloat = 30
         }
-        struct FontSizes {
+        
+        enum FontSizes {
             static let title: CGFloat = 40
             static let signUpText: CGFloat = 12
         }
-        struct Dimensions {
+        
+        enum Dimensions {
             static let buttonCornerRadius: CGFloat = 100
             static let buttonHeight: CGFloat = 60
         }
     }
     
-    struct Login {
-        struct Spacing {
+    enum Login {
+        enum Spacing {
             static let headerTopPadding: CGFloat = 40
             static let fieldSpacing: CGFloat = 15
             static let sectionSpacing: CGFloat = 25
             static let bottomSpacing: CGFloat = 35
         }
-        struct Padding {
+        
+        enum Paddings {
             static let horizontal: CGFloat = 30
         }
-        struct FontSizes {
+        enum FontSizes {
             static let title: CGFloat = 40
             static let fieldLabel: CGFloat = 16
             static let smallText: CGFloat = 14
         }
-        struct Dimensions {
+        
+        enum Dimensions {
             static let buttonHeight: CGFloat = 60
             static let buttonCornerRadius: CGFloat = 100
             static let smallCornerRadius: CGFloat = 10
         }
     }
     
-    struct Register {
-        struct Spacing {
+    enum Register {
+        enum Spacing {
             static let headerTopPadding: CGFloat = 40
             static let titleLeading: CGFloat = 30
             static let fieldLeading: CGFloat = 40
@@ -74,14 +80,17 @@ struct Constants {
             static let buttonHorizontalPadding: CGFloat = 30
             static let bottomSpacing: CGFloat = 50
         }
-        struct FontSizes {
+        
+        enum FontSizes {
             static let title: CGFloat = 40
             static let fieldLabel: CGFloat = 16
         }
-        struct Padding {
+        
+        enum Paddings {
             static let horizontal: CGFloat = 30
         }
-        struct Dimensions {
+        
+        enum Dimensions {
             static let buttonCornerRadius: CGFloat = 100
             static let smallCornerRadius: CGFloat = 10
             static let fieldCornerRadius: CGFloat = 8
@@ -89,20 +98,36 @@ struct Constants {
         }
     }
     
-    struct Buttons {
-        struct Dimensions {
+    enum Buttons {
+        enum Dimensions {
             static let smallButtonSize: CGSize = CGSize(width: 70, height: 60)
             static let iconSize: CGFloat = 25
             static let smallButtonCornerRadius: CGFloat = 6
             static let smallButtonWidth: CGFloat = 70
             static let smallButtonHeight: CGFloat = 60
-            
             static let bigButtonHeight: CGFloat = 60
         }
     }
     
-    struct Divider {
+    enum Divider {
         static let height: CGFloat = 20
         static let lineHeight: CGFloat = 1
+    }
+    
+    enum ProfileController {
+        enum Dimensions {
+            static let avatarButtonSize: CGFloat = 123
+            static let settingsButtonSize: CGFloat = 48
+            static let addPostButtonSize: CGFloat = 80
+        }
+        
+        enum Paddings {
+            static let bottomTopAnchor: CGFloat = 55
+            static let topAvatarAnchor: CGFloat = 88
+            static let leadingSettingsAnchor: CGFloat = 325
+            static let leadingAvatarAnchor: CGFloat = 135
+            static let leadingLabelAnchor: CGFloat = 25
+            static let topLineAnchor: CGFloat = 145
+        }
     }
 }
