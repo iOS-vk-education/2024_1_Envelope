@@ -127,6 +127,7 @@ enum Constants {
             static let leadingSettingsAnchor: CGFloat = 325
             static let leadingAvatarAnchor: CGFloat = 135
             static let leadingLabelAnchor: CGFloat = 25
+            static let topLineAnchor: CGFloat = 145
         }
     }
 }

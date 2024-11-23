@@ -130,7 +130,7 @@ class ProfileController: UIViewController {
         view.addSubview(lineView)
         
         NSLayoutConstraint.activate([
-            lineView.topAnchor.constraint(equalTo: view.topAnchor, constant: 145),
+            lineView.topAnchor.constraint(equalTo: view.topAnchor, constant: Constants.ProfileController.Paddings.topLineAnchor),
             lineView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             lineView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             lineView.heightAnchor.constraint(equalToConstant: 1)
