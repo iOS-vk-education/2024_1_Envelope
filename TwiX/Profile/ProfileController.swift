@@ -17,9 +17,9 @@ class ProfileController: UIViewController, UIImagePickerControllerDelegate, UINa
         button.translatesAutoresizingMaskIntoConstraints = false
         button.layer.cornerRadius = Constants.ProfileController.Dimensions.avatarButtonSize / 2
         button.clipsToBounds = true
-        button.backgroundColor = Constants.ProfileController.Colors.iconBackgroundColor
+        button.backgroundColor = Colors.iconBackgroundColor
         button.setImage(UIImage(named: Strings.IconNames.avatarIcon), for: .normal)
-        button.tintColor = Constants.ProfileController.Colors.mainColor
+        button.tintColor = Colors.mainColor
         return button
     }()
     
@@ -29,9 +29,9 @@ class ProfileController: UIViewController, UIImagePickerControllerDelegate, UINa
         button.translatesAutoresizingMaskIntoConstraints = false
         button.layer.cornerRadius = Constants.ProfileController.Dimensions.settingsButtonSize / 2
         button.clipsToBounds = true
-        button.backgroundColor = Constants.ProfileController.Colors.iconBackgroundColor
+        button.backgroundColor = Colors.iconBackgroundColor
         button.setImage(UIImage(named: Strings.IconNames.settingsIcon), for: .normal)
-        button.tintColor = Constants.ProfileController.Colors.mainColor
+        button.tintColor = Colors.mainColor
         return button
     }()
     
@@ -41,16 +41,16 @@ class ProfileController: UIViewController, UIImagePickerControllerDelegate, UINa
         button.translatesAutoresizingMaskIntoConstraints = false
         button.layer.cornerRadius = Constants.ProfileController.Dimensions.addPostButtonSize / 2
         button.clipsToBounds = true
-        button.backgroundColor = Constants.ProfileController.Colors.iconBackgroundColor
+        button.backgroundColor = Colors.iconBackgroundColor
         button.setImage(UIImage(named: Strings.IconNames.addPostIcon), for: .normal)
-        button.tintColor = Constants.ProfileController.Colors.mainColor
+        button.tintColor = Colors.mainColor
         return button
     }()
     
     private let lineView: UIView = {
         let line = UIView()
         
-        line.backgroundColor = Constants.ProfileController.Colors.mainColor
+        line.backgroundColor = Colors.mainColor
         line.translatesAutoresizingMaskIntoConstraints = false
         return line
     }()
@@ -58,8 +58,8 @@ class ProfileController: UIViewController, UIImagePickerControllerDelegate, UINa
     private let textLabel: UILabel = {
         let twixLabel = UILabel()
         
-        twixLabel.text = Strings.Titles.titleText
-        twixLabel.textColor = Constants.ProfileController.Colors.mainColor
+        twixLabel.text = Strings.Headers.appName
+        twixLabel.textColor = Colors.mainColor
         twixLabel.font = UIFont(name: Fonts.Poppins_Bold, size: Constants.FontSizes.title)
         twixLabel.translatesAutoresizingMaskIntoConstraints = false
         return twixLabel
@@ -75,7 +75,7 @@ class ProfileController: UIViewController, UIImagePickerControllerDelegate, UINa
     // MARK: - Setup Methods
     
     private func setupView() {
-        view.backgroundColor = Constants.ProfileController.Colors.backgroundColor
+        view.backgroundColor = Colors.backgroundColor
         setupTitleLabel()
         setupLineView()
         setupAvatarButton()

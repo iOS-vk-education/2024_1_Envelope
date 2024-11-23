@@ -115,12 +115,6 @@ enum Constants {
     }
     
     enum ProfileController {
-        enum Colors {
-            static let mainColor: UIColor = UIColor(hex: "#EAD8B1")
-            static let backgroundColor: UIColor = UIColor(hex: "#001F3F")
-            static let iconBackgroundColor: UIColor = UIColor(hex: "#7E60BF")
-        }
-        
         enum Dimensions {
             static let avatarButtonSize: CGFloat = 123
             static let settingsButtonSize: CGFloat = 48

@@ -74,10 +74,6 @@ enum Strings {
         static let orContinueWith: String = "or continue with"
     }
     
-    enum Titles {
-        static let titleText: String = "TwiX"
-    }
-    
     enum IconNames {
         static let avatarIcon: String = "avatarIcon"
         static let settingsIcon: String = "settingsIcon"
