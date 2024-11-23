@@ -66,35 +66,36 @@ class ProfileController: UIViewController {
     }()
     
     // MARK: - View Lifecycle
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
+        setupConstraints()
     }
     
     // MARK: - Setup Methods
     
     private func setupView() {
         view.backgroundColor = Colors.backgroundColor
-        setupTitleLabel()
-        setupLineView()
-        setupAvatarButton()
-        setupSettingsButton()
-        setupAddPostButton()
+        view.addSubviews(subviews: [textLabel,
+                                    lineView,
+                                    avatarButton,
+                                    settingsButton,
+                                    addPostButton,
+                                   ])
     }
     
-    private func setupTitleLabel() {
-        view.addSubview(textLabel)
+    private func setupConstraints() {
+        
+        // MARK: - Constraints for textLabel
         
         NSLayoutConstraint.activate([
             textLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             textLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Constants.ProfileController.Paddings.leadingLabelAnchor),
             textLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: Constants.ProfileController.Paddings.bottomTopAnchor)
         ])
-    }
-    
-    private func setupAvatarButton() {
-        view.addSubview(avatarButton)
+        
+        // MARK: - Constraints for avatarButton
         
         NSLayoutConstraint.activate([
             avatarButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Constants.ProfileController.Paddings.leadingAvatarAnchor),
@@ -102,10 +103,8 @@ class ProfileController: UIViewController {
             avatarButton.widthAnchor.constraint(equalToConstant: Constants.ProfileController.Dimensions.avatarButtonSize),
             avatarButton.heightAnchor.constraint(equalToConstant: Constants.ProfileController.Dimensions.avatarButtonSize)
         ])
-    }
-    
-    private func setupSettingsButton() {
-        view.addSubview(settingsButton)
+        
+        // MARK: - Constraints for settingsButton
         
         NSLayoutConstraint.activate([
             settingsButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Constants.ProfileController.Paddings.leadingSettingsAnchor),
@@ -113,10 +112,8 @@ class ProfileController: UIViewController {
             settingsButton.widthAnchor.constraint(equalToConstant: Constants.ProfileController.Dimensions.settingsButtonSize),
             settingsButton.heightAnchor.constraint(equalToConstant: Constants.ProfileController.Dimensions.settingsButtonSize)
         ])
-    }
-    
-    private func setupAddPostButton() {
-        view.addSubview(addPostButton)
+        
+        // MARK: - Constraints for addPostButton
         
         NSLayoutConstraint.activate([
             addPostButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
@@ -124,10 +121,8 @@ class ProfileController: UIViewController {
             addPostButton.widthAnchor.constraint(equalToConstant: Constants.ProfileController.Dimensions.addPostButtonSize),
             addPostButton.heightAnchor.constraint(equalToConstant: Constants.ProfileController.Dimensions.addPostButtonSize)
         ])
-    }
-    
-    private func setupLineView() {
-        view.addSubview(lineView)
+        
+        // MARK: - Constraints for lineView
         
         NSLayoutConstraint.activate([
             lineView.topAnchor.constraint(equalTo: view.topAnchor, constant: Constants.ProfileController.Paddings.topLineAnchor),
