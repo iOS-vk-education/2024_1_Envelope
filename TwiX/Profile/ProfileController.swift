@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ProfileController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class ProfileController: UIViewController {
     
     // MARK: - UI Elements
 
