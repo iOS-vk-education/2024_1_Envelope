@@ -6,6 +6,6 @@ target 'TwiX' do
   use_frameworks!
 
   # Pods for TwiX
-    pod 'Firebase/Core'
+    pod 'Firebase'
 
 end
