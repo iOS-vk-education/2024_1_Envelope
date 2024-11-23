@@ -18,7 +18,7 @@ class ProfileController: UIViewController {
         button.layer.cornerRadius = Constants.ProfileController.Dimensions.avatarButtonSize / 2
         button.clipsToBounds = true
         button.backgroundColor = Colors.iconBackgroundColor
-        button.setImage(UIImage(named: Strings.IconNames.avatarIcon), for: .normal)
+        button.setImage(UIImage(named: Strings.Icons.avatarIcon), for: .normal)
         button.tintColor = Colors.mainColor
         return button
     }()
@@ -30,7 +30,7 @@ class ProfileController: UIViewController {
         button.layer.cornerRadius = Constants.ProfileController.Dimensions.settingsButtonSize / 2
         button.clipsToBounds = true
         button.backgroundColor = Colors.iconBackgroundColor
-        button.setImage(UIImage(named: Strings.IconNames.settingsIcon), for: .normal)
+        button.setImage(UIImage(named: Strings.Icons.settingsIcon), for: .normal)
         button.tintColor = Colors.mainColor
         return button
     }()
@@ -42,7 +42,7 @@ class ProfileController: UIViewController {
         button.layer.cornerRadius = Constants.ProfileController.Dimensions.addPostButtonSize / 2
         button.clipsToBounds = true
         button.backgroundColor = Colors.iconBackgroundColor
-        button.setImage(UIImage(named: Strings.IconNames.addPostIcon), for: .normal)
+        button.setImage(UIImage(named: Strings.Icons.addPostIcon), for: .normal)
         button.tintColor = Colors.mainColor
         return button
     }()
@@ -58,7 +58,7 @@ class ProfileController: UIViewController {
     private let textLabel: UILabel = {
         let twixLabel = UILabel()
         
-        twixLabel.text = Strings.Headers.appName
+        twixLabel.text = Strings.App.name
         twixLabel.textColor = Colors.mainColor
         twixLabel.font = UIFont(name: Fonts.Poppins_Bold, size: Constants.FontSizes.title)
         twixLabel.translatesAutoresizingMaskIntoConstraints = false

@@ -23,11 +23,10 @@ enum Strings {
         
         static let checkboxChecked: String = "checkmark.square"
         static let checkboxUnchecked: String = "square"
+        static let avatarIcon: String = "avatarIcon"
+        static let settingsIcon: String = "settingsIcon"
+        static let addPostIcon: String = "addPostIcon"
         
-    }
-    
-    enum Headers {
-        static let appName = "TwiX"
     }
     
     enum Authentication {
@@ -72,12 +71,6 @@ enum Strings {
     enum Dividers {
         static let or: String = "or"
         static let orContinueWith: String = "or continue with"
-    }
-    
-    enum IconNames {
-        static let avatarIcon: String = "avatarIcon"
-        static let settingsIcon: String = "settingsIcon"
-        static let addPostIcon: String = "addPostIcon"
     }
 }
 
