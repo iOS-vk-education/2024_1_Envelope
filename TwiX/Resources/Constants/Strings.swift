@@ -8,7 +8,7 @@
 import Foundation
 
 
-class Strings {
+enum Strings {
     enum App {
         static let name: String = "TwiX"
     }
@@ -72,6 +72,16 @@ class Strings {
     enum Dividers {
         static let or: String = "or"
         static let orContinueWith: String = "or continue with"
+    }
+    
+    enum Titles {
+        static let titleText: String = "TwiX"
+    }
+    
+    enum IconNames {
+        static let avatarIcon: String = "avatarIcon"
+        static let settingsIcon: String = "settingsIcon"
+        static let addPostIcon: String = "addPostIcon"
     }
 }
 
