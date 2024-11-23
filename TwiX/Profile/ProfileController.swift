@@ -87,48 +87,41 @@ class ProfileController: UIViewController {
     
     private func setupConstraints() {
         
-        // MARK: - Constraints for textLabel
-        
         NSLayoutConstraint.activate([
+            
+            // MARK: - Constraints для textLabel
+            
             textLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             textLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Constants.ProfileController.Paddings.leadingLabelAnchor),
-            textLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: Constants.ProfileController.Paddings.bottomTopAnchor)
-        ])
-        
-        // MARK: - Constraints for avatarButton
-        
-        NSLayoutConstraint.activate([
-            avatarButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Constants.ProfileController.Paddings.leadingAvatarAnchor),
-            avatarButton.topAnchor.constraint(equalTo: view.topAnchor, constant: Constants.ProfileController.Paddings.topAvatarAnchor),
-            avatarButton.widthAnchor.constraint(equalToConstant: Constants.ProfileController.Dimensions.avatarButtonSize),
-            avatarButton.heightAnchor.constraint(equalToConstant: Constants.ProfileController.Dimensions.avatarButtonSize)
-        ])
-        
-        // MARK: - Constraints for settingsButton
-        
-        NSLayoutConstraint.activate([
-            settingsButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Constants.ProfileController.Paddings.leadingSettingsAnchor),
-            settingsButton.topAnchor.constraint(equalTo: view.topAnchor, constant: Constants.ProfileController.Paddings.bottomTopAnchor),
-            settingsButton.widthAnchor.constraint(equalToConstant: Constants.ProfileController.Dimensions.settingsButtonSize),
-            settingsButton.heightAnchor.constraint(equalToConstant: Constants.ProfileController.Dimensions.settingsButtonSize)
-        ])
-        
-        // MARK: - Constraints for addPostButton
-        
-        NSLayoutConstraint.activate([
-            addPostButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            addPostButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -Constants.ProfileController.Paddings.bottomTopAnchor),
-            addPostButton.widthAnchor.constraint(equalToConstant: Constants.ProfileController.Dimensions.addPostButtonSize),
-            addPostButton.heightAnchor.constraint(equalToConstant: Constants.ProfileController.Dimensions.addPostButtonSize)
-        ])
-        
-        // MARK: - Constraints for lineView
-        
-        NSLayoutConstraint.activate([
+            textLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: Constants.ProfileController.Paddings.bottomTopAnchor),
+            
+            // MARK: - Constraints для lineView
+            
             lineView.topAnchor.constraint(equalTo: view.topAnchor, constant: Constants.ProfileController.Paddings.topLineAnchor),
             lineView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             lineView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            lineView.heightAnchor.constraint(equalToConstant: 1)
+            lineView.heightAnchor.constraint(equalToConstant: 1),
+            
+            // MARK: - Constraints для avatarButton
+            
+            avatarButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Constants.ProfileController.Paddings.leadingAvatarAnchor),
+            avatarButton.topAnchor.constraint(equalTo: view.topAnchor, constant: Constants.ProfileController.Paddings.topAvatarAnchor),
+            avatarButton.widthAnchor.constraint(equalToConstant: Constants.ProfileController.Dimensions.avatarButtonSize),
+            avatarButton.heightAnchor.constraint(equalToConstant: Constants.ProfileController.Dimensions.avatarButtonSize),
+            
+            // MARK: - Constraints для settingsButton
+            
+            settingsButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Constants.ProfileController.Paddings.leadingSettingsAnchor),
+            settingsButton.topAnchor.constraint(equalTo: view.topAnchor, constant: Constants.ProfileController.Paddings.bottomTopAnchor),
+            settingsButton.widthAnchor.constraint(equalToConstant: Constants.ProfileController.Dimensions.settingsButtonSize),
+            settingsButton.heightAnchor.constraint(equalToConstant: Constants.ProfileController.Dimensions.settingsButtonSize),
+            
+            // MARK: - Constraints для addPostButton
+            
+            addPostButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            addPostButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -Constants.ProfileController.Paddings.bottomTopAnchor),
+            addPostButton.widthAnchor.constraint(equalToConstant: Constants.ProfileController.Dimensions.addPostButtonSize),
+            addPostButton.heightAnchor.constraint(equalToConstant: Constants.ProfileController.Dimensions.addPostButtonSize),
         ])
     }
 }
