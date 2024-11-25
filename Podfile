@@ -5,7 +5,6 @@ target 'TwiX' do
   use_frameworks!
 
   # Firebase dependencies
-    pod 'Firebase/Core'
     pod 'Firebase/Auth'
     pod 'Firebase/Database'
     pod 'Firebase/Firestore'
