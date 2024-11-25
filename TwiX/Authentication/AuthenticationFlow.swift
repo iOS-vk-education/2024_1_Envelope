@@ -1,49 +1,21 @@
-//
-//  IntroUIView.swift
-//  TwiX
-//
-//  Created by Alexander on 17.11.2024.
-//
-
 import SwiftUI
+import Firebase
+import GoogleSignIn
 
-struct Header: View {
-    var showBackButton: Bool = false
-    @Environment(\.presentationMode) var presentationMode
+struct AuthenticationFlowUIView: View {
+    @EnvironmentObject var authManager: AuthManager
     
-    var body: some View {
-        VStack {
-            // MARK: - title in header
-            HStack(alignment: .top, spacing: 16) {
-                Text(Strings.App.name)
-                    .font(Font.custom(Fonts.Urbanist_Bold, size: Constants.Header.FontSizes.title))
-                    .foregroundStyle(.text)
-                Spacer()
+    func signAnonymously() {
+        Task {
+            do {
+                _ = try await authManager.signInAnonymously()
             }
-            .padding(.top, Constants.Header.Padding.top)
-            .padding(.leading, Constants.Header.Padding.leading)
-            
-            // MARK: - custom back button logic
-            if showBackButton {
-                HStack {
-                    Button(action: {
-                        presentationMode.wrappedValue.dismiss()
-                    }) {
-                        Image(systemName: Strings.Icons.backArrow)
-                            .foregroundColor(.text)
-                            .padding(.top, 3)
-                            .padding(.leading, Constants.Header.Padding.leading)
-                            .animation(.easeInOut)
-                    }
-                    Spacer()
-                }
-                .padding(.leading, Constants.Header.Padding.backButtonLeading)
+            catch {
+                print("SignInAnonymouslyError: \(error)")
             }
         }
     }
-}
-
-struct AuthenticationFlowUIView: View {
+    
     var body: some View {
         NavigationStack {
             VStack {
@@ -63,7 +35,7 @@ struct AuthenticationFlowUIView: View {
                     AbstractSocialMediaLoginButton(label: Strings.Buttons.continueWithVK, icon: Strings.Icons.vkIconString, action: signIn)
                     AbstractSocialMediaLoginButton(label: Strings.Buttons.continueWithGoogle, icon: Strings.Icons.googleIconString, action: signIn)
                     AbstractSocialMediaLoginButton(label: Strings.Buttons.continueWithApple, icon: Strings.Icons.appleIconString, action: signIn)
-                    AbstractSocialMediaLoginButton(label: Strings.Buttons.continueAsGuest, icon: Strings.Icons.guestIconString, action: signIn)
+                    AbstractSocialMediaLoginButton(label: Strings.Buttons.continueAsGuest, icon: Strings.Icons.guestIconString, action: signAnonymously)
                 }
                 
                 Spacer().frame(height: Constants.AuthenticationFlow.Spacing.dividerSpacing)
@@ -98,6 +70,42 @@ struct AuthenticationFlowUIView: View {
             }
             .background(Color.background)
             .navigationBarBackButtonHidden(true)
+        }
+    }
+}
+
+struct Header: View {
+    var showBackButton: Bool = false
+    @Environment(\.presentationMode) var presentationMode
+    
+    var body: some View {
+        VStack {
+            // MARK: - title in header
+            HStack(alignment: .top, spacing: 16) {
+                Text(Strings.App.name)
+                    .font(Font.custom(Fonts.Urbanist_Bold, size: Constants.Header.FontSizes.title))
+                    .foregroundStyle(.text)
+                Spacer()
+            }
+            .padding(.top, Constants.Header.Padding.top)
+            .padding(.leading, Constants.Header.Padding.leading)
+            
+            // MARK: - custom back button logic
+            if showBackButton {
+                HStack {
+                    Button(action: {
+                        presentationMode.wrappedValue.dismiss()
+                    }) {
+                        Image(systemName: Strings.Icons.backArrow)
+                            .foregroundColor(.text)
+                            .padding(.top, 3)
+                            .padding(.leading, Constants.Header.Padding.leading)
+                            .animation(.easeInOut)
+                    }
+                    Spacer()
+                }
+                .padding(.leading, Constants.Header.Padding.backButtonLeading)
+            }
         }
     }
 }
@@ -148,7 +156,7 @@ struct LoginUIView: View {
                         .foregroundStyle(.text)
                         .background(Color.textFieldsBorders)
                         .cornerRadius(8)
-                        .padding(.horizontal, Constants.Login.Padding.horizontal + 10)
+                        .padding(.horizontal, Constants.Login.Padding.horizontal)
                 }.font(Font.custom(Fonts.Urbanist_Light, size: Constants.Login.FontSizes.fieldLabel))
                 
                 Spacer().frame(height: Constants.Login.Spacing.fieldSpacing)
@@ -164,8 +172,6 @@ struct LoginUIView: View {
                             .font(Font.custom(Fonts.Urbanist_Light, size: Constants.Login.FontSizes.fieldLabel))
                             .foregroundStyle(.text)
                     }
-                    
-                    
                 }
                 
                 Spacer().frame(height: Constants.Login.Spacing.fieldSpacing)
@@ -190,7 +196,7 @@ struct LoginUIView: View {
                 
                 Spacer().frame(height: Constants.Login.Spacing.fieldSpacing)
                 
-                // MARK: - Forgor password hint
+                // MARK: - Forgot password hint
                 Button(action: signIn) {
                     Text(Strings.Login.forgotPassword).font(Font.custom(Fonts.Urbanist_Medium, size: Constants.Login.FontSizes.smallText))
                         .foregroundColor(Color.orangeButton)
@@ -206,7 +212,6 @@ struct LoginUIView: View {
                     AbstractSocialMediaNoTextButton(icon: Strings.Icons.googleIconString, action: signIn)
                     AbstractSocialMediaNoTextButton(icon: Strings.Icons.appleIconString, action: signIn)
                 }
-                
                 
                 Spacer()
             }
@@ -307,7 +312,6 @@ struct RegisterUIView: View {
     }
 }
 
-
 struct SignUpUIView: View {
     var body: some View {
         VStack {
@@ -384,6 +388,5 @@ struct CustomDivider: View {
 func signIn() {}
 
 #Preview {
-    AuthenticationFlowUIView()
+    AuthenticationFlowUIView() //{ print("anal228pro") }
 }
-

@@ -1,35 +1,31 @@
-//
-//  AppDelegate.swift
-//  TwiX
-//
-//  Created by Андрей Шустров on 17.10.2024.
-//
-
 import UIKit
 import SwiftUI
 import FirebaseCore
 import FirebaseAuth
+import FirebaseFirestore
+import FirebaseDatabase
 import GoogleSignIn
 
-@main
 class AppDelegate: UIResponder, UIApplicationDelegate {
-    
-    @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
-    
     var window: UIWindow?
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        let window = UIWindow(frame: UIScreen.main.bounds)
-        
-        FirebaseApp.configure()
-        
-        let rootView = AuthenticationFlowUIView()
-        window.rootViewController = UIHostingController(rootView: rootView)
-        
-        self.window = window
-        window.makeKeyAndVisible()
-        
         return true
+    }
+    
+    private func switchToMainApp() {
+        guard let window = self.window else { return }
+        
+        let mainViewController = MainViewController()
+        window.rootViewController = mainViewController
+        
+        UIView.transition(with: window, duration: 0.5, options: .transitionFlipFromRight, animations: nil, completion: nil)
+    }
+    
+    // MARK: Auth
+    
+    func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey: Any] = [:]) -> Bool {
+        return GIDSignIn.sharedInstance.handle(url)
     }
     
     // MARK: UISceneSession Lifecycle
@@ -45,7 +41,4 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // If any sessions were discarded while the application was not running, this will be called shortly after application:didFinishLaunchingWithOptions.
         // Use this method to release any resources that were specific to the discarded scenes, as they will not return.
     }
-    
-    
 }
-
