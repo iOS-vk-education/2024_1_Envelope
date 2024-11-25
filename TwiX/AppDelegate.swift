@@ -7,10 +7,14 @@
 
 import UIKit
 import SwiftUI
-import Firebase
+import FirebaseCore
+import FirebaseAuth
+import GoogleSignIn
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
+    
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     
     var window: UIWindow?
     
