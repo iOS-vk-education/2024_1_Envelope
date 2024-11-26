@@ -4,19 +4,14 @@ class MainViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.view.backgroundColor = UIColor.white
+        
+        let label = UILabel()
+        label.text = "Hello, world!"
+        label.textAlignment = .center
+        label.frame = self.view.bounds
 
-        // Do any additional setup after loading the view.
+        self.view.addSubview(label)
     }
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }

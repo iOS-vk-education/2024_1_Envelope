@@ -1,10 +1,35 @@
 import UIKit
 import SwiftUI
+import Firebase
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
-
-
-
+    
+    var window: UIWindow?
+    
+    func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
+        guard let windowScene = (scene as? UIWindowScene) else { return }
+        
+        let window = UIWindow(windowScene: windowScene)
+        
+        if Auth.auth().currentUser != nil {
+            let mainViewController = MainViewController()
+            window.rootViewController = mainViewController
+        } else {
+            let authView = AuthenticationFlowUIView(onSuccess: {
+                DispatchQueue.main.async {
+                    let mainViewController = MainViewController()
+                    UIView.transition(with: window, duration: 0.5, options: .transitionCrossDissolve, animations: {
+                        window.rootViewController = mainViewController
+                    }, completion: nil)
+                }
+            })
+            window.rootViewController = UIHostingController(rootView: authView)
+        }
+        
+        self.window = window
+        window.makeKeyAndVisible()
+    }
+    
     func sceneDidDisconnect(_ scene: UIScene) {
         // Called as the scene is being released by the system.
         // This occurs shortly after the scene enters the background, or when its session is discarded.

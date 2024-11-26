@@ -6,26 +6,15 @@ import FirebaseFirestore
 import FirebaseDatabase
 import GoogleSignIn
 
+@main
 class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        
+        FirebaseApp.configure()
+        
         return true
-    }
-    
-    private func switchToMainApp() {
-        guard let window = self.window else { return }
-        
-        let mainViewController = MainViewController()
-        window.rootViewController = mainViewController
-        
-        UIView.transition(with: window, duration: 0.5, options: .transitionFlipFromRight, animations: nil, completion: nil)
-    }
-    
-    // MARK: Auth
-    
-    func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey: Any] = [:]) -> Bool {
-        return GIDSignIn.sharedInstance.handle(url)
     }
     
     // MARK: UISceneSession Lifecycle

@@ -3,18 +3,7 @@ import Firebase
 import GoogleSignIn
 
 struct AuthenticationFlowUIView: View {
-    @EnvironmentObject var authManager: AuthManager
-    
-    func signAnonymously() {
-        Task {
-            do {
-                _ = try await authManager.signInAnonymously()
-            }
-            catch {
-                print("SignInAnonymouslyError: \(error)")
-            }
-        }
-    }
+    var onSuccess: () -> Void
     
     var body: some View {
         NavigationStack {
@@ -32,10 +21,10 @@ struct AuthenticationFlowUIView: View {
                 
                 // MARK: - big social media login buttons
                 VStack(spacing: Constants.AuthenticationFlow.Spacing.buttonsSpacing) {
-                    AbstractSocialMediaLoginButton(label: Strings.Buttons.continueWithVK, icon: Strings.Icons.vkIconString, action: signIn)
-                    AbstractSocialMediaLoginButton(label: Strings.Buttons.continueWithGoogle, icon: Strings.Icons.googleIconString, action: signIn)
-                    AbstractSocialMediaLoginButton(label: Strings.Buttons.continueWithApple, icon: Strings.Icons.appleIconString, action: signIn)
-                    AbstractSocialMediaLoginButton(label: Strings.Buttons.continueAsGuest, icon: Strings.Icons.guestIconString, action: signAnonymously)
+                    AbstractSocialMediaLoginButton(label: Strings.Buttons.continueWithVK, icon: Strings.Icons.vkIconString, action: {})
+                    AbstractSocialMediaLoginButton(label: Strings.Buttons.continueWithGoogle, icon: Strings.Icons.googleIconString, action: {})
+                    AbstractSocialMediaLoginButton(label: Strings.Buttons.continueWithApple, icon: Strings.Icons.appleIconString, action: {})
+                    AbstractSocialMediaLoginButton(label: Strings.Buttons.continueAsGuest, icon: Strings.Icons.guestIconString, action: {signInAnonymously(onSuccess: onSuccess)})
                 }
                 
                 Spacer().frame(height: Constants.AuthenticationFlow.Spacing.dividerSpacing)
@@ -94,13 +83,14 @@ struct Header: View {
             if showBackButton {
                 HStack {
                     Button(action: {
-                        presentationMode.wrappedValue.dismiss()
+                        withAnimation(.easeInOut) {
+                            presentationMode.wrappedValue.dismiss()
+                        }
                     }) {
                         Image(systemName: Strings.Icons.backArrow)
                             .foregroundColor(.text)
                             .padding(.top, 3)
                             .padding(.leading, Constants.Header.Padding.leading)
-                            .animation(.easeInOut)
                     }
                     Spacer()
                 }
@@ -197,7 +187,7 @@ struct LoginUIView: View {
                 Spacer().frame(height: Constants.Login.Spacing.fieldSpacing)
                 
                 // MARK: - Forgot password hint
-                Button(action: signIn) {
+                Button(action: {}) {
                     Text(Strings.Login.forgotPassword).font(Font.custom(Fonts.Urbanist_Medium, size: Constants.Login.FontSizes.smallText))
                         .foregroundColor(Color.orangeButton)
                 }
@@ -208,9 +198,9 @@ struct LoginUIView: View {
                 
                 // MARK: - Small social media login button
                 HStack(spacing: Constants.Login.Spacing.fieldSpacing) {
-                    AbstractSocialMediaNoTextButton(icon: Strings.Icons.vkIconString, action: signIn)
-                    AbstractSocialMediaNoTextButton(icon: Strings.Icons.googleIconString, action: signIn)
-                    AbstractSocialMediaNoTextButton(icon: Strings.Icons.appleIconString, action: signIn)
+                    AbstractSocialMediaNoTextButton(icon: Strings.Icons.vkIconString, action: {})
+                    AbstractSocialMediaNoTextButton(icon: Strings.Icons.googleIconString, action: {})
+                    AbstractSocialMediaNoTextButton(icon: Strings.Icons.appleIconString, action: {})
                 }
                 
                 Spacer()
@@ -299,9 +289,9 @@ struct RegisterUIView: View {
                 
                 // MARK: - Small social media login button
                 HStack(spacing: Constants.Register.Spacing.fieldSpacing) {
-                    AbstractSocialMediaNoTextButton(icon: Strings.Icons.vkIconString, action: signIn)
-                    AbstractSocialMediaNoTextButton(icon: Strings.Icons.googleIconString, action: signIn)
-                    AbstractSocialMediaNoTextButton(icon: Strings.Icons.appleIconString, action: signIn)
+                    AbstractSocialMediaNoTextButton(icon: Strings.Icons.vkIconString, action: {})
+                    AbstractSocialMediaNoTextButton(icon: Strings.Icons.googleIconString, action: {})
+                    AbstractSocialMediaNoTextButton(icon: Strings.Icons.appleIconString, action: {})
                 }
                 
                 Spacer()
@@ -385,8 +375,20 @@ struct CustomDivider: View {
     }
 }
 
-func signIn() {}
+func signInAnonymously(onSuccess: @escaping () -> Void) {
+    Task {
+        do {
+            let result = try await Auth.auth().signInAnonymously()
+            print("FirebaseAuthSuccess: Sign in anonymously, UID:(\(String(describing: result.user.uid)))")
+            if Auth.auth().currentUser != nil {
+                onSuccess()
+            }
+        } catch {
+            print("FirebaseAuthError: failed to sign in anonymously: \(error.localizedDescription)")
+        }
+    }
+}
 
 #Preview {
-    AuthenticationFlowUIView() //{ print("anal228pro") }
+    AuthenticationFlowUIView { print("anal228pro") }
 }
