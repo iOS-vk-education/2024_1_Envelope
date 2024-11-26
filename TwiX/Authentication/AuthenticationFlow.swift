@@ -376,18 +376,18 @@ struct CustomDivider: View {
 }
 
 func signInAnonymously(onSuccess: @escaping () -> Void) {
-    Task {
-        do {
-            let result = try await Auth.auth().signInAnonymously()
-            print("FirebaseAuthSuccess: Sign in anonymously, UID:(\(String(describing: result.user.uid)))")
+    Auth.auth().signInAnonymously { result, error in
+        if let error = error {
+            print("FirebaseAuthError: failed to sign in anonymously: \(error.localizedDescription)")
+        } else if let user = result?.user {
+            print("FirebaseAuthSuccess: Sign in anonymously, UID: \(user.uid)")
             if Auth.auth().currentUser != nil {
                 onSuccess()
             }
-        } catch {
-            print("FirebaseAuthError: failed to sign in anonymously: \(error.localizedDescription)")
         }
     }
 }
+
 
 #Preview {
     AuthenticationFlowView { print("Successful authentication") }
