@@ -12,7 +12,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let window = UIWindow(windowScene: windowScene)
         
         if Auth.auth().currentUser != nil {
-            let mainViewController = MainViewController()
+            let mainViewController = ProfileController()
             window.rootViewController = mainViewController
         } else {
             let authView = AuthenticationFlowView(onSuccess: {
