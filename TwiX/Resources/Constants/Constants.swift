@@ -1,23 +1,20 @@
-//
-//  Constants.swift
-//  TwiX
-//
-//  Created by Alexander on 18.11.2024.
-//
-
 import SwiftUI
 
 enum Constants {
-    enum FontSizes {
-        static let title: CGFloat = 30
-    }
-    
     enum Header {
-        enum Paddings {
+        enum Padding {
             static let top: CGFloat = 10
             static let leading: CGFloat = 20
             static let backButtonLeading: CGFloat = 10
         }
+        
+        enum FontSizes {
+            static let title: CGFloat = 30
+        }
+    }
+    
+    enum FontSizes {
+        static let title: CGFloat = 30
     }
     
     enum AuthenticationFlow {
@@ -29,7 +26,7 @@ enum Constants {
             static let bottomSpacing: CGFloat = 75
         }
         
-        enum Paddings {
+        enum Padding {
             static let horizontal: CGFloat = 30
         }
         
@@ -52,9 +49,10 @@ enum Constants {
             static let bottomSpacing: CGFloat = 35
         }
         
-        enum Paddings {
+        enum Padding {
             static let horizontal: CGFloat = 30
         }
+        
         enum FontSizes {
             static let title: CGFloat = 40
             static let fieldLabel: CGFloat = 16
@@ -80,16 +78,13 @@ enum Constants {
             static let buttonHorizontalPadding: CGFloat = 30
             static let bottomSpacing: CGFloat = 50
         }
-        
         enum FontSizes {
             static let title: CGFloat = 40
             static let fieldLabel: CGFloat = 16
         }
-        
-        enum Paddings {
+        enum Padding {
             static let horizontal: CGFloat = 30
         }
-        
         enum Dimensions {
             static let buttonCornerRadius: CGFloat = 100
             static let smallCornerRadius: CGFloat = 10

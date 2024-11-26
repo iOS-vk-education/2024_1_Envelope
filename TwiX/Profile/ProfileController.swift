@@ -126,6 +126,3 @@ class ProfileController: UIViewController {
     }
 }
 
-#Preview {
-    ProfileController()
-}
