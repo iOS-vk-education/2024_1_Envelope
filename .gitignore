@@ -13,6 +13,7 @@ xcuserdata/
 build/
 DerivedData/
 .build/
+*.plist
 
 #### Специфические файлы проекта Xcode (.xcodeproj)
 *.xcodeproj/*
