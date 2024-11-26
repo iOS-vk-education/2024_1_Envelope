@@ -30,7 +30,7 @@ enum Strings {
     }
     
     enum Authentication {
-        static let title = "Let`s you in"
+        static let title = "Let`s log you in"
         static let signInWithPassword = "Sign in with password"
         static let dontHaveAccount = "Don`t have an account?"
         static let signUp = "Sign up"
