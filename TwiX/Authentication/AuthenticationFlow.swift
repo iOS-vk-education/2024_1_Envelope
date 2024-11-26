@@ -1,10 +1,49 @@
-import SwiftUI
-import Firebase
-import GoogleSignIn
+//
+//  IntroUIView.swift
+//  TwiX
+//
+//  Created by Alexander on 17.11.2024.
+//
 
-struct AuthenticationFlowView: View {
-    var onSuccess: () -> Void
+import SwiftUI
+
+struct Header: View {
+    var showBackButton: Bool = false
+    @Environment(\.presentationMode) var presentationMode
     
+    var body: some View {
+        VStack {
+            // MARK: - title in header
+            HStack(alignment: .top, spacing: 16) {
+                Text(Strings.App.name)
+                    .font(Font.custom(Fonts.Urbanist_Bold, size: Constants.FontSizes.title))
+                    .foregroundStyle(.text)
+                Spacer()
+            }
+            .padding(.top, Constants.Header.Paddings.top)
+            .padding(.leading, Constants.Header.Paddings.leading)
+            
+            // MARK: - custom back button logic
+            if showBackButton {
+                HStack {
+                    Button(action: {
+                        presentationMode.wrappedValue.dismiss()
+                    }) {
+                        Image(systemName: Strings.Icons.backArrow)
+                            .foregroundColor(.text)
+                            .padding(.top, 3)
+                            .padding(.leading, Constants.Header.Paddings.leading)
+                            .animation(.easeInOut)
+                    }
+                    Spacer()
+                }
+                .padding(.leading, Constants.Header.Paddings.backButtonLeading)
+            }
+        }
+    }
+}
+
+struct AuthenticationFlowUIView: View {
     var body: some View {
         NavigationStack {
             VStack {
@@ -21,10 +60,10 @@ struct AuthenticationFlowView: View {
                 
                 // MARK: - big social media login buttons
                 VStack(spacing: Constants.AuthenticationFlow.Spacing.buttonsSpacing) {
-                    AbstractSocialMediaLoginButton(label: Strings.Buttons.continueWithVK, icon: Strings.Icons.vkIconString, action: {})
-                    AbstractSocialMediaLoginButton(label: Strings.Buttons.continueWithGoogle, icon: Strings.Icons.googleIconString, action: {})
-                    AbstractSocialMediaLoginButton(label: Strings.Buttons.continueWithApple, icon: Strings.Icons.appleIconString, action: {})
-                    AbstractSocialMediaLoginButton(label: Strings.Buttons.continueAsGuest, icon: Strings.Icons.guestIconString, action: {signInAnonymously(onSuccess: onSuccess)})
+                    AbstractSocialMediaLoginButton(label: Strings.Buttons.continueWithVK, icon: Strings.Icons.vkIconString, action: signIn)
+                    AbstractSocialMediaLoginButton(label: Strings.Buttons.continueWithGoogle, icon: Strings.Icons.googleIconString, action: signIn)
+                    AbstractSocialMediaLoginButton(label: Strings.Buttons.continueWithApple, icon: Strings.Icons.appleIconString, action: signIn)
+                    AbstractSocialMediaLoginButton(label: Strings.Buttons.continueAsGuest, icon: Strings.Icons.guestIconString, action: signIn)
                 }
                 
                 Spacer().frame(height: Constants.AuthenticationFlow.Spacing.dividerSpacing)
@@ -40,7 +79,7 @@ struct AuthenticationFlowView: View {
                         .frame(maxWidth: .infinity)
                         .background(Color.orangeButton)
                         .cornerRadius(Constants.AuthenticationFlow.Dimensions.buttonCornerRadius)
-                        .padding(.horizontal, Constants.AuthenticationFlow.Padding.horizontal)
+                        .padding(.horizontal, Constants.AuthenticationFlow.Paddings.horizontal)
                 }
                 
                 Spacer().frame(height: Constants.AuthenticationFlow.Spacing.bottomSpacing)
@@ -63,43 +102,6 @@ struct AuthenticationFlowView: View {
     }
 }
 
-struct Header: View {
-    var showBackButton: Bool = false
-    @Environment(\.presentationMode) var presentationMode
-    
-    var body: some View {
-        VStack {
-            // MARK: - title in header
-            HStack(alignment: .top, spacing: 16) {
-                Text(Strings.App.name)
-                    .font(Font.custom(Fonts.Urbanist_Bold, size: Constants.Header.FontSizes.title))
-                    .foregroundStyle(.text)
-                Spacer()
-            }
-            .padding(.top, Constants.Header.Padding.top)
-            .padding(.leading, Constants.Header.Padding.leading)
-            
-            // MARK: - custom back button logic
-            if showBackButton {
-                HStack {
-                    Button(action: {
-                        withAnimation(.easeInOut) {
-                            presentationMode.wrappedValue.dismiss()
-                        }
-                    }) {
-                        Image(systemName: Strings.Icons.backArrow)
-                            .foregroundColor(.text)
-                            .padding(.top, 3)
-                            .padding(.leading, Constants.Header.Padding.leading)
-                    }
-                    Spacer()
-                }
-                .padding(.leading, Constants.Header.Padding.backButtonLeading)
-            }
-        }
-    }
-}
-
 struct LoginUIView: View {
     @State private var email: String = ""
     @State private var password: String = ""
@@ -116,7 +118,7 @@ struct LoginUIView: View {
                     Text(Strings.Login.title)
                         .font(Font.custom(Fonts.Urbanist_Bold, size: Constants.Login.FontSizes.title))
                         .foregroundStyle(.text)
-                        .padding(.leading, Constants.Login.Padding.horizontal)
+                        .padding(.leading, Constants.Login.Paddings.horizontal)
                     Spacer()
                 }
                 
@@ -127,26 +129,26 @@ struct LoginUIView: View {
                     // MARK: - email field
                     Text(Strings.Login.emailLabel)
                         .foregroundStyle(.text)
-                        .padding(.leading, Constants.Login.Padding.horizontal + 10)
+                        .padding(.leading, Constants.Login.Paddings.horizontal + 10)
                     
                     TextField(Strings.Login.emailPlaceholder, text: $email)
                         .padding()
                         .background(Color.textFieldsBorders)
                         .cornerRadius(8)
-                        .padding(.horizontal, Constants.Login.Padding.horizontal)
+                        .padding(.horizontal, Constants.Login.Paddings.horizontal)
                     
                     Spacer().frame(height: Constants.Login.Spacing.fieldSpacing)
                     
                     // MARK: - password field
                     Text(Strings.Login.passwordLabel)
                         .foregroundStyle(.text)
-                        .padding(.leading, Constants.Login.Padding.horizontal + 10)
+                        .padding(.leading, Constants.Login.Paddings.horizontal + 10)
                     SecureField(Strings.Login.passwordPlaceholder, text: $password)
                         .padding()
                         .foregroundStyle(.text)
                         .background(Color.textFieldsBorders)
                         .cornerRadius(8)
-                        .padding(.horizontal, Constants.Login.Padding.horizontal)
+                        .padding(.horizontal, Constants.Login.Paddings.horizontal + 10)
                 }.font(Font.custom(Fonts.Urbanist_Light, size: Constants.Login.FontSizes.fieldLabel))
                 
                 Spacer().frame(height: Constants.Login.Spacing.fieldSpacing)
@@ -162,6 +164,8 @@ struct LoginUIView: View {
                             .font(Font.custom(Fonts.Urbanist_Light, size: Constants.Login.FontSizes.fieldLabel))
                             .foregroundStyle(.text)
                     }
+                    
+                    
                 }
                 
                 Spacer().frame(height: Constants.Login.Spacing.fieldSpacing)
@@ -181,13 +185,13 @@ struct LoginUIView: View {
                                 .shadow(color: Color.alternativeButtonLight.opacity(0.5), radius: Constants.Login.Dimensions.smallCornerRadius, x: 0, y: 0)
                         )
                         .shadow(color: Color.alternativeButtonLight.opacity(0.3), radius: Constants.Login.Dimensions.smallCornerRadius, x: 0, y: 0)
-                        .padding(.horizontal, Constants.Login.Padding.horizontal)
+                        .padding(.horizontal, Constants.Login.Paddings.horizontal)
                 }
                 
                 Spacer().frame(height: Constants.Login.Spacing.fieldSpacing)
                 
-                // MARK: - Forgot password hint
-                Button(action: {}) {
+                // MARK: - Forgor password hint
+                Button(action: signIn) {
                     Text(Strings.Login.forgotPassword).font(Font.custom(Fonts.Urbanist_Medium, size: Constants.Login.FontSizes.smallText))
                         .foregroundColor(Color.orangeButton)
                 }
@@ -198,10 +202,11 @@ struct LoginUIView: View {
                 
                 // MARK: - Small social media login button
                 HStack(spacing: Constants.Login.Spacing.fieldSpacing) {
-                    AbstractSocialMediaNoTextButton(icon: Strings.Icons.vkIconString, action: {})
-                    AbstractSocialMediaNoTextButton(icon: Strings.Icons.googleIconString, action: {})
-                    AbstractSocialMediaNoTextButton(icon: Strings.Icons.appleIconString, action: {})
+                    AbstractSocialMediaNoTextButton(icon: Strings.Icons.vkIconString, action: signIn)
+                    AbstractSocialMediaNoTextButton(icon: Strings.Icons.googleIconString, action: signIn)
+                    AbstractSocialMediaNoTextButton(icon: Strings.Icons.appleIconString, action: signIn)
                 }
+                
                 
                 Spacer()
             }
@@ -226,7 +231,7 @@ struct RegisterUIView: View {
                     Text(Strings.Register.title)
                         .font(Font.custom(Fonts.Urbanist_Bold, size: Constants.Register.FontSizes.title))
                         .foregroundStyle(.text)
-                        .padding(.leading, Constants.Register.Padding.horizontal)
+                        .padding(.leading, Constants.Register.Paddings.horizontal)
                     Spacer()
                 }
                 
@@ -238,27 +243,27 @@ struct RegisterUIView: View {
                     // MARK: - email field
                     Text(Strings.Register.emailLabel)
                         .foregroundStyle(.text)
-                        .padding(.leading, Constants.Register.Padding.horizontal + 10)
+                        .padding(.leading, Constants.Register.Paddings.horizontal + 10)
                     
                     TextField(Strings.Register.emailPlaceholder, text: $email)
                         .padding()
                         .background(Color.textFieldsBorders)
                         .cornerRadius(Constants.Register.Dimensions.fieldCornerRadius)
-                        .padding(.horizontal, Constants.Register.Padding.horizontal)
+                        .padding(.horizontal, Constants.Register.Paddings.horizontal)
                     
                     Spacer().frame(height: Constants.Register.Spacing.fieldSpacing)
                     
                     // MARK: - password field
                     Text(Strings.Register.passwordLabel)
                         .foregroundStyle(.text)
-                        .padding(.leading, Constants.Register.Padding.horizontal + 10)
+                        .padding(.leading, Constants.Register.Paddings.horizontal + 10)
                     
                     SecureField(Strings.Register.passwordPlaceholder, text: $password)
                         .padding()
                         .foregroundStyle(.text)
                         .background(Color.textFieldsBorders)
                         .cornerRadius(Constants.Register.Dimensions.fieldCornerRadius)
-                        .padding(.horizontal, Constants.Register.Padding.horizontal)
+                        .padding(.horizontal, Constants.Register.Paddings.horizontal)
                 }.font(Font.custom(Fonts.Urbanist_Light, size: Constants.Register.FontSizes.fieldLabel))
                 
                 Spacer().frame(maxHeight: Constants.Register.Spacing.bottomSpacing)
@@ -279,7 +284,7 @@ struct RegisterUIView: View {
                         )
                     
                         .shadow(color: Color.alternativeButtonLight.opacity(0.3), radius: Constants.Register.Dimensions.smallCornerRadius, x: 0, y: 0)
-                }.padding(.horizontal, Constants.Register.Padding.horizontal)
+                }.padding(.horizontal, Constants.Register.Paddings.horizontal)
                 
                 Spacer().frame(height: Constants.Register.Spacing.fieldVerticalSpacing)
                 
@@ -289,9 +294,9 @@ struct RegisterUIView: View {
                 
                 // MARK: - Small social media login button
                 HStack(spacing: Constants.Register.Spacing.fieldSpacing) {
-                    AbstractSocialMediaNoTextButton(icon: Strings.Icons.vkIconString, action: {})
-                    AbstractSocialMediaNoTextButton(icon: Strings.Icons.googleIconString, action: {})
-                    AbstractSocialMediaNoTextButton(icon: Strings.Icons.appleIconString, action: {})
+                    AbstractSocialMediaNoTextButton(icon: Strings.Icons.vkIconString, action: signIn)
+                    AbstractSocialMediaNoTextButton(icon: Strings.Icons.googleIconString, action: signIn)
+                    AbstractSocialMediaNoTextButton(icon: Strings.Icons.appleIconString, action: signIn)
                 }
                 
                 Spacer()
@@ -301,6 +306,7 @@ struct RegisterUIView: View {
         }
     }
 }
+
 
 struct SignUpUIView: View {
     var body: some View {
@@ -332,7 +338,7 @@ struct AbstractSocialMediaLoginButton: View {
                 )
         }
         .frame(maxWidth: .infinity)
-        .padding(.horizontal, Constants.Register.Padding.horizontal)
+        .padding(.horizontal, Constants.Register.Paddings.horizontal)
         
     }
 }
@@ -369,26 +375,15 @@ struct CustomDivider: View {
         }
         .frame(height: Constants.Divider.height)
         .fixedSize(horizontal: false, vertical: true)
-        .padding(.horizontal, Constants.AuthenticationFlow.Padding.horizontal)
+        .padding(.horizontal, Constants.AuthenticationFlow.Paddings.horizontal)
         .font(Font.custom(Fonts.Urbanist_Medium, size: Constants.Login.FontSizes.fieldLabel))
         .foregroundColor(.textFieldsDarker)
     }
 }
 
-func signInAnonymously(onSuccess: @escaping () -> Void) {
-    Auth.auth().signInAnonymously { result, error in
-        if let error = error {
-            print("FirebaseAuthError: failed to sign in anonymously: \(error.localizedDescription)")
-        } else if let user = result?.user {
-            print("FirebaseAuthSuccess: Sign in anonymously, UID: \(user.uid)")
-            if Auth.auth().currentUser != nil {
-                onSuccess()
-            }
-        }
-    }
-}
-
+func signIn() {}
 
 #Preview {
-    AuthenticationFlowView { print("Successful authentication") }
+    AuthenticationFlowUIView()
 }
+
