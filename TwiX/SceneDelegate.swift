@@ -16,12 +16,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             window.rootViewController = mainViewController
         } else {
             let authView = AuthenticationFlowView(onSuccess: {
-                DispatchQueue.main.async {
-                    let mainViewController = MainViewController()
-                    UIView.transition(with: window, duration: 0.5, options: .transitionCrossDissolve, animations: {
-                        window.rootViewController = mainViewController
-                    }, completion: nil)
-                }
+                let mainViewController = MainViewController()
+                UIView.transition(with: window, duration: 0.5, options: .transitionCrossDissolve, animations: {
+                    window.rootViewController = mainViewController
+                }, completion: nil)
             })
             window.rootViewController = UIHostingController(rootView: authView)
         }
