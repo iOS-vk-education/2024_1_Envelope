@@ -15,7 +15,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             let mainViewController = MainViewController()
             window.rootViewController = mainViewController
         } else {
-            let authView = AuthenticationFlowUIView(onSuccess: {
+            let authView = AuthenticationFlowView(onSuccess: {
                 DispatchQueue.main.async {
                     let mainViewController = MainViewController()
                     UIView.transition(with: window, duration: 0.5, options: .transitionCrossDissolve, animations: {

@@ -2,7 +2,7 @@ import SwiftUI
 import Firebase
 import GoogleSignIn
 
-struct AuthenticationFlowUIView: View {
+struct AuthenticationFlowView: View {
     var onSuccess: () -> Void
     
     var body: some View {
@@ -390,5 +390,5 @@ func signInAnonymously(onSuccess: @escaping () -> Void) {
 }
 
 #Preview {
-    AuthenticationFlowUIView { print("anal228pro") }
+    AuthenticationFlowView { print("Successful authentication") }
 }
