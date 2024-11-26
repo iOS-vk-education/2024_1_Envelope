@@ -27,6 +27,9 @@ enum Strings {
         static let settingsIcon: String = "settingsIcon"
         static let addPostIcon: String = "addPostIcon"
         
+        static let languageIconString: String = "langIcon"
+        static let notificationIconString: String = "notificationIcon"
+        static let themeIconString: String = "themeIcon"
     }
     
     enum Authentication {
@@ -71,6 +74,12 @@ enum Strings {
     enum Dividers {
         static let or: String = "or"
         static let orContinueWith: String = "or continue with"
+    }
+    
+    enum Settings {
+        static let languageLabel: String = "Languages"
+        static let notificationLabel: String = "Notifications"
+        static let themeLabel: String = "Theme"
     }
 }
 
