@@ -1,10 +1,3 @@
-//
-//  Extensions.swift
-//  TwiX
-//
-//  Created by Tsvetkov Alexey on 11/23/24.
-//
-
 import UIKit
 
 extension UIColor {
