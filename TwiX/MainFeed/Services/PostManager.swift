@@ -14,7 +14,7 @@ class PostManager {
     func fetchPosts(completion: @escaping ([Post]) -> Void) {
         DispatchQueue.global().asyncAfter(deadline: .now() + 1) {
             let mockPosts = [
-                Post(id: UUID.init(), text: "Hello World!", authorName: "John", authorAvatarURL: URL(string: "https://cataas.com/cat")!, likesCount: 10, commentsCount: 2, timestamp: Date())
+                Post(id: UUID.init(), text: "Hello World!", authorName: "John", authorUsername: "@boba", authorAvatarURL: URL(string: "https://cataas.com/cat")!, likesCount: 10, commentsCount: 2, timestamp: Date())
             ]
             
             completion(mockPosts)

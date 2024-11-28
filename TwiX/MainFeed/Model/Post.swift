@@ -12,8 +12,9 @@ struct Post {
     let id: UUID
     let text: String
     let authorName: String
+    // without "@"
+    let authorUsername: String
     let authorAvatarURL: URL
-//    let authorTag: String
     var likesCount: Int
     var commentsCount: Int
     let timestamp: Date

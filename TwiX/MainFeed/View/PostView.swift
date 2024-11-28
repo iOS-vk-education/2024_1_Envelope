@@ -9,8 +9,10 @@ import UIKit
 
 class PostView: UIView {
     private let authorLabel = UILabel()
+    private let usernameLabel = UILabel()
+    private let timeLabel = UILabel()
     private let avatarImageView = UIImageView()
-    private let tweetTextLabel = UILabel()
+    private let postTextLabel = UILabel()
     private let likeButton = UIButton()
     private let commentsButton = UIButton()
     private let likesCountLabel = UILabel()
@@ -27,69 +29,109 @@ class PostView: UIView {
     }
     
     private func setupUI() {
-        avatarImageView.layer.cornerRadius = 20
+        // Avatar styling
+        avatarImageView.layer.cornerRadius = 25
         avatarImageView.clipsToBounds = true
-        avatarImageView.translatesAutoresizingMaskIntoConstraints = false
         
-        authorLabel.font = .boldSystemFont(ofSize: 14)
-        authorLabel.translatesAutoresizingMaskIntoConstraints = false
+        // Author styling
+        authorLabel.font = UIFont(name: Fonts.Urbanist_Regular, size: 16)
         
-        tweetTextLabel.numberOfLines = 0
-        tweetTextLabel.translatesAutoresizingMaskIntoConstraints = false
+        // Username styling
+        usernameLabel.font = UIFont(name: Fonts.Urbanist_Regular, size: 16)
+        usernameLabel.textColor = .gray
         
-        likeButton.setTitle("Like", for: .normal)
-        likeButton.setTitleColor(.blue, for: .normal)
-        likeButton.translatesAutoresizingMaskIntoConstraints = false
+        // Time styling
+        timeLabel.font = UIFont(name: Fonts.Urbanist_Regular, size: 16)
+        timeLabel.textColor = .gray
         
-        commentsButton.setTitle("Comment", for: .normal)
-        commentsButton.setTitleColor(.blue, for: .normal)
-        commentsButton.translatesAutoresizingMaskIntoConstraints = false
+        // Tweet text styling
+        postTextLabel.font = UIFont(name: Fonts.Urbanist_Regular, size: 16)
+        postTextLabel.numberOfLines = 0
         
-        likesCountLabel.font = .systemFont(ofSize: 12)
-        likesCountLabel.translatesAutoresizingMaskIntoConstraints = false
+        // Buttons styling
+        likeButton.setImage(UIImage(systemName: "heart"), for: .normal)
+        likeButton.tintColor = .gray
         
-        commentsCountLabel.font = .systemFont(ofSize: 12)
-        commentsCountLabel.translatesAutoresizingMaskIntoConstraints = false
+        commentsButton.setImage(UIImage(systemName: "message"), for: .normal)
+        commentsButton.tintColor = .gray
         
-        let stackView = UIStackView(arrangedSubviews: [likeButton, likesCountLabel, commentsButton, commentsCountLabel])
-        stackView.axis = .horizontal
-        stackView.spacing = 8
-        stackView.translatesAutoresizingMaskIntoConstraints = false
+        // Counts styling
+        likesCountLabel.font = UIFont(name: Fonts.Urbanist_Regular, size: 16)
+        likesCountLabel.textColor = .gray
         
-        addSubview(avatarImageView)
-        addSubview(authorLabel)
-        addSubview(tweetTextLabel)
-        addSubview(stackView)
+        commentsCountLabel.font = UIFont(name: Fonts.Urbanist_Regular, size: 16)
+        commentsCountLabel.textColor = .gray
         
+        
+        // Add subviews
+        [avatarImageView, authorLabel, usernameLabel, timeLabel, postTextLabel, likeButton, commentsButton, likesCountLabel, commentsCountLabel].forEach {
+            addSubview($0)
+            $0.translatesAutoresizingMaskIntoConstraints = false
+            if let label = $0 as? UILabel {
+                label.font = UIFont(name: Fonts.Urbanist_Regular, size: 16)
+            } else if let button = $0 as? UIButton {
+                button.titleLabel?.font = UIFont(name: Fonts.Urbanist_Regular, size: 16)
+            }        }
+        
+        setupConstraints()
+    }
+    
+    private func setupConstraints() {
         NSLayoutConstraint.activate([
-            avatarImageView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 8),
-            avatarImageView.topAnchor.constraint(equalTo: topAnchor, constant: 8),
-            avatarImageView.widthAnchor.constraint(equalToConstant: 40),
-            avatarImageView.heightAnchor.constraint(equalToConstant: 40),
+            // Avatar
+            avatarImageView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
+            avatarImageView.topAnchor.constraint(equalTo: topAnchor, constant: 16),
+            avatarImageView.widthAnchor.constraint(equalToConstant: 50),
+            avatarImageView.heightAnchor.constraint(equalToConstant: 50),
             
-            authorLabel.leadingAnchor.constraint(equalTo: avatarImageView.trailingAnchor, constant: 8),
-            authorLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -8),
+            // Author
+            authorLabel.leadingAnchor.constraint(equalTo: avatarImageView.trailingAnchor, constant: 16),
             authorLabel.topAnchor.constraint(equalTo: avatarImageView.topAnchor),
             
-            tweetTextLabel.leadingAnchor.constraint(equalTo: authorLabel.leadingAnchor),
-            tweetTextLabel.trailingAnchor.constraint(equalTo: authorLabel.trailingAnchor),
-            tweetTextLabel.topAnchor.constraint(equalTo: authorLabel.bottomAnchor, constant: 8),
+            // Username
+            usernameLabel.leadingAnchor.constraint(equalTo: authorLabel.trailingAnchor, constant: 8),
+            usernameLabel.centerYAnchor.constraint(equalTo: authorLabel.centerYAnchor),
             
-            stackView.leadingAnchor.constraint(equalTo: tweetTextLabel.leadingAnchor),
-            stackView.topAnchor.constraint(equalTo: tweetTextLabel.bottomAnchor, constant: 8),
-            stackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -8)
+            // Time
+            timeLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
+            timeLabel.centerYAnchor.constraint(equalTo: authorLabel.centerYAnchor),
+            
+            // Tweet text
+            postTextLabel.leadingAnchor.constraint(equalTo: authorLabel.leadingAnchor),
+            postTextLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
+            postTextLabel.topAnchor.constraint(equalTo: authorLabel.bottomAnchor, constant: 8),
+            
+            // Like button
+            likeButton.leadingAnchor.constraint(equalTo: postTextLabel.leadingAnchor),
+            likeButton.topAnchor.constraint(equalTo: postTextLabel.bottomAnchor, constant: 16),
+            
+            // Like count
+            likesCountLabel.leadingAnchor.constraint(equalTo: likeButton.trailingAnchor, constant: 8),
+            likesCountLabel.centerYAnchor.constraint(equalTo: likeButton.centerYAnchor),
+            
+            // Comment button
+            commentsButton.leadingAnchor.constraint(equalTo: likesCountLabel.trailingAnchor, constant: 24),
+            commentsButton.centerYAnchor.constraint(equalTo: likeButton.centerYAnchor),
+            
+            // Comment count
+            commentsCountLabel.leadingAnchor.constraint(equalTo: commentsButton.trailingAnchor, constant: 8),
+            commentsCountLabel.centerYAnchor.constraint(equalTo: commentsButton.centerYAnchor),
+            
+            // Bottom constraint
+            commentsButton.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -16)
         ])
     }
     
     func configure(with post: Post) {
         authorLabel.text = post.authorName
-        tweetTextLabel.text = post.text
+        usernameLabel.text = "@\(post.authorUsername)"
+        timeLabel.text = "\(post.timestamp)"
+        postTextLabel.text = post.text
         likesCountLabel.text = "\(post.likesCount)"
         commentsCountLabel.text = "\(post.commentsCount)"
         
         let task = URLSession.shared.dataTask(with: post.authorAvatarURL) { [weak self] data, response, error in
             guard let self = self else { return }
-            
             guard let data = data else { return }
             
             DispatchQueue.main.async {

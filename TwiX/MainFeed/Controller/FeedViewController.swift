@@ -34,8 +34,8 @@ class FeedViewController: UIViewController {
     private func loadPosts() {
         // placeholder
         posts = [
-            Post(id: UUID.init(), text: "Hello World!", authorName: "John", authorAvatarURL: URL(string: "https://cataas.com/cat")!, likesCount: 10, commentsCount: 2, timestamp: Date()),
-            Post(id: UUID.init(), text: "Another tweet!", authorName: "Jane", authorAvatarURL: URL(string: "https://cataas.com/cat")!, likesCount: 5, commentsCount: 0, timestamp: Date())
+            Post(id: UUID.init(), text: "Hello World!", authorName: "John", authorUsername: "biba", authorAvatarURL: URL(string: "https://cataas.com/cat")!, likesCount: 10, commentsCount: 2, timestamp: Date()),
+            Post(id: UUID.init(), text: "Another tweet!", authorName: "Jane", authorUsername: "oops", authorAvatarURL: URL(string: "https://cataas.com/cat")!, likesCount: 5, commentsCount: 0, timestamp: Date())
         ]
         tableView.reloadData()
     }
