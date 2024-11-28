@@ -7,22 +7,18 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		3957D23D2CEB2FDA003E6F56 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3957D23C2CEB2FDA003E6F56 /* SwiftUI.framework */; };
-		3957D23F2CEB2FDF003E6F56 /* Combine.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3957D23E2CEB2FDF003E6F56 /* Combine.framework */; };
-		7D3A2E1A88DE3A68B55D0932 /* Pods_TwiX.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F642EFAB4B89D11E3629D071 /* Pods_TwiX.framework */; };
+		54081F2B2CF8BC050074E4E9 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 54081F2A2CF8BC050074E4E9 /* FirebaseAuth */; };
+		54081F2D2CF8BC050074E4E9 /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = 54081F2C2CF8BC050074E4E9 /* FirebaseCore */; };
+		54081F2F2CF8BC050074E4E9 /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = 54081F2E2CF8BC050074E4E9 /* FirebaseDatabase */; };
+		54081F312CF8BC050074E4E9 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 54081F302CF8BC050074E4E9 /* FirebaseFirestore */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		0A228AC033DD4ECDF1738A83 /* Pods-TwiX.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TwiX.release.xcconfig"; path = "Target Support Files/Pods-TwiX/Pods-TwiX.release.xcconfig"; sourceTree = "<group>"; };
-		3957D23C2CEB2FDA003E6F56 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
-		3957D23E2CEB2FDF003E6F56 /* Combine.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Combine.framework; path = System/Library/Frameworks/Combine.framework; sourceTree = SDKROOT; };
 		542DD1572CC1831300494768 /* TwiX.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TwiX.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		AFC9131E0E5935F65CD3875B /* Pods-TwiX.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TwiX.debug.xcconfig"; path = "Target Support Files/Pods-TwiX/Pods-TwiX.debug.xcconfig"; sourceTree = "<group>"; };
-		F642EFAB4B89D11E3629D071 /* Pods_TwiX.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TwiX.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		542DD1692CC1831400494768 /* Exceptions for "TwiX" folder in "TwiX" target */ = {
+		544A0C2E2CF8BD9B00411A1D /* Exceptions for "TwiX" folder in "TwiX" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
@@ -35,7 +31,7 @@
 		542DD1592CC1831300494768 /* TwiX */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				542DD1692CC1831400494768 /* Exceptions for "TwiX" folder in "TwiX" target */,
+				544A0C2E2CF8BD9B00411A1D /* Exceptions for "TwiX" folder in "TwiX" target */,
 			);
 			path = TwiX;
 			sourceTree = "<group>";
@@ -47,41 +43,21 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3957D23F2CEB2FDF003E6F56 /* Combine.framework in Frameworks */,
-				3957D23D2CEB2FDA003E6F56 /* SwiftUI.framework in Frameworks */,
-				7D3A2E1A88DE3A68B55D0932 /* Pods_TwiX.framework in Frameworks */,
+				54081F2F2CF8BC050074E4E9 /* FirebaseDatabase in Frameworks */,
+				54081F312CF8BC050074E4E9 /* FirebaseFirestore in Frameworks */,
+				54081F2D2CF8BC050074E4E9 /* FirebaseCore in Frameworks */,
+				54081F2B2CF8BC050074E4E9 /* FirebaseAuth in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		3957D23B2CEB2FDA003E6F56 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				3957D23E2CEB2FDF003E6F56 /* Combine.framework */,
-				3957D23C2CEB2FDA003E6F56 /* SwiftUI.framework */,
-				F642EFAB4B89D11E3629D071 /* Pods_TwiX.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		504BBEBB1DCAC6D4EC0C26C7 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				AFC9131E0E5935F65CD3875B /* Pods-TwiX.debug.xcconfig */,
-				0A228AC033DD4ECDF1738A83 /* Pods-TwiX.release.xcconfig */,
-			);
-			path = Pods;
-			sourceTree = "<group>";
-		};
 		542DD14E2CC1831300494768 = {
 			isa = PBXGroup;
 			children = (
 				542DD1592CC1831300494768 /* TwiX */,
-				3957D23B2CEB2FDA003E6F56 /* Frameworks */,
 				542DD1582CC1831300494768 /* Products */,
-				504BBEBB1DCAC6D4EC0C26C7 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -100,11 +76,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 542DD16A2CC1831400494768 /* Build configuration list for PBXNativeTarget "TwiX" */;
 			buildPhases = (
-				F8BC3F37680707B20613BB24 /* [CP] Check Pods Manifest.lock */,
 				542DD1532CC1831300494768 /* Sources */,
 				542DD1542CC1831300494768 /* Frameworks */,
 				542DD1552CC1831300494768 /* Resources */,
-				F6D9F73B8A952013DB4219CE /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -142,6 +116,9 @@
 			);
 			mainGroup = 542DD14E2CC1831300494768;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				54081F292CF8BC050074E4E9 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 542DD1582CC1831300494768 /* Products */;
 			projectDirPath = "";
@@ -162,48 +139,6 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
-/* Begin PBXShellScriptBuildPhase section */
-		F6D9F73B8A952013DB4219CE /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-TwiX/Pods-TwiX-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-TwiX/Pods-TwiX-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-TwiX/Pods-TwiX-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		F8BC3F37680707B20613BB24 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-TwiX-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-/* End PBXShellScriptBuildPhase section */
-
 /* Begin PBXSourcesBuildPhase section */
 		542DD1532CC1831300494768 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -217,7 +152,6 @@
 /* Begin XCBuildConfiguration section */
 		542DD16B2CC1831400494768 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = AFC9131E0E5935F65CD3875B /* Pods-TwiX.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -256,7 +190,6 @@
 		};
 		542DD16C2CC1831400494768 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 0A228AC033DD4ECDF1738A83 /* Pods-TwiX.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -434,6 +367,40 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		54081F292CF8BC050074E4E9 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 11.5.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		54081F2A2CF8BC050074E4E9 /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 54081F292CF8BC050074E4E9 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
+		};
+		54081F2C2CF8BC050074E4E9 /* FirebaseCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 54081F292CF8BC050074E4E9 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseCore;
+		};
+		54081F2E2CF8BC050074E4E9 /* FirebaseDatabase */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 54081F292CF8BC050074E4E9 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseDatabase;
+		};
+		54081F302CF8BC050074E4E9 /* FirebaseFirestore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 54081F292CF8BC050074E4E9 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestore;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 542DD14F2CC1831300494768 /* Project object */;
 }
