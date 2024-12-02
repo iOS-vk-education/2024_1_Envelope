@@ -1,34 +1,43 @@
 //
-//  FeedViewController.swift
+//  FeedView.swift
 //  TwiX
 //
-//  Created by Alexander on 28.11.2024.
+//  Created by Alexander on 02.12.2024.
 //
 
 import UIKit
 
-class FeedViewController: UIViewController {
+class FeedView : UIView {
+    
     private let tableView = UITableView()
     private let postManager = PostManager.shared
     private var posts: [Post] = []
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    override init(frame: CGRect) {
+        super.init(frame: frame)
         setupTableView()
         loadPosts()
     }
     
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        setupTableView()
+        loadPosts()
+    }
+    
+    // MARK: - Setup methods
     private func setupTableView() {
         tableView.register(PostTableViewCell.self, forCellReuseIdentifier: PostTableViewCell.identifier)
         tableView.dataSource = self
         tableView.delegate = self
-        view.addSubview(tableView)
+        addSubview(tableView)
+        
         tableView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            tableView.topAnchor.constraint(equalTo: view.topAnchor),
-            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            tableView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            tableView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            tableView.topAnchor.constraint(equalTo: topAnchor),
+            tableView.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
     }
     
@@ -41,22 +50,21 @@ class FeedViewController: UIViewController {
         }
     }
     
+    // MARK: - Like Post
     private func likePost(at indexPath: IndexPath) {
         var post = posts[indexPath.row]
         post.likesCount += 1
         posts[indexPath.row] = post
         PostManager.shared.likePost(post.id)
-
-        if let cell = self.tableView.cellForRow(at: indexPath) as? PostTableViewCell {
+        
+        if let cell = tableView.cellForRow(at: indexPath) as? PostTableViewCell {
             cell.updateLikesCount(post.likesCount)
         }
-        
     }
 }
 
-
 // MARK: - Table view logic
-extension FeedViewController: UITableViewDataSource, UITableViewDelegate {
+extension FeedView: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
