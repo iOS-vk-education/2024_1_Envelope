@@ -9,14 +9,15 @@ import UIKit
 
 class FeedViewController: UIViewController {
     private let tableView = UITableView()
+    private let postManager = PostManager.shared
     private var posts: [Post] = []
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupTableView()
         loadPosts()
     }
-
+    
     private func setupTableView() {
         tableView.register(PostTableViewCell.self, forCellReuseIdentifier: PostTableViewCell.identifier)
         tableView.dataSource = self
@@ -30,17 +31,20 @@ class FeedViewController: UIViewController {
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
-
-    private func loadPosts() {
-        // placeholder
-        posts = [
-            Post(id: UUID.init(), text: "Hello World!", authorName: "John", authorUsername: "biba", authorAvatarURL: URL(string: "https://cataas.com/cat")!, likesCount: 10, commentsCount: 2, timestamp: Date()),
-            Post(id: UUID.init(), text: "Another tweet!", authorName: "Jane", authorUsername: "oops", authorAvatarURL: URL(string: "https://cataas.com/cat")!, likesCount: 5, commentsCount: 0, timestamp: Date())
-        ]
+    
+    public func loadPosts() {
+        postManager.fetchPosts { posts in
+            DispatchQueue.main.async {
+                self.posts = posts
+                self.tableView.reloadData()
+            }
+        }
         tableView.reloadData()
     }
 }
 
+
+// MARK: - Table view logic
 extension FeedViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -50,7 +54,7 @@ extension FeedViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return posts.count
     }
-
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: PostTableViewCell.identifier, for: indexPath) as! PostTableViewCell
         cell.configure(with: posts[indexPath.row])
