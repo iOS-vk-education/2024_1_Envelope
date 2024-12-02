@@ -28,11 +28,12 @@ class PostManager {
                     posts.append(post)
                 }
             }
+            print("Fetched posts: \(posts)")
             completion(posts)
         }
     }
     
-    func addPost(_ post: Post, completion: @escaping (Bool) -> Void) {
+    func addPost(_ post: Post) {
         let postData = post.toDocument()
         
         db.collection("posts").document(post.id.uuidString).setData(postData) { error in
@@ -46,6 +47,7 @@ class PostManager {
     
     
     func likePost(_ postID: UUID) {
-        
+        let postRef = db.collection("posts").document(postID.uuidString)
+        postRef.updateData(["likesCount": FieldValue.increment(Int64(1))])
     }
 }

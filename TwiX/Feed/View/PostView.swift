@@ -15,8 +15,12 @@ class PostView: UIView {
     private let postTextLabel = UILabel()
     private let likeButton = UIButton()
     private let commentsButton = UIButton()
-    private let likesCountLabel = UILabel()
+     var likesCountLabel = UILabel()
     private let commentsCountLabel = UILabel()
+    
+    
+    var likeButtonAction: (() -> Void)?
+
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -71,10 +75,19 @@ class PostView: UIView {
                 label.font = UIFont(name: Fonts.Urbanist_Regular, size: 16)
             } else if let button = $0 as? UIButton {
                 button.titleLabel?.font = UIFont(name: Fonts.Urbanist_Regular, size: 16)
-            }        }
+            }
+        }
+        
+        likeButton.addTarget(self, action: #selector(likeButtonTapped), for: .touchUpInside)
         
         setupConstraints()
     }
+    
+    @objc
+    private func likeButtonTapped() {
+        likeButtonAction?()
+    }
+
     
     private func setupConstraints() {
         NSLayoutConstraint.activate([
@@ -122,13 +135,14 @@ class PostView: UIView {
         ])
     }
     
-    func configure(with post: Post) {
+    func configure(with post: Post, likeAction: @escaping () -> Void) {
         authorLabel.text = post.authorName
         usernameLabel.text = "@\(post.authorUsername)"
-        timeLabel.text = "\(post.timestamp)"
+        timeLabel.text = "\(Post.formatTimestamp(post.timestamp))"
         postTextLabel.text = post.text
         likesCountLabel.text = "\(post.likesCount)"
         commentsCountLabel.text = "\(post.commentsCount)"
+        likeButtonAction = likeAction
         
         let task = URLSession.shared.dataTask(with: post.authorAvatarURL) { [weak self] data, response, error in
             guard let self = self else { return }

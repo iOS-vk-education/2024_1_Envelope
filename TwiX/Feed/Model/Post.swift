@@ -17,7 +17,7 @@ struct Post {
     let authorAvatarURL: URL
     var likesCount: Int
     var commentsCount: Int
-    let timestamp: String
+    let timestamp: Date
     
     init(id: UUID, text: String, authorName: String, authorUsername: String, authorAvatarURL: URL, likesCount: Int, commentsCount: Int, timestamp: Date) {
         self.id = id
@@ -27,7 +27,7 @@ struct Post {
         self.authorAvatarURL = authorAvatarURL
         self.likesCount = likesCount
         self.commentsCount = commentsCount
-        self.timestamp = Post.formatTimestamp(timestamp)
+        self.timestamp = timestamp
     }
     
     init?(from document: [String: Any], id: String) {
@@ -49,7 +49,7 @@ struct Post {
         self.authorAvatarURL = URL(string: authorAvatarURLString) ?? URL(string: "https://example.com")!
         self.likesCount = likesCount
         self.commentsCount = commentsCount
-        self.timestamp = Post.formatTimestamp(timestamp.dateValue())
+        self.timestamp = timestamp.dateValue()
     }
     
     func toDocument() -> [String: Any] {

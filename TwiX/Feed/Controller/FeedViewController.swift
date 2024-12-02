@@ -39,7 +39,18 @@ class FeedViewController: UIViewController {
                 self.tableView.reloadData()
             }
         }
-        tableView.reloadData()
+    }
+    
+    private func likePost(at indexPath: IndexPath) {
+        var post = posts[indexPath.row]
+        post.likesCount += 1
+        posts[indexPath.row] = post
+        PostManager.shared.likePost(post.id)
+
+        if let cell = self.tableView.cellForRow(at: indexPath) as? PostTableViewCell {
+            cell.updateLikesCount(post.likesCount)
+        }
+        
     }
 }
 
@@ -57,7 +68,11 @@ extension FeedViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: PostTableViewCell.identifier, for: indexPath) as! PostTableViewCell
-        cell.configure(with: posts[indexPath.row])
+        let post = posts[indexPath.row]
+        cell.configure(with: post) { [weak self] in
+            guard let self = self else { return }
+            self.likePost(at: indexPath)
+        }
         return cell
     }
 }

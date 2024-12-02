@@ -27,7 +27,11 @@ class PostTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configure(with post: Post) {
-        postView.configure(with: post)
+    func configure(with post: Post, likeAction: @escaping () -> Void) {
+        postView.configure(with: post, likeAction: likeAction)
+    }
+    
+    func updateLikesCount(_ count: Int) {
+        postView.likesCountLabel.text = "\(count)"
     }
 }
