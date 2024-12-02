@@ -8,6 +8,9 @@
 import UIKit
 
 class PostView: UIView {
+    
+    // MARK: - Private properties
+    
     private let authorLabel = UILabel()
     private let usernameLabel = UILabel()
     private let timeLabel = UILabel()
@@ -15,12 +18,14 @@ class PostView: UIView {
     private let postTextLabel = UILabel()
     private let likeButton = UIButton()
     private let commentsButton = UIButton()
-     var likesCountLabel = UILabel()
     private let commentsCountLabel = UILabel()
     
+    // MARK: - Public properties
     
+    var likesCountLabel = UILabel()
     var likeButtonAction: (() -> Void)?
-
+    
+    // MARK: - Initializers
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -32,7 +37,40 @@ class PostView: UIView {
         setupUI()
     }
     
-    private func setupUI() {
+    func configure(with post: Post, likeAction: @escaping () -> Void) {
+        authorLabel.text = post.authorName
+        usernameLabel.text = "@\(post.authorUsername)"
+        timeLabel.text = "\(Post.formatTimestamp(post.timestamp))"
+        postTextLabel.text = post.text
+        likesCountLabel.text = "\(post.likesCount)"
+        commentsCountLabel.text = "\(post.commentsCount)"
+        likeButtonAction = likeAction
+        
+        let task = URLSession.shared.dataTask(with: post.authorAvatarURL) { [weak self] data, response, error in
+            guard let self = self else { return }
+            guard let data = data else { return }
+            
+            DispatchQueue.main.async {
+                if let image = UIImage(data: data) {
+                    self.avatarImageView.image = image
+                }
+            }
+        }
+        task.resume()
+    }
+}
+
+// MARK: - Private functions
+
+private extension PostView {
+    func setupUI() {
+        setupStyling()
+        setupSubviews()
+        setupTargets()
+        setupConstraints()
+    }
+    
+    func setupStyling() {
         // Avatar styling
         avatarImageView.layer.cornerRadius = 25
         avatarImageView.clipsToBounds = true
@@ -48,7 +86,7 @@ class PostView: UIView {
         timeLabel.font = UIFont(name: Fonts.Urbanist_Regular, size: 16)
         timeLabel.textColor = .gray
         
-        // Tweet text styling
+        // Post text styling
         postTextLabel.font = UIFont(name: Fonts.Urbanist_Regular, size: 16)
         postTextLabel.numberOfLines = 0
         
@@ -65,9 +103,9 @@ class PostView: UIView {
         
         commentsCountLabel.font = UIFont(name: Fonts.Urbanist_Regular, size: 16)
         commentsCountLabel.textColor = .gray
-        
-        
-        // Add subviews
+    }
+    
+    func setupSubviews() {
         [avatarImageView, authorLabel, usernameLabel, timeLabel, postTextLabel, likeButton, commentsButton, likesCountLabel, commentsCountLabel].forEach {
             addSubview($0)
             $0.translatesAutoresizingMaskIntoConstraints = false
@@ -77,19 +115,13 @@ class PostView: UIView {
                 button.titleLabel?.font = UIFont(name: Fonts.Urbanist_Regular, size: 16)
             }
         }
-        
+    }
+    
+    func setupTargets() {
         likeButton.addTarget(self, action: #selector(likeButtonTapped), for: .touchUpInside)
-        
-        setupConstraints()
     }
     
-    @objc
-    private func likeButtonTapped() {
-        likeButtonAction?()
-    }
-
-    
-    private func setupConstraints() {
+    func setupConstraints() {
         NSLayoutConstraint.activate([
             // Avatar
             avatarImageView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
@@ -134,26 +166,13 @@ class PostView: UIView {
             commentsButton.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -16)
         ])
     }
-    
-    func configure(with post: Post, likeAction: @escaping () -> Void) {
-        authorLabel.text = post.authorName
-        usernameLabel.text = "@\(post.authorUsername)"
-        timeLabel.text = "\(Post.formatTimestamp(post.timestamp))"
-        postTextLabel.text = post.text
-        likesCountLabel.text = "\(post.likesCount)"
-        commentsCountLabel.text = "\(post.commentsCount)"
-        likeButtonAction = likeAction
-        
-        let task = URLSession.shared.dataTask(with: post.authorAvatarURL) { [weak self] data, response, error in
-            guard let self = self else { return }
-            guard let data = data else { return }
-            
-            DispatchQueue.main.async {
-                if let image = UIImage(data: data) {
-                    self.avatarImageView.image = image
-                }
-            }
-        }
-        task.resume()
+}
+
+// MARK: - private action handlers
+
+private extension PostView {
+    @objc
+    func likeButtonTapped() {
+        likeButtonAction?()
     }
 }

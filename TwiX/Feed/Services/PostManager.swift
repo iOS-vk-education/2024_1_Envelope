@@ -8,8 +8,11 @@
 import Foundation
 import FirebaseFirestore
 
+
+// TODO: Protocol, implement
 class PostManager {
     
+    // TODO: replace singltone
     static let shared = PostManager()
     private let db = Firestore.firestore()
     private init() {}

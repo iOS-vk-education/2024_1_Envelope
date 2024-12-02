@@ -52,6 +52,8 @@ struct Post {
         self.timestamp = timestamp.dateValue()
     }
     
+    // TODO: Migrate model transforming into controller
+    
     func toDocument() -> [String: Any] {
         return [
             "text": text,
