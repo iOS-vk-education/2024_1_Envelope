@@ -45,7 +45,7 @@ class PostView: UIView {
         likesCountLabel.text = "\(post.likesCount)"
         commentsCountLabel.text = "\(post.commentsCount)"
         likeButtonAction = likeAction
-        
+        [authorLabel, postTextLabel].forEach({$0.textColor = .white})
         let task = URLSession.shared.dataTask(with: post.authorAvatarURL) { [weak self] data, response, error in
             guard let self = self else { return }
             guard let data = data else { return }

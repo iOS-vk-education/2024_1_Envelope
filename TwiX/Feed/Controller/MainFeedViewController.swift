@@ -20,7 +20,11 @@ class MainFeedViewController : UIViewController {
     private func setupFeedView() {
         view.addSubview(feedView)
         
+        view.backgroundColor = .background
+        feedView.backgroundColor = .background
+        
         feedView.translatesAutoresizingMaskIntoConstraints = false
+        
         NSLayoutConstraint.activate([
             feedView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             feedView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
@@ -31,9 +35,13 @@ class MainFeedViewController : UIViewController {
     
     private func setupNavBar() {
         navigationItem.title = Strings.App.name
+        navigationController?.navigationBar.titleTextAttributes = [
+            .font: UIFont(name: Fonts.Poppins_Bold, size: 30),
+            .foregroundColor: UIColor(.text)
+        ]
         let profileButton = UIBarButtonItem(image: UIImage(systemName: "person.circle"), style: .plain, target: self, action: #selector(profileButtonTapped))
         navigationItem.leftBarButtonItem = profileButton
-
+        
         let settingsButton = UIBarButtonItem(image: UIImage(systemName: "gear"), style: .plain, target: self, action: nil)
         navigationItem.rightBarButtonItem = settingsButton
         
@@ -43,11 +51,11 @@ class MainFeedViewController : UIViewController {
     private func profileButtonTapped() {
         openProfileScreen()
     }
-
+    
     
     private func openProfileScreen() {
         let profileVC = ProfileController()
         navigationController?.pushViewController(profileVC, animated: true)
     }
-
+    
 }

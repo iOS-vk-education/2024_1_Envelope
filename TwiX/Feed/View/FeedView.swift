@@ -73,6 +73,8 @@ private extension FeedView {
     
     func setup() {
         addSubview(tableView)
+        tableView.backgroundColor = self.backgroundColor
+        
     }
     
     func layout() {
@@ -93,12 +95,19 @@ extension FeedView: UITableViewDataSource, UITableViewDelegate {
         tableView.deselectRow(at: indexPath, animated: true)
     }
     
+    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+        let cell = tableView.cellForRow(at: indexPath)
+        cell?.backgroundColor = .background
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return posts.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: PostTableViewCell.self), for: indexPath) as! PostTableViewCell
+        cell.backgroundColor = self.backgroundColor
+//        cell.tintColor = self.tintColor
         let post = posts[indexPath.row]
         cell.configure(with: post) { [weak self] in
             guard let self = self else { return }
