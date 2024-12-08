@@ -38,7 +38,8 @@ struct Post {
               let likesCount = document["likesCount"] as? Int,
               let commentsCount = document["commentsCount"] as? Int,
               let timestamp = document["timestamp"] as? Timestamp,
-              let uuid = UUID(uuidString: id) else {
+              let uuid = UUID(uuidString: id)
+        else {
             return nil
         }
 

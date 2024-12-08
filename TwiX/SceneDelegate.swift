@@ -12,9 +12,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let window = UIWindow(windowScene: windowScene)
                 
         if Auth.auth().currentUser != nil {
-            let mainViewController = MainFeedViewController()
-//            window.rootViewController = mainViewController
-            window.rootViewController = UINavigationController(rootViewController: mainViewController)
+            let mainViewController = TabBarController()
+            window.rootViewController = mainViewController
+//            window.rootViewController = UINavigationController(rootViewController: mainViewController)
         } else {
             let authView = AuthenticationFlowView(onSuccess: {
                 let mainViewController = MainViewController()

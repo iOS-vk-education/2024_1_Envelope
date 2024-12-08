@@ -29,7 +29,7 @@ class FeedView : UIView {
         loadPosts()
     }
     
-    // Public functions
+    // MARK: - Public functions
     
     public func loadPosts() {
         postManager.fetchPosts { posts in
