@@ -36,7 +36,7 @@ class MainFeedViewController : UIViewController {
     private func setupNavBar() {
         navigationItem.title = Strings.App.name
         navigationController?.navigationBar.titleTextAttributes = [
-            .font: UIFont(name: Fonts.Poppins_Bold, size: 30),
+            .font: UIFont(name: Fonts.Poppins_Bold, size: 30) ?? UIFont.systemFont(ofSize: 30),
             .foregroundColor: UIColor(.text)
         ]
         let profileButton = UIBarButtonItem(image: UIImage(systemName: "person.circle"), style: .plain, target: self, action: #selector(profileButtonTapped))
