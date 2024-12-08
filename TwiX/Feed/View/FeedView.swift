@@ -74,7 +74,7 @@ private extension FeedView {
     func setup() {
         addSubview(tableView)
         tableView.backgroundColor = self.backgroundColor
-        
+        tableView.separatorColor = UIColor.black
     }
     
     func layout() {
