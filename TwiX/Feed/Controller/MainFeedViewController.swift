@@ -7,7 +7,7 @@
 
 import UIKit
 
-class MainFeedViewController : UIViewController {
+class MainFeedViewController : UIViewController, CreatePostControllerDelegate {
     
     private let feedView = FeedView()
     
@@ -15,6 +15,10 @@ class MainFeedViewController : UIViewController {
         super.viewDidLoad()
         setupNavBar()
         setupFeedView()
+    }
+    
+    func didCreatePost() {
+        feedView.loadPosts()
     }
     
     private func setupFeedView() {
