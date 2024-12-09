@@ -57,5 +57,4 @@ class MainFeedViewController : UIViewController {
         let profileVC = ProfileController()
         navigationController?.pushViewController(profileVC, animated: true)
     }
-    
 }
