@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class MainFeedViewController : UIViewController {
+class MainFeedViewController : UIViewController, CreatePostControllerDelegate {
     
     private let feedView = FeedView()
     
@@ -24,8 +24,11 @@ final class MainFeedViewController : UIViewController {
 
 private extension MainFeedViewController {
     
-    func setupView() {
-        view.backgroundColor = .background
+    func didCreatePost() {
+        feedView.loadPosts()
+    }
+    
+    private func setupFeedView() {
         view.addSubview(feedView)
     }
     

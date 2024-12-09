@@ -48,7 +48,7 @@ private extension FeedView {
         var post = posts[indexPath.row]
         post.likesCount += 1
         posts[indexPath.row] = post
-        PostManager.shared.likePost(post.id)
+        postManager.likePost(post.id)
         
         if let cell = tableView.cellForRow(at: indexPath) as? PostTableViewCell {
             cell.updateLikesCount(post.likesCount)
@@ -91,6 +91,7 @@ private extension FeedView {
 // MARK: - Table view logic
 
 extension FeedView: UITableViewDataSource, UITableViewDelegate {
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
     }
