@@ -21,9 +21,9 @@ struct Post {
     
     init(id: UUID, text: String, authorName: String, authorUsername: String, authorAvatarURL: URL, likesCount: Int, commentsCount: Int, timestamp: Date) {
         self.id = id
-        self.text = text
-        self.authorName = authorName
-        self.authorUsername = authorUsername
+        self.text = text.trimmingCharacters(in: .whitespacesAndNewlines)
+        self.authorName = authorName.trimmingCharacters(in: .whitespacesAndNewlines)
+        self.authorUsername = authorUsername.trimmingCharacters(in: .whitespacesAndNewlines)
         self.authorAvatarURL = authorAvatarURL
         self.likesCount = likesCount
         self.commentsCount = commentsCount

@@ -25,7 +25,7 @@ final class TabBarController: UITabBarController {
     
     private func setupTabBarAppearance() {
         tabBar.backgroundColor = Colors.backgroundColor
-        
+        tabBar.tintColor = Colors.backgroundColor
         tabBar.isTranslucent = false
     }
     
