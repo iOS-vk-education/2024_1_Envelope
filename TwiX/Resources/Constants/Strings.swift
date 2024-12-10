@@ -19,6 +19,10 @@ enum Strings {
         static let appleIconString: String = "appleIcon"
         static let guestIconString: String = "guestIcon"
         
+        static let addPostTabBarIcon: String = "addPostTabBarIcon"
+        static let mainFeedTabBarIcon: String = "homeTabBarIcon"
+        static let searchTabBarIcon: String = "searchTabBarIcon"
+        
         static let backArrow: String = "chevron.backward"
         
         static let checkboxChecked: String = "checkmark.square"
@@ -71,6 +75,14 @@ enum Strings {
     enum Dividers {
         static let or: String = "or"
         static let orContinueWith: String = "or continue with"
+    }
+    
+    enum Profile {
+        static let following: String = "following"
+        static let followers: String = "followers"
+        static let editProfile: String = "Edit profile"
+        static let posts: String = "Posts"
+        static let likes: String = "Likes"
     }
 }
 

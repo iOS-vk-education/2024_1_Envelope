@@ -111,18 +111,20 @@ enum Constants {
     
     enum ProfileController {
         enum Dimensions {
-            static let avatarButtonSize: CGFloat = 123
+            static let avatarButtonSize: CGFloat = 68
             static let settingsButtonSize: CGFloat = 48
-            static let addPostButtonSize: CGFloat = 80
+            static let editProfileButtonSize: CGFloat = 50
         }
         
         enum Paddings {
-            static let bottomTopAnchor: CGFloat = 55
-            static let topAvatarAnchor: CGFloat = 88
-            static let leadingSettingsAnchor: CGFloat = 325
-            static let leadingAvatarAnchor: CGFloat = 135
-            static let leadingLabelAnchor: CGFloat = 25
-            static let topLineAnchor: CGFloat = 145
+            static let leadingAnchor: CGFloat = 20
+            static let trailingAnchor: CGFloat = -20
+            static let bottomAnchor: CGFloat = 20
+            static let topAnchor: CGFloat = 10
+            static let topAvatarAnchor: CGFloat = 80
+            static let followersLabelLeadingAnchor: CGFloat = 140
+            static let nameLabelTopAnchor: CGFloat = 159
+            static let editProfileTopAnchor: CGFloat = 115
         }
     }
 }
