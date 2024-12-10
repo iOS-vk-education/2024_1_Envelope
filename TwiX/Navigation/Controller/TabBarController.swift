@@ -8,13 +8,25 @@
 import UIKit
 
 class TabBarController: UITabBarController {
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         delegate = self
         setupViewControllers()
         setupTabBarAppearance()
     }
+    
+    // MARK: - Create Navigation Controller
+    
+    private func createNav(title: String, image: UIImage?, vc: UIViewController) -> UINavigationController {
+        let nav = UINavigationController(rootViewController: vc)
+
+        nav.tabBarItem.title = title
+        nav.tabBarItem.image = image
+        
+        return nav
+    }
+    
+    // MARK: - Setup tab bar and tab bar style
     
     private func setupViewControllers() {
         let mainFeedVC = createNav(title: "", image: UIImage(named: Strings.Icons.mainFeedTabBarIcon), vc: MainFeedViewController())
@@ -29,15 +41,9 @@ class TabBarController: UITabBarController {
         tabBar.isTranslucent = false
     }
     
-    private func createNav(title: String, image: UIImage?, vc: UIViewController) -> UINavigationController {
-        let nav = UINavigationController(rootViewController: vc)
-
-        nav.tabBarItem.title = title
-        nav.tabBarItem.image = image
-        
-        return nav
-    }
 }
+
+// MARK: - Tab Bar Controller Delegate
 
 extension TabBarController: UITabBarControllerDelegate {
     func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
