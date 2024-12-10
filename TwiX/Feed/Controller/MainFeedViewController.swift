@@ -55,6 +55,9 @@ private extension MainFeedViewController {
     func setupNavBar() {
         navigationItem.title = Strings.App.name
         
+        navigationController?.navigationBar.prefersLargeTitles = true
+        navigationItem.largeTitleDisplayMode = .never
+        
         let navigationBarAppearance = UINavigationBarAppearance()
         navigationBarAppearance.configureWithDefaultBackground()
         navigationBarAppearance.backgroundColor = Colors.backgroundColor
@@ -68,17 +71,12 @@ private extension MainFeedViewController {
             .font: UIFont(name: Fonts.Poppins_Bold, size: 30) ?? UIFont.systemFont(ofSize: 30)
         ]
         
-        navigationController?.navigationBar.titleTextAttributes = [
-            .font: UIFont(name: Fonts.Poppins_Bold, size: 30) ?? UIFont.systemFont(ofSize: 30),
-            .foregroundColor: UIColor(.text)
-        ]
-        
         let profileButton = UIBarButtonItem(image: UIImage(systemName: "person.circle"), style: .plain, target: self, action: #selector(profileButtonTapped))
         navigationItem.leftBarButtonItem = profileButton
         
         let settingsButton = UIBarButtonItem(image: UIImage(named: Strings.Icons.settingsIcon), style: .plain, target: self, action: nil)
         navigationItem.rightBarButtonItem = settingsButton
-                
+        
         let backButton = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         backButton.image = UIImage(named: Strings.Icons.backArrow)
         backButton.tintColor = Colors.mainColor

@@ -8,8 +8,9 @@
 import UIKit
 
 class CreatePostController: UIViewController {
-    
     weak var delegate: CreatePostControllerDelegate?
+    
+    // MARK: Private properties
     
     private var authorName: String = "boba"
     private var authorUsername: String = "boba"
@@ -60,7 +61,9 @@ class CreatePostController: UIViewController {
         super.viewDidLoad()
         setupUI()
     }
+    
     // MARK: - UI Setup
+    
     private func setupUI() {
         view.backgroundColor = .white
         view.addSubview(textView)
@@ -85,7 +88,9 @@ class CreatePostController: UIViewController {
     }
     
     // MARK: - Actions
-    @objc private func closeTapped() {
+    
+    @objc
+    private func closeTapped() {
         dismiss(animated: true, completion: nil)
     }
     
@@ -93,6 +98,8 @@ class CreatePostController: UIViewController {
     private func didSaveButtonTapped() {
         saveTapped()
     }
+    
+    // MARK: - Post saving to DB
     
     private func saveTapped() {
         guard let text = textView.text, !text.isEmpty else {
@@ -106,7 +113,6 @@ class CreatePostController: UIViewController {
         
         postManager.addPost(post)
         delegate?.didCreatePost()
-//        postManager.fetchPosts(completion: {_ in })
         print("Post saved: \(post)")
         dismiss(animated: true, completion: nil)
     }
