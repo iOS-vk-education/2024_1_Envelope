@@ -25,13 +25,13 @@ class TabBarController: UITabBarController {
     
     private func setupTabBarAppearance() {
         tabBar.backgroundColor = Colors.backgroundColor
-        tabBar.tintColor = UIColor(named: "LightPeach")
+        
         tabBar.isTranslucent = false
     }
     
     private func createNav(title: String, image: UIImage?, vc: UIViewController) -> UINavigationController {
         let nav = UINavigationController(rootViewController: vc)
-        
+
         nav.tabBarItem.title = title
         nav.tabBarItem.image = image
         
