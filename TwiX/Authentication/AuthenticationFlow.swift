@@ -386,8 +386,3 @@ func signInAnonymously(onSuccess: @escaping () -> Void) {
         }
     }
 }
-
-
-#Preview {
-    AuthenticationFlowView { print("Successful authentication") }
-}

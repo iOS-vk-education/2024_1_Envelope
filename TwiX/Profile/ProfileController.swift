@@ -237,7 +237,3 @@ class ProfileController: UIViewController {
         }
     }
 }
-
-#Preview{
-    UINavigationController(rootViewController: ProfileController())
-}
