@@ -13,4 +13,15 @@ final class MainViewController: UIViewController {
 
         view.addSubview(label)
     }
+    
+    func setupNavBar() {
+        navigationItem.title = Strings.App.name
+        
+        let profileButton = UIBarButtonItem(image: UIImage(systemName: "person.circle"), style: .plain, target: nil, action: nil)
+        navigationItem.leftBarButtonItem = profileButton
+
+        let settingsButton = UIBarButtonItem(image: UIImage(systemName: "gear"), style: .plain, target: nil, action: nil)
+        navigationItem.rightBarButtonItem = settingsButton
+                                             
+    }
 }
