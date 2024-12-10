@@ -7,24 +7,35 @@
 
 import UIKit
 
-class MainFeedViewController : UIViewController {
+final class MainFeedViewController : UIViewController {
     
     private let feedView = FeedView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupNavBar()
+        setupView()
         setupFeedView()
+        setupFeedViewConstraints()
+    }
+}
+
+// MARK: - Private functions
+
+private extension MainFeedViewController {
+    
+    func setupView() {
+        view.backgroundColor = .background
+        view.addSubview(feedView)
     }
     
-    private func setupFeedView() {
-        view.addSubview(feedView)
-        
-        view.backgroundColor = .background
+    func setupFeedView() {
         feedView.backgroundColor = .background
-        
+    }
+    
+    
+    func setupFeedViewConstraints() {
         feedView.translatesAutoresizingMaskIntoConstraints = false
-        
         NSLayoutConstraint.activate([
             feedView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             feedView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
@@ -33,7 +44,12 @@ class MainFeedViewController : UIViewController {
         ])
     }
     
-    private func setupNavBar() {
+    func openProfileScreen() {
+        let profileVC = ProfileController()
+        navigationController?.pushViewController(profileVC, animated: true)
+    }
+    
+    func setupNavBar() {
         navigationItem.title = Strings.App.name
         navigationController?.navigationBar.titleTextAttributes = [
             .font: UIFont(name: Fonts.Poppins_Bold, size: 30) ?? UIFont.systemFont(ofSize: 30),
@@ -48,14 +64,7 @@ class MainFeedViewController : UIViewController {
     }
     
     @objc
-    private func profileButtonTapped() {
+    func profileButtonTapped() {
         openProfileScreen()
     }
-    
-    
-    private func openProfileScreen() {
-        let profileVC = ProfileController()
-        navigationController?.pushViewController(profileVC, animated: true)
-    }
-    
 }

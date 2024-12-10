@@ -7,7 +7,7 @@
 
 import UIKit
 
-class FeedView : UIView {
+final class FeedView : UIView {
     
     // MARK: - Private properties
     
@@ -105,9 +105,8 @@ extension FeedView: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: PostTableViewCell.self), for: indexPath) as! PostTableViewCell
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: PostTableViewCell.self), for: indexPath) as? PostTableViewCell else { return PostTableViewCell() }
         cell.backgroundColor = self.backgroundColor
-//        cell.tintColor = self.tintColor
         let post = posts[indexPath.row]
         cell.configure(with: post) { [weak self] in
             guard let self = self else { return }
