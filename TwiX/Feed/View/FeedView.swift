@@ -14,6 +14,7 @@ final class FeedView : UIView {
     private let tableView = UITableView()
     private let postManager = PostManager.shared
     private var posts: [Post] = []
+    private var errorAction: ((String) -> Void)?
     
     // MARK: - Initializers
     
@@ -38,6 +39,10 @@ final class FeedView : UIView {
                 self.tableView.reloadData()
             }
         }
+    }
+    
+    public func setErrorAction(_ action: @escaping ((String) -> Void)) {
+        errorAction = action
     }
 }
 
@@ -109,10 +114,10 @@ extension FeedView: UITableViewDataSource, UITableViewDelegate {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: PostTableViewCell.self), for: indexPath) as? PostTableViewCell else { return PostTableViewCell() }
         cell.backgroundColor = self.backgroundColor
         let post = posts[indexPath.row]
-        cell.configure(with: post) { [weak self] in
+        cell.configure(with: post, likeAction: { [weak self] in
             guard let self = self else { return }
             self.likePost(at: indexPath)
-        }
+        }, errorAction: errorAction ?? { _ in })
         return cell
     }
 }

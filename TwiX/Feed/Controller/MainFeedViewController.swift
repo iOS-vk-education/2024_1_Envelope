@@ -34,6 +34,15 @@ private extension MainFeedViewController {
     
     func setupFeedView() {
         feedView.backgroundColor = .background
+        feedView.setErrorAction() { [weak self] message in
+            DispatchQueue.main.async {
+                let alert = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .default, handler: { _ in
+                NSLog("The \"OK\" alert occured.")
+                }))
+                self?.present(alert, animated: true, completion: nil)
+            }
+        }
     }
     
     
