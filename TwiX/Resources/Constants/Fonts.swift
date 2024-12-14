@@ -15,5 +15,6 @@ enum Fonts {
     static let Urbanist_Bold: String = "Urbanist-Bold"
     static let Urbanist_Medium: String = "Urbanist-Medium"
     static let Poppins_Bold: String = "Poppins-Bold"
+    static let Montserrat_Regular: String = "Montserrat-Regular"
     static let Urbanist_Regular_Font : Font = Font.custom(Fonts.Urbanist_Regular, size: 14)
 }

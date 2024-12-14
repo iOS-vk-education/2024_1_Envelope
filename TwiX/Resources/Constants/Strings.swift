@@ -24,6 +24,7 @@ enum Strings {
         static let searchTabBarIcon: String = "searchTabBarIcon"
         
         static let backArrow: String = "chevron.backward"
+        static let customBackArrow: String = "backArrow"
         
         static let checkboxChecked: String = "checkmark.square"
         static let checkboxUnchecked: String = "square"
@@ -75,6 +76,10 @@ enum Strings {
     enum Dividers {
         static let or: String = "or"
         static let orContinueWith: String = "or continue with"
+    }
+    
+    enum Settings {
+        static let teamInfo = "developed by team Envelope on course of VK Education in ITMO University\n\nAlexander Filatov\nAlexey Tsvetkov\nAndrew Shustrov\nEgor Ulin";
     }
 }
 
