@@ -15,6 +15,7 @@ class FeedView : UIView {
     private let postManager = PostManager.shared
     private var posts: [Post] = []
     
+    
     // MARK: - Initializers
     
     override init(frame: CGRect) {

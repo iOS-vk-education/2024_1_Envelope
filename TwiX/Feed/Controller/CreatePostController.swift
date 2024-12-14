@@ -112,7 +112,13 @@ final class CreatePostController: UIViewController {
             return
         }
         
-        let post = Post(id: UUID(), text: text, authorName: authorName, authorUsername: authorUsername, authorAvatarURL: authorAvatarURL, likesCount: likesCount, commentsCount: commentsCount, timestamp: timestamp)
+        var moods: [Mood] = [.angry, .happy]
+        
+        if moods.count > 3 {
+            moods = Array(moods[..<3])
+        }
+        
+        let post = Post(id: UUID(), text: text, mood: moods, authorName: authorName, authorUsername: authorUsername, authorAvatarURL: authorAvatarURL, likesCount: likesCount, commentsCount: commentsCount, timestamp: timestamp)
         
         postManager.addPost(post)
         delegate?.didCreatePost()
