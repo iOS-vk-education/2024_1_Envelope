@@ -125,4 +125,24 @@ enum Constants {
             static let topLineAnchor: CGFloat = 145
         }
     }
+    
+    enum SettingsController {
+        enum Dimensions {
+            static let infoFontSize: CGFloat = 30
+            static let teamInfoWidth: CGFloat = 325
+            static let settingsButtonSize: CGFloat = 48
+            static let unloginButtonWidth: CGFloat = 237
+            static let unloginButtonHeight: CGFloat = 65
+            static let LogoutSize: CGFloat = 22
+            static let titleSize: CGFloat = 40
+        }
+        
+        enum Paddings {
+            static let teamInfoTopAnchor: CGFloat = 16
+            static let leadingSettingsAnchor: CGFloat = 20
+            static let buttonTopAnchor: CGFloat = 55
+            static let titleTopAnchor: CGFloat = 185
+            static let unloginButtonTopAnchor: CGFloat = 42
+        }
+    }
 }
