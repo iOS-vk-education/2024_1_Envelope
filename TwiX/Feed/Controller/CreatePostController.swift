@@ -7,7 +7,7 @@
 
 import UIKit
 
-class CreatePostController: UIViewController {
+final class CreatePostController: UIViewController {
     weak var delegate: CreatePostControllerDelegate?
     
     // MARK: Private properties
@@ -50,17 +50,20 @@ class CreatePostController: UIViewController {
         return button
     }()
     
-    func setAuthor(authorUsername: String) {
+    // MARK: - Logic starts
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setupUI()
+    }
+    
+    public func setAuthor(authorUsername: String) {
         // TODO: fetch author metadata from DB by username
         self.authorName = "hello world"
         self.authorUsername = authorUsername
         self.authorAvatarURL = URL(string: "https://cataas.com/cat")!
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        setupUI()
-    }
     
     // MARK: - UI Setup
     
