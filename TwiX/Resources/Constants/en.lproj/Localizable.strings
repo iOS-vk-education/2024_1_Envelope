@@ -1,0 +1,37 @@
+
+"language" = "Languages";
+"notification" = "Notifications";
+"theme" = "Theme";
+"Poppins-Bold" = "Poppins-Bold";
+"Poppins-Regular" = "Poppins-Regular";
+
+"Let`s log you in" = "Let`s log you in";
+"Sign in with password" = "Sign in with password";
+"Don`t have an account?" = "Don`t have an account?";
+"Sign up" = "Sign up";
+
+"Login to your \nAccount" = "Login to your \nAccount";
+"Email" =  "Email";
+"Enter Email" = "Enter Email";
+"Password" = "Password";
+"Enter Password" = "Enter Password";
+"Remember me" = "Remember me";
+"Forgor the password?" = "Forgor the password?";
+"or continue with" = "or continue with";
+"Sign in" = "Sign in";
+
+"Create your \nAccount" = "Create your \nAccount";
+"Enter your email" = "Enter your email";
+"Enter your password" = "Enter your password";
+"Confirm Password" = "Confirm Password";
+"Confirm your password" = "Confirm your password";
+
+"Continue with VK ID" = "Continue with VK ID";
+"Continue with Google" = "Continue with Google";
+"Continue with Apple" = "Continue with Apple";
+"Continue as Guest" = "Continue as Guest";
+
+"or" = "or";
+"or continue with" = "or continue with";
+
+"team info" = "developed by team Envelope on course of VK Education in ITMO University\n\nAlexander Filatov\nAlexey Tsvetkov\nAndrew Shustrov\nEgor Ulin";

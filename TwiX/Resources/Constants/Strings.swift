@@ -35,51 +35,50 @@ enum Strings {
     }
     
     enum Authentication {
-        static let title = "Let`s log you in"
-        static let signInWithPassword = "Sign in with password"
-        static let dontHaveAccount = "Don`t have an account?"
-        static let signUp = "Sign up"
+        static let title = NSLocalizedString("Let`s log you in", comment: "")
+        static let signInWithPassword = NSLocalizedString("Sign in with password", comment: "")
+        static let dontHaveAccount = NSLocalizedString("Don`t have an account?", comment: "")
+        static let signUp = NSLocalizedString("Sign up", comment: "")
     }
     
     enum Login {
-        static let title = "Login to your \nAccount"
-        static let emailLabel = "Email"
-        static let emailPlaceholder = "Enter Email"
-        static let passwordLabel = "Password"
-        static let passwordPlaceholder = "Enter Password"
-        static let rememberMe = "Remember me"
-        static let forgotPassword = "Forgor the password?"
-        static let orContinueWith = "or continue with"
-        static let signIn = "Sign in"
+        static let title = NSLocalizedString("Login to your \nAccount", comment: "")
+        static let emailLabel = NSLocalizedString("Email", comment: "")
+        static let emailPlaceholder = NSLocalizedString("Enter Email", comment: "")
+        static let passwordLabel = NSLocalizedString("Password", comment: "")
+        static let passwordPlaceholder = NSLocalizedString("Enter Password", comment: "")
+        static let rememberMe = NSLocalizedString("Remember me", comment: "")
+        static let forgotPassword = NSLocalizedString("Forgor the password?", comment: "")
+        static let orContinueWith = NSLocalizedString("or continue with", comment: "")
+        static let signIn = NSLocalizedString("Sign in", comment: "")
     }
     
     
     struct Register {
-        static let title = "Create your \nAccount"
-        static let emailLabel = "Email"
-        static let emailPlaceholder = "Enter your email"
-        static let passwordLabel = "Password"
-        static let passwordPlaceholder = "Enter your password"
-        static let confirmPasswordLabel = "Confirm Password"
-        static let confirmPasswordPlaceholder = "Confirm your password"
-        static let signUpButton = "Sign Up"
+        static let title = NSLocalizedString("Create your \nAccount", comment: "")
+        static let emailLabel = NSLocalizedString("Email", comment: "")
+        static let emailPlaceholder = NSLocalizedString("Enter your email", comment: "")
+        static let passwordLabel = NSLocalizedString("Password", comment: "")
+        static let passwordPlaceholder = NSLocalizedString("Enter your password", comment: "")
+        static let confirmPasswordLabel = NSLocalizedString("Confirm Password", comment: "")
+        static let confirmPasswordPlaceholder = NSLocalizedString("Confirm your password", comment: "")
+        static let signUpButton = NSLocalizedString("Sign Up", comment: "")
     }
     
-    
     enum Buttons {
-        static let continueWithVK = "Continue with VK ID"
-        static let continueWithGoogle = "Continue with Google"
-        static let continueWithApple = "Continue with Apple"
-        static let continueAsGuest = "Continue as Guest"
+        static let continueWithVK = NSLocalizedString("Continue with VK ID", comment: "")
+        static let continueWithGoogle = NSLocalizedString("Continue with Google", comment: "")
+        static let continueWithApple = NSLocalizedString("Continue with Apple", comment: "")
+        static let continueAsGuest = NSLocalizedString("Continue as Guest", comment: "")
     }
     
     enum Dividers {
-        static let or: String = "or"
-        static let orContinueWith: String = "or continue with"
+        static let or: String = NSLocalizedString("or", comment: "")
+        static let orContinueWith: String = NSLocalizedString("or continue with", comment: "")
     }
     
     enum Settings {
-        static let teamInfo = "developed by team Envelope on course of VK Education in ITMO University\n\nAlexander Filatov\nAlexey Tsvetkov\nAndrew Shustrov\nEgor Ulin";
+        static let teamInfo = NSLocalizedString("team info", comment: "team info")
     }
 }
 

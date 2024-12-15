@@ -1,0 +1,36 @@
+
+"language" = "Языки";
+"notification" = "Уведомления";
+"theme" = "Тема";
+"Poppins-Bold" = "Montserrat-Bold";
+"Poppins-Regular" = "Montserrat-Regular";
+
+"Let`s log you in" = "Выберите способ входа";
+"Sign in with password" = "Войти при помощи пароля";
+"Don`t have an account?" = "Нет аккаунта?";
+"Sign up" = "Зарегестрироваться";
+
+"Login to your \nAccount" = "Войдите в свой \nАккаунт";
+"Email" =  "Email";
+"Enter Email" = "Введите Email";
+"Password" = "Пароль";
+"Enter Password" = "Введите пароль";
+"Remember me" = "Remember me";
+"Forgor the password?" = "Забыли свой пароль?";
+"Sign in" = "Войти";
+
+"Create your \nAccount" = "Создать \nАккаунт";
+"Enter your email" = "Введите свой email";
+"Enter your password" = "Введите пароль";
+"Confirm Password" = "Повторите пароль";
+"Confirm your password" = "Подтвердите свой пароль";
+
+"Continue with VK ID" = "Продолжить используя VK ID";
+"Continue with Google" = "Продолжить используя Google";
+"Continue with Apple" = "Продолжить используя Apple";
+"Continue as Guest" = "Продолжить как Гость";
+
+"or" = "или";
+"or continue with" = "или продолжить используя";
+
+"team info" = "Разработано командой Envelope на курсе от VK Образования В университете ИТМО\n\nАлександр Филатов\nАлексей Цветков\nАндрей Шустров\nЕгор Юлин";
