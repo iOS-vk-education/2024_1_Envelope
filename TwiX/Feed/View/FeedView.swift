@@ -113,6 +113,7 @@ extension FeedView: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: PostTableViewCell.self), for: indexPath) as? PostTableViewCell else { return PostTableViewCell() }
         cell.backgroundColor = self.backgroundColor
+        cell.selectionStyle = .none
         let post = posts[indexPath.row]
         cell.configure(with: post, likeAction: { [weak self] in
             guard let self = self else { return }
