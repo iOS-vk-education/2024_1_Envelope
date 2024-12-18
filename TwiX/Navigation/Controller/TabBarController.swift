@@ -26,6 +26,13 @@ final class TabBarController: UITabBarController {
         tabBar.backgroundColor = Colors.backgroundColor
         tabBar.tintColor = UIColor(named: "LightPeach")
         tabBar.isTranslucent = false
+        
+        let appearance = UITabBarAppearance()
+        appearance.configureWithOpaqueBackground()
+        appearance.backgroundColor = UIColor.clear        
+        
+        tabBar.scrollEdgeAppearance = appearance
+        tabBar.standardAppearance = appearance
     }
     
     private func createNavItem(title: String, image: UIImage?, vc: UIViewController) -> UINavigationController {
