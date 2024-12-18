@@ -42,13 +42,10 @@ final class TabBarController: UITabBarController {
         
         let appearance = UITabBarAppearance()
         appearance.configureWithOpaqueBackground()
-        appearance.backgroundColor = UIColor.clear
-//        appearance.backgroundImage = UIImage()
-        
+        appearance.backgroundColor = UIColor.clear        
         
         tabBar.scrollEdgeAppearance = appearance
         tabBar.standardAppearance = appearance
-        
     }
     
     private func createNavItem(title: String, image: UIImage?, vc: UIViewController) -> UINavigationController {

@@ -86,12 +86,7 @@ private extension MainFeedViewController {
         let settingsButton = UIBarButtonItem(image: UIImage(named: Strings.Icons.settingsIcon), style: .plain, target: self, action: nil)
         navigationItem.rightBarButtonItem = settingsButton
         
-        let backButton = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
-        backButton.image = UIImage(named: Strings.Icons.backArrow)
-        backButton.tintColor = Colors.mainColor
-        navigationItem.backBarButtonItem = backButton
-        
-        navigationController?.navigationBar.standardAppearance = navigationBarAppearance
+        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
     }
     
     @objc
