@@ -70,6 +70,7 @@ private extension MainFeedViewController {
         let settingsButton = UIBarButtonItem(image: UIImage(systemName: "gear"), style: .plain, target: self, action: nil)
         navigationItem.rightBarButtonItem = settingsButton
         
+        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
     }
     
     @objc
