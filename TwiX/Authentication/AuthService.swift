@@ -14,6 +14,7 @@ final class AuthService {
     private init() {}
     
     private let db = Firestore.firestore()
+    private let userSession = UserSessionManager.shared
     
     func registerUser(email: String, password: String, onSuccess: @escaping () -> Void, onFailure: @escaping (String) -> Void) {
         db.collection("users").whereField("email", isEqualTo: email).getDocuments { querySnapshot, error in
@@ -43,12 +44,13 @@ final class AuthService {
                     "email": email,
                     "createdAt": Timestamp()
                 ]
-                self.db.collection("users").document(user.uid).setData(userData) { error in
+                self.db.collection("users").document(user.uid).setData(userData) { [weak self] error in
                     if let error = error {
                         onFailure("Failed to save user data: \(error.localizedDescription)")
                         return
                     }
                     print("FirebaseAuth: User registered successfully, UID: \(user.uid)")
+                    self?.userSession.saveUserToDatabase(uid: user.uid, authorName: String(email.prefix(3)), authorUsername: String(email.prefix(3)), authorAvatarURL: nil)
                     onSuccess()
                 }
             }

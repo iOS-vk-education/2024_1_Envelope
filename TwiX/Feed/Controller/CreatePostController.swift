@@ -12,9 +12,9 @@ final class CreatePostController: UIViewController {
     
     // MARK: Private properties
     
-    private var authorName: String = "boba"
-    private var authorUsername: String = "boba"
-    private var authorAvatarURL: URL = URL(string: "https://cataas.com/cat")!
+    private var authorName: String?
+    private var authorUsername: String?
+    private var authorAvatarURL: URL?
     private let likesCount: Int = 0
     private let commentsCount: Int = 0
     private let timestamp: Date = Date()
@@ -56,12 +56,31 @@ final class CreatePostController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
+        loadAuthorData()
     }
     
-    public func setAuthor(authorUsername: String) {
-        self.authorName = "hello world"
-        self.authorUsername = authorUsername
-        self.authorAvatarURL = URL(string: "https://cataas.com/cat")!
+    public func loadAuthorData() {
+        let userSession = UserSessionManager.shared
+        guard let currentUserUID = userSession.currentUser?.uid else {
+                print("User not logged in")
+                return
+        }
+        userSession.fetchUserFromDatabase(uid: currentUserUID) { result in
+            switch result {
+            case .success(let userData):
+                if let name = userData["authorName"] as? String,
+                   let authorUsername = userData["authorUsername"] as? String,
+                   let avatarURLString = userData["authorAvatarURL"] as? String{
+                    self.authorName = name
+                    self.authorUsername = authorUsername
+                    self.authorAvatarURL = URL(string: avatarURLString)
+                } else {
+                    print("Error: user data is invalid")
+                }
+            case .failure(let error):
+                print("Error fetching user: \(error.localizedDescription)")
+            }
+        }
     }
     
     
@@ -112,13 +131,20 @@ final class CreatePostController: UIViewController {
             return
         }
         
+        guard let authorName = authorName, let authorUsername = authorUsername else {
+            let alert = UIAlertController(title: "Error", message: "User information are missing!", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            present(alert, animated: true, completion: nil)
+            return
+        }
+        
         var moods: [Mood] = [.angry, .happy]
         
         if moods.count > 3 {
             moods = Array(moods[..<3])
         }
         
-        let post = Post(id: UUID(), text: text, mood: moods, authorName: authorName, authorUsername: authorUsername, authorAvatarURL: authorAvatarURL, likesCount: likesCount, commentsCount: commentsCount, timestamp: timestamp)
+        let post = Post(id: UUID(), text: text, mood: moods, authorName: authorName, authorUsername: authorUsername, authorAvatarURL: authorAvatarURL ?? URL(string: "https://cataas.com/cat")!, likesCount: likesCount, commentsCount: commentsCount, timestamp: timestamp)
         
         postManager.addPost(post)
         delegate?.didCreatePost()

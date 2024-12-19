@@ -26,11 +26,11 @@ final class UserSessionManager {
         return currentUser?.email
     }
     
-    func saveUserToDatabase(uid: String, authorName: String, authorUsername: String, authorAvatarURL: URL) {
+    func saveUserToDatabase(uid: String, authorName: String, authorUsername: String, authorAvatarURL: URL?) {
         let userData: [String: Any] = [
             "authorName": authorName,
             "authorUsername": authorUsername,
-            "authorAvatarURL": authorAvatarURL.absoluteString
+            "authorAvatarURL": authorAvatarURL?.absoluteString ?? ""
         ]
         
         db.collection("users").document(uid).setData(userData) { error in
