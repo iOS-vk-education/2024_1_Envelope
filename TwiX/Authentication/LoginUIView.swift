@@ -14,6 +14,8 @@ struct LoginUIView: View {
     @State private var isAuthenticated = false
     @State private var isRememberMeChecked: Bool = false
     
+    var onSuccess: () -> Void
+    
     private var isButtonDisabled: Bool {
         email.isEmpty || password.isEmpty
     }
@@ -96,8 +98,6 @@ struct LoginUIView: View {
                         )
                         .shadow(color: Color.alternativeButtonLight.opacity(0.3), radius: Constants.Login.Dimensions.smallCornerRadius, x: 0, y: 0)
                         .padding(.horizontal, Constants.Login.Padding.horizontal)
-                }.fullScreenCover(isPresented: $isAuthenticated) {
-                    MainScreenRepresentation().edgesIgnoringSafeArea(.all)
                 }
                 
                 Spacer().frame(height: Constants.Login.Spacing.fieldSpacing)
@@ -134,6 +134,7 @@ struct LoginUIView: View {
             AuthService.shared.loginUser(email: email, password: password,
              onSuccess: {
                 isAuthenticated = true
+                onSuccess()
             }, onFailure: {msg in
                 AlertHelper.showAlert(title: "Login error", message: msg)})
         }

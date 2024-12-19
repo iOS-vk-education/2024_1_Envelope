@@ -12,6 +12,8 @@ struct RegisterUIView: View {
     @State private var password: String = ""
     @State private var isRegistered = false
     
+    var onSuccess: () -> Void
+
     private var isButtonDisabled: Bool {
         email.isEmpty || password.isEmpty
     }
@@ -80,9 +82,7 @@ struct RegisterUIView: View {
                         )
                     
                         .shadow(color: Color.alternativeButtonLight.opacity(0.3), radius: Constants.Register.Dimensions.smallCornerRadius, x: 0, y: 0)
-                }.padding(.horizontal, Constants.Register.Padding.horizontal).fullScreenCover(isPresented: $isRegistered) {
-                    MainScreenRepresentation().edgesIgnoringSafeArea(.all)
-                }
+                }.padding(.horizontal, Constants.Register.Padding.horizontal)
                 
                 Spacer().frame(height: Constants.Register.Spacing.fieldVerticalSpacing)
                 
@@ -110,6 +110,7 @@ struct RegisterUIView: View {
         } else {
             AuthService.shared.registerUser(email: email, password: password, onSuccess: {
                 isRegistered = true
+                onSuccess()
             }, onFailure: {
                 msg in
                 AlertHelper.showAlert(title: "Registration Error", message: msg)

@@ -42,15 +42,17 @@ final class AuthService {
                 let userData: [String: Any] = [
                     "uid": user.uid,
                     "email": email,
-                    "createdAt": Timestamp()
+                    "createdAt": Timestamp(),
+                    "authorName": String(email.prefix(through: email.firstIndex(of: "@")!)),
+                    "authorUsername": String(email.prefix(through: email.firstIndex(of: "@")!)),
+                    "authorAvatarURL": ""
                 ]
-                self.db.collection("users").document(user.uid).setData(userData) { [weak self] error in
+                self.db.collection("users").document(user.uid).setData(userData) { error in
                     if let error = error {
                         onFailure("Failed to save user data: \(error.localizedDescription)")
                         return
                     }
                     print("FirebaseAuth: User registered successfully, UID: \(user.uid)")
-                    self?.userSession.saveUserToDatabase(uid: user.uid, authorName: String(email.prefix(3)), authorUsername: String(email.prefix(3)), authorAvatarURL: nil)
                     onSuccess()
                 }
             }

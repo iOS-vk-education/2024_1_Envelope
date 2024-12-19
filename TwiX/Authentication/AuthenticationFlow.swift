@@ -28,9 +28,8 @@ struct AuthenticationFlowView: View {
                     AbstractSocialMediaLoginButton(label: Strings.Buttons.continueAsGuest, icon: Strings.Icons.guestIconString) {
                         AuthService.shared.signInAnonymously {
                             isAuthenticated = true
+                            onSuccess()
                         }
-                    }.fullScreenCover(isPresented: $isAuthenticated) {
-                        MainScreenRepresentation().edgesIgnoringSafeArea(.all)
                     }
                 }
                 
@@ -39,7 +38,7 @@ struct AuthenticationFlowView: View {
                 Spacer().frame(height: Constants.AuthenticationFlow.Spacing.dividerSpacing)
                 
                 // MARK: - sign in button
-                NavigationLink(destination: LoginUIView()) {
+                NavigationLink(destination: LoginUIView(onSuccess: onSuccess)) {
                     Text(Strings.Authentication.signInWithPassword)
                         .font(.headline)
                         .foregroundColor(.white)
@@ -56,7 +55,7 @@ struct AuthenticationFlowView: View {
                 HStack(spacing: 5) {
                     Text(Strings.Authentication.dontHaveAccount)
                         .foregroundStyle(Color.textFieldsBorders)
-                    NavigationLink(destination: RegisterUIView()) {
+                    NavigationLink(destination: RegisterUIView(onSuccess: onSuccess)) {
                         Text(Strings.Authentication.signUp)
                             .foregroundStyle(Color.orangeButton)
                     }
