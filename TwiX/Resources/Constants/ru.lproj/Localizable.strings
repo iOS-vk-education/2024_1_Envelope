@@ -6,7 +6,7 @@
 "Login.label.title" = "Войдите в свой \nАккаунт";
 "Login.label.email" =  "Email";
 "Login.placeholder.email" = "Введите Email";
-"Login.lagel.password" = "Пароль";
+"Login.label.password" = "Пароль";
 "Login.placeholder.password" = "Введите пароль";
 "Login.checkbox.rememberMe" = "Remember me";
 "Login.button.forgotPassword" = "Забыли свой пароль?";
@@ -16,11 +16,11 @@
 "Register.label.createAccount" = "Создать \nАккаунт";
 "Register.label.email" =  "Email";
 "Register.placeholder.email" = "Введите свой Email";
-"Register.lagel.password" = "Пароль";
+"Register.label.password" = "Пароль";
 "Register.placeholder.password" = "Введите свой Пароль";
 "Register.label.confirmPassword" = "Повторите пароль";
 "Register.placeholder.confirmPassword" = "Повторите свой пароль";
-"Register.button.signUp" = "Зарегестрироваться"
+"Register.button.signUp" = "Зарегестрироваться";
 
 "Buttons.continue.vk" = "Продолжить используя VK ID";
 "Buttons.continue.google" = "Продолжить используя Google";

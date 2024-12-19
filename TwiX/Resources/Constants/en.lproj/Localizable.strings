@@ -1,4 +1,4 @@
-"Authentication.label.title" = "Let`s log you in";
+"Authentication.label.title" = "Let\`s log you in";
 "Authentication.label.signPass" = "Sign in with password";
 "Authentication.label.account" = "Don`t have an account?";
 "Authentication.label.signUp" = "Sign up";
@@ -6,7 +6,7 @@
 "Login.label.title" = "Login to your \nAccount";
 "Login.label.email" =  "Email";
 "Login.placeholder.email" = "Enter Email";
-"Login.lagel.password" = "Password";
+"Login.label.password" = "Password";
 "Login.placeholder.password" = "Enter Password";
 "Login.checkbox.rememberMe" = "Remember me";
 "Login.button.forgotPassword" = "Forgor the password?";
@@ -16,11 +16,11 @@
 "Register.label.createAccount" = "Create your \nAccount";
 "Register.label.email" =  "Email";
 "Register.placeholder.email" = "Enter your Email";
-"Register.lagel.password" = "Password";
+"Register.label.password" = "Password";
 "Register.placeholder.password" = "Enter you Password";
 "Register.label.confirmPassword" = "Confirm Password";
 "Register.placeholder.confirmPassword" = "Confirm your password";
-"Register.button.signUp" = "Sign Up"
+"Register.button.signUp" = "Sign Up";
 
 "Buttons.continue.vk" = "Continue with VK ID";
 "Buttons.continue.google" = "Continue with Google";
