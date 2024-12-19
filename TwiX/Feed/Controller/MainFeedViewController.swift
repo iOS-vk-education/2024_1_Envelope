@@ -31,6 +31,15 @@ private extension MainFeedViewController {
     
     func setupFeedView() {
         feedView.backgroundColor = .background
+        feedView.setErrorAction() { [weak self] message in
+            DispatchQueue.main.async {
+                let alert = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .default, handler: { _ in
+                NSLog("The \"OK\" alert occured.")
+                }))
+                self?.present(alert, animated: true, completion: nil)
+            }
+        }
     }
     
     
@@ -61,6 +70,7 @@ private extension MainFeedViewController {
         let settingsButton = UIBarButtonItem(image: UIImage(systemName: "gear"), style: .plain, target: self, action: nil)
         navigationItem.rightBarButtonItem = settingsButton
         
+        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
     }
     
     @objc
