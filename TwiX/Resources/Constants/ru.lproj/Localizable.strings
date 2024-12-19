@@ -1,0 +1,34 @@
+"Authentication.label.title" = "Выберите способ входа";
+"Authentication.label.signPass" = "Войти при помощи пароля";
+"Authentication.label.account" = "Нет аккаунта?";
+"Authentication.label.signUp" = "Зарегестрироваться";
+
+"Login.label.title" = "Войдите в свой \nАккаунт";
+"Login.label.email" =  "Email";
+"Login.placeholder.email" = "Введите Email";
+"Login.label.password" = "Пароль";
+"Login.placeholder.password" = "Введите пароль";
+"Login.checkbox.rememberMe" = "Remember me";
+"Login.button.forgotPassword" = "Забыли свой пароль?";
+"Login.label.continueWith" = "or continue with";
+"Login.button.signIn" = "Войти";
+
+"Register.label.createAccount" = "Создать \nАккаунт";
+"Register.label.email" =  "Email";
+"Register.placeholder.email" = "Введите свой Email";
+"Register.label.password" = "Пароль";
+"Register.placeholder.password" = "Введите свой Пароль";
+"Register.label.confirmPassword" = "Повторите пароль";
+"Register.placeholder.confirmPassword" = "Повторите свой пароль";
+"Register.button.signUp" = "Зарегестрироваться";
+
+"Buttons.continue.vk" = "Продолжить используя VK ID";
+"Buttons.continue.google" = "Продолжить используя Google";
+"Buttons.continue.apple" = "Продолжить используя Apple";
+"Buttons.continue.guest" = "Продолжить как Гость";
+
+"Divider.or" = "или";
+"Divider.orContinueWith" = "или продолжить используя";
+
+"Settings.label.teamInfo" = "Разработано командой Envelope на курсе от VK Образования В университете ИТМО\n\nАлександр Филатов\nАлексей Цветков\nАндрей Шустров\nЕгор Юлин";
+"Settings.button.signOut" = "Выйти";

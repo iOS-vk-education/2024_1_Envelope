@@ -35,51 +35,51 @@ enum Strings {
     }
     
     enum Authentication {
-        static let title = "Let`s log you in"
-        static let signInWithPassword = "Sign in with password"
-        static let dontHaveAccount = "Don`t have an account?"
-        static let signUp = "Sign up"
+        static let title = NSLocalizedString("Authentication.label.title", comment: "")
+        static let signInWithPassword = NSLocalizedString("Authentication.label.signPass", comment: "")
+        static let dontHaveAccount = NSLocalizedString("Authentication.label.account", comment: "")
+        static let signUp = NSLocalizedString("Authentication.label.signUp", comment: "")
     }
     
     enum Login {
-        static let title = "Login to your \nAccount"
-        static let emailLabel = "Email"
-        static let emailPlaceholder = "Enter Email"
-        static let passwordLabel = "Password"
-        static let passwordPlaceholder = "Enter Password"
-        static let rememberMe = "Remember me"
-        static let forgotPassword = "Forgor the password?"
-        static let orContinueWith = "or continue with"
-        static let signIn = "Sign in"
+        static let title = NSLocalizedString("Login.label.title", comment: "")
+        static let emailLabel = NSLocalizedString("Login.label.email", comment: "")
+        static let emailPlaceholder = NSLocalizedString("Login.placeholder.email", comment: "")
+        static let passwordLabel = NSLocalizedString("Login.label.password", comment: "")
+        static let passwordPlaceholder = NSLocalizedString("Login.placeholder.password", comment: "")
+        static let rememberMe = NSLocalizedString("Login.checkbox.rememberMe", comment: "")
+        static let forgotPassword = NSLocalizedString("Login.button.forgotPassword", comment: "")
+        static let orContinueWith = NSLocalizedString("Login.label.continueWith", comment: "")
+        static let signIn = NSLocalizedString("Login.button.signIn", comment: "")
     }
     
     
     struct Register {
-        static let title = "Create your \nAccount"
-        static let emailLabel = "Email"
-        static let emailPlaceholder = "Enter your email"
-        static let passwordLabel = "Password"
-        static let passwordPlaceholder = "Enter your password"
-        static let confirmPasswordLabel = "Confirm Password"
-        static let confirmPasswordPlaceholder = "Confirm your password"
-        static let signUpButton = "Sign Up"
+        static let title = NSLocalizedString("Register.label.createAccount", comment: "")
+        static let emailLabel = NSLocalizedString("Register.label.email", comment: "")
+        static let emailPlaceholder = NSLocalizedString("Register.placeholder.email", comment: "")
+        static let passwordLabel = NSLocalizedString("Register.label.password", comment: "")
+        static let passwordPlaceholder = NSLocalizedString("Register.placeholder.password", comment: "")
+        static let confirmPasswordLabel = NSLocalizedString("Register.label.confirmPassword", comment: "")
+        static let confirmPasswordPlaceholder = NSLocalizedString("Register.placeholder.confirmPassword", comment: "")
+        static let signUpButton = NSLocalizedString("Register.button.signUp", comment: "")
     }
     
-    
     enum Buttons {
-        static let continueWithVK = "Continue with VK ID"
-        static let continueWithGoogle = "Continue with Google"
-        static let continueWithApple = "Continue with Apple"
-        static let continueAsGuest = "Continue as Guest"
+        static let continueWithVK = NSLocalizedString("Buttons.continue.vk", comment: "")
+        static let continueWithGoogle = NSLocalizedString("Buttons.continue.google", comment: "")
+        static let continueWithApple = NSLocalizedString("Buttons.continue.apple", comment: "")
+        static let continueAsGuest = NSLocalizedString("Buttons.continue.guest", comment: "")
     }
     
     enum Dividers {
-        static let or: String = "or"
-        static let orContinueWith: String = "or continue with"
+        static let or: String = NSLocalizedString("Divider.or", comment: "")
+        static let orContinueWith: String = NSLocalizedString("Divider.orContinueWith", comment: "")
     }
     
     enum Settings {
-        static let teamInfo = "developed by team Envelope on course of VK Education in ITMO University\n\nAlexander Filatov\nAlexey Tsvetkov\nAndrew Shustrov\nEgor Ulin";
+        static let teamInfo = NSLocalizedString("Settings.label.teamInfo", comment: "")
+        static let signOut = NSLocalizedString("Settings.button.signOut", comment: "")
     }
 }
 
