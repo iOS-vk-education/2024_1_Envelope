@@ -1,37 +1,34 @@
+"Authentication.label.title" = "Let`s log you in";
+"Authentication.label.signPass" = "Sign in with password";
+"Authentication.label.account" = "Don`t have an account?";
+"Authentication.label.signUp" = "Sign up";
 
-"language" = "Languages";
-"notification" = "Notifications";
-"theme" = "Theme";
-"Poppins-Bold" = "Poppins-Bold";
-"Poppins-Regular" = "Poppins-Regular";
+"Login.label.title" = "Login to your \nAccount";
+"Login.label.email" =  "Email";
+"Login.placeholder.email" = "Enter Email";
+"Login.lagel.password" = "Password";
+"Login.placeholder.password" = "Enter Password";
+"Login.checkbox.rememberMe" = "Remember me";
+"Login.button.forgotPassword" = "Forgor the password?";
+"Login.label.continueWith" = "or continue with";
+"Login.button.signIn" = "Sign in";
 
-"Let`s log you in" = "Let`s log you in";
-"Sign in with password" = "Sign in with password";
-"Don`t have an account?" = "Don`t have an account?";
-"Sign up" = "Sign up";
+"Register.label.createAccount" = "Create your \nAccount";
+"Register.label.email" =  "Email";
+"Register.placeholder.email" = "Enter your Email";
+"Register.lagel.password" = "Password";
+"Register.placeholder.password" = "Enter you Password";
+"Register.label.confirmPassword" = "Confirm Password";
+"Register.placeholder.confirmPassword" = "Confirm your password";
+"Register.button.signUp" = "Sign Up"
 
-"Login to your \nAccount" = "Login to your \nAccount";
-"Email" =  "Email";
-"Enter Email" = "Enter Email";
-"Password" = "Password";
-"Enter Password" = "Enter Password";
-"Remember me" = "Remember me";
-"Forgor the password?" = "Forgor the password?";
-"or continue with" = "or continue with";
-"Sign in" = "Sign in";
+"Buttons.continue.vk" = "Continue with VK ID";
+"Buttons.continue.google" = "Continue with Google";
+"Buttons.continue.apple" = "Continue with Apple";
+"Buttons.continue.guest" = "Continue as Guest";
 
-"Create your \nAccount" = "Create your \nAccount";
-"Enter your email" = "Enter your email";
-"Enter your password" = "Enter your password";
-"Confirm Password" = "Confirm Password";
-"Confirm your password" = "Confirm your password";
+"Divider.or" = "or";
+"Divider.orContinueWith" = "or continue with";
 
-"Continue with VK ID" = "Continue with VK ID";
-"Continue with Google" = "Continue with Google";
-"Continue with Apple" = "Continue with Apple";
-"Continue as Guest" = "Continue as Guest";
-
-"or" = "or";
-"or continue with" = "or continue with";
-
-"team info" = "developed by team Envelope on course of VK Education in ITMO University\n\nAlexander Filatov\nAlexey Tsvetkov\nAndrew Shustrov\nEgor Ulin";
+"Settings.label.teamInfo" = "developed by team Envelope on course of VK Education in ITMO University\n\nAlexander Filatov\nAlexey Tsvetkov\nAndrew Shustrov\nEgor Ulin";
+"Settings.button.signOut" = "Sign Out";

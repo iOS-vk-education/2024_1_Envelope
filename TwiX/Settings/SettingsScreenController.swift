@@ -26,7 +26,7 @@ class SettingsScreenController: UIViewController {
         button.backgroundColor = Colors.buttonsBackgroundColor
         button.addTarget(self, action: #selector(unloginButtonController), for: .touchUpInside)
         
-        button.setTitle("Sign Out", for: .normal)
+        button.setTitle(Strings.Settings.signOut, for: .normal)
         button.setTitleColor(.white, for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: Constants.SettingsController.Dimensions.LogoutSize, weight: .bold)
         

@@ -1,36 +1,34 @@
+"Authentication.label.title" = "Выберите способ входа";
+"Authentication.label.signPass" = "Войти при помощи пароля";
+"Authentication.label.account" = "Нет аккаунта?";
+"Authentication.label.signUp" = "Зарегестрироваться";
 
-"language" = "Языки";
-"notification" = "Уведомления";
-"theme" = "Тема";
-"Poppins-Bold" = "Montserrat-Bold";
-"Poppins-Regular" = "Montserrat-Regular";
+"Login.label.title" = "Войдите в свой \nАккаунт";
+"Login.label.email" =  "Email";
+"Login.placeholder.email" = "Введите Email";
+"Login.lagel.password" = "Пароль";
+"Login.placeholder.password" = "Введите пароль";
+"Login.checkbox.rememberMe" = "Remember me";
+"Login.button.forgotPassword" = "Забыли свой пароль?";
+"Login.label.continueWith" = "or continue with";
+"Login.button.signIn" = "Войти";
 
-"Let`s log you in" = "Выберите способ входа";
-"Sign in with password" = "Войти при помощи пароля";
-"Don`t have an account?" = "Нет аккаунта?";
-"Sign up" = "Зарегестрироваться";
+"Register.label.createAccount" = "Создать \nАккаунт";
+"Register.label.email" =  "Email";
+"Register.placeholder.email" = "Введите свой Email";
+"Register.lagel.password" = "Пароль";
+"Register.placeholder.password" = "Введите свой Пароль";
+"Register.label.confirmPassword" = "Повторите пароль";
+"Register.placeholder.confirmPassword" = "Повторите свой пароль";
+"Register.button.signUp" = "Зарегестрироваться"
 
-"Login to your \nAccount" = "Войдите в свой \nАккаунт";
-"Email" =  "Email";
-"Enter Email" = "Введите Email";
-"Password" = "Пароль";
-"Enter Password" = "Введите пароль";
-"Remember me" = "Remember me";
-"Forgor the password?" = "Забыли свой пароль?";
-"Sign in" = "Войти";
+"Buttons.continue.vk" = "Продолжить используя VK ID";
+"Buttons.continue.google" = "Продолжить используя Google";
+"Buttons.continue.apple" = "Продолжить используя Apple";
+"Buttons.continue.guest" = "Продолжить как Гость";
 
-"Create your \nAccount" = "Создать \nАккаунт";
-"Enter your email" = "Введите свой email";
-"Enter your password" = "Введите пароль";
-"Confirm Password" = "Повторите пароль";
-"Confirm your password" = "Подтвердите свой пароль";
+"Divider.or" = "или";
+"Divider.orContinueWith" = "или продолжить используя";
 
-"Continue with VK ID" = "Продолжить используя VK ID";
-"Continue with Google" = "Продолжить используя Google";
-"Continue with Apple" = "Продолжить используя Apple";
-"Continue as Guest" = "Продолжить как Гость";
-
-"or" = "или";
-"or continue with" = "или продолжить используя";
-
-"team info" = "Разработано командой Envelope на курсе от VK Образования В университете ИТМО\n\nАлександр Филатов\nАлексей Цветков\nАндрей Шустров\nЕгор Юлин";
+"Settings.label.teamInfo" = "Разработано командой Envelope на курсе от VK Образования В университете ИТМО\n\nАлександр Филатов\nАлексей Цветков\nАндрей Шустров\nЕгор Юлин";
+"Settings.button.signOut" = "Выйти";
