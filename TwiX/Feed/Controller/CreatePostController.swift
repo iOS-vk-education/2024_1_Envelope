@@ -20,6 +20,7 @@ final class CreatePostController: UIViewController {
     private let timestamp: Date = Date()
     
     private let postManager = PostManager.shared
+    private let userSession = UserSessionManager.shared
     
     private let textView: UITextView = {
         let textView = UITextView()
@@ -58,7 +59,6 @@ final class CreatePostController: UIViewController {
     }
     
     public func setAuthor(authorUsername: String) {
-        // TODO: fetch author metadata from DB by username
         self.authorName = "hello world"
         self.authorUsername = authorUsername
         self.authorAvatarURL = URL(string: "https://cataas.com/cat")!
