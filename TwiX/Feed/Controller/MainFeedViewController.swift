@@ -7,35 +7,28 @@
 
 import UIKit
 
-final class MainFeedViewController : UIViewController {
+class MainFeedViewController : UIViewController, CreatePostControllerDelegate {
     
     private let feedView = FeedView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupNavBar()
-        setupView()
         setupFeedView()
-        setupFeedViewConstraints()
     }
-}
-
-// MARK: - Private functions
-
-private extension MainFeedViewController {
     
-    func setupView() {
-        view.backgroundColor = .background
+    func didCreatePost() {
+        feedView.loadPosts()
+    }
+    
+    private func setupFeedView() {
         view.addSubview(feedView)
-    }
-    
-    func setupFeedView() {
+        
+        view.backgroundColor = .background
         feedView.backgroundColor = .background
-    }
-    
-    
-    func setupFeedViewConstraints() {
+        
         feedView.translatesAutoresizingMaskIntoConstraints = false
+        
         NSLayoutConstraint.activate([
             feedView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             feedView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
@@ -44,12 +37,7 @@ private extension MainFeedViewController {
         ])
     }
     
-    func openProfileScreen() {
-        let profileVC = ProfileController()
-        navigationController?.pushViewController(profileVC, animated: true)
-    }
-    
-    func setupNavBar() {
+    private func setupNavBar() {
         navigationItem.title = Strings.App.name
         navigationController?.navigationBar.titleTextAttributes = [
             .font: UIFont(name: Fonts.Poppins_Bold, size: 30) ?? UIFont.systemFont(ofSize: 30),
@@ -61,10 +49,17 @@ private extension MainFeedViewController {
         let settingsButton = UIBarButtonItem(image: UIImage(systemName: "gear"), style: .plain, target: self, action: nil)
         navigationItem.rightBarButtonItem = settingsButton
         
+        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
     }
     
     @objc
-    func profileButtonTapped() {
+    private func profileButtonTapped() {
         openProfileScreen()
+    }
+    
+    
+    private func openProfileScreen() {
+        let profileVC = ProfileController()
+        navigationController?.pushViewController(profileVC, animated: true)
     }
 }

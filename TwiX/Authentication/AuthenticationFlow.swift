@@ -3,8 +3,10 @@ import FirebaseAuth
 
 struct AuthenticationFlowView: View {
     var onSuccess: () -> Void
+    @State private var isAuthenticated: Bool = false
     
     var body: some View {
+        
         NavigationStack {
             VStack {
                 Header()
@@ -23,7 +25,13 @@ struct AuthenticationFlowView: View {
                     AbstractSocialMediaLoginButton(label: Strings.Buttons.continueWithVK, icon: Strings.Icons.vkIconString, action: {})
                     AbstractSocialMediaLoginButton(label: Strings.Buttons.continueWithGoogle, icon: Strings.Icons.googleIconString, action: {})
                     AbstractSocialMediaLoginButton(label: Strings.Buttons.continueWithApple, icon: Strings.Icons.appleIconString, action: {})
-                    AbstractSocialMediaLoginButton(label: Strings.Buttons.continueAsGuest, icon: Strings.Icons.guestIconString, action: {signInAnonymously(onSuccess: onSuccess)})
+                    AbstractSocialMediaLoginButton(label: Strings.Buttons.continueAsGuest, icon: Strings.Icons.guestIconString) {
+                        AuthService.shared.signInAnonymously {
+                            isAuthenticated = true
+                        }
+                    }.fullScreenCover(isPresented: $isAuthenticated) {
+                        MainScreenRepresentation().edgesIgnoringSafeArea(.all)
+                    }
                 }
                 
                 Spacer().frame(height: Constants.AuthenticationFlow.Spacing.dividerSpacing)
@@ -86,7 +94,7 @@ struct Header: View {
                             presentationMode.wrappedValue.dismiss()
                         }
                     }) {
-                        Image(systemName: Strings.Icons.backArrow)
+                        Image(Strings.Icons.backArrow)
                             .foregroundColor(.text)
                             .padding(.top, 3)
                             .padding(.leading, Constants.Header.Padding.leading)
@@ -95,208 +103,6 @@ struct Header: View {
                 }
                 .padding(.leading, Constants.Header.Padding.backButtonLeading)
             }
-        }
-    }
-}
-
-struct LoginUIView: View {
-    @State private var email: String = ""
-    @State private var password: String = ""
-    @State private var isRememberMeChecked: Bool = false
-    
-    var body: some View {
-        NavigationStack {
-            VStack {
-                Header(showBackButton: true)
-                Spacer().frame(height: Constants.Login.Spacing.headerTopPadding)
-                
-                // MARK: - title
-                HStack{
-                    Text(Strings.Login.title)
-                        .font(Font.custom(Fonts.Urbanist_Bold, size: Constants.Login.FontSizes.title))
-                        .foregroundStyle(.text)
-                        .padding(.leading, Constants.Login.Padding.horizontal)
-                    Spacer()
-                }
-                
-                Spacer().frame(height: Constants.Login.Spacing.sectionSpacing)
-                
-                // MARK: - Text fields
-                VStack(alignment: .leading, spacing: 5) {
-                    // MARK: - email field
-                    Text(Strings.Login.emailLabel)
-                        .foregroundStyle(.text)
-                        .padding(.leading, Constants.Login.Padding.horizontal + 10)
-                    
-                    TextField(Strings.Login.emailPlaceholder, text: $email)
-                        .padding()
-                        .background(Color.textFieldsBorders)
-                        .cornerRadius(8)
-                        .padding(.horizontal, Constants.Login.Padding.horizontal)
-                    
-                    Spacer().frame(height: Constants.Login.Spacing.fieldSpacing)
-                    
-                    // MARK: - password field
-                    Text(Strings.Login.passwordLabel)
-                        .foregroundStyle(.text)
-                        .padding(.leading, Constants.Login.Padding.horizontal + 10)
-                    SecureField(Strings.Login.passwordPlaceholder, text: $password)
-                        .padding()
-                        .foregroundStyle(.text)
-                        .background(Color.textFieldsBorders)
-                        .cornerRadius(8)
-                        .padding(.horizontal, Constants.Login.Padding.horizontal)
-                }.font(Font.custom(Fonts.Urbanist_Light, size: Constants.Login.FontSizes.fieldLabel))
-                
-                Spacer().frame(height: Constants.Login.Spacing.fieldSpacing)
-                
-                // MARK: - "Remember me" checkbox
-                HStack(alignment: .center) {
-                    Button(action: {
-                        isRememberMeChecked.toggle()
-                    }) {
-                        Image(systemName: isRememberMeChecked ? Strings.Icons.checkboxChecked : Strings.Icons.checkboxUnchecked)
-                            .foregroundColor(Color.orangeButton)
-                        Text(Strings.Login.rememberMe)
-                            .font(Font.custom(Fonts.Urbanist_Light, size: Constants.Login.FontSizes.fieldLabel))
-                            .foregroundStyle(.text)
-                    }
-                }
-                
-                Spacer().frame(height: Constants.Login.Spacing.fieldSpacing)
-                
-                // MARK: - Navigation to next screen
-                NavigationLink(destination: SignUpUIView()) {
-                    Text(Strings.Login.signIn)
-                        .font(Font.custom(Fonts.Urbanist_Bold, size: Constants.Login.FontSizes.fieldLabel))
-                        .foregroundColor(Color.orangeButton)
-                        .padding()
-                        .frame(maxWidth: .infinity, maxHeight: Constants.Login.Dimensions.buttonHeight)
-                        .background(Color.alternativeButtonLight)
-                        .cornerRadius(Constants.Login.Dimensions.buttonCornerRadius)
-                        .overlay(
-                            RoundedRectangle(cornerRadius: Constants.Login.Dimensions.buttonCornerRadius)
-                                .stroke(Color.alternativeButtonLight, lineWidth: 1)
-                                .shadow(color: Color.alternativeButtonLight.opacity(0.5), radius: Constants.Login.Dimensions.smallCornerRadius, x: 0, y: 0)
-                        )
-                        .shadow(color: Color.alternativeButtonLight.opacity(0.3), radius: Constants.Login.Dimensions.smallCornerRadius, x: 0, y: 0)
-                        .padding(.horizontal, Constants.Login.Padding.horizontal)
-                }
-                
-                Spacer().frame(height: Constants.Login.Spacing.fieldSpacing)
-                
-                // MARK: - Forgot password hint
-                Button(action: {}) {
-                    Text(Strings.Login.forgotPassword).font(Font.custom(Fonts.Urbanist_Medium, size: Constants.Login.FontSizes.smallText))
-                        .foregroundColor(Color.orangeButton)
-                }
-                
-                Spacer().frame(height: Constants.Login.Spacing.bottomSpacing)
-                CustomDivider(text: Strings.Dividers.orContinueWith)
-                Spacer().frame(height: Constants.Login.Spacing.sectionSpacing)
-                
-                // MARK: - Small social media login button
-                HStack(spacing: Constants.Login.Spacing.fieldSpacing) {
-                    AbstractSocialMediaNoTextButton(icon: Strings.Icons.vkIconString, action: {})
-                    AbstractSocialMediaNoTextButton(icon: Strings.Icons.googleIconString, action: {})
-                    AbstractSocialMediaNoTextButton(icon: Strings.Icons.appleIconString, action: {})
-                }
-                
-                Spacer()
-            }
-            .background(Color.background)
-            .navigationBarBackButtonHidden(true)
-        }
-    }
-}
-
-struct RegisterUIView: View {
-    @State private var email: String = ""
-    @State private var password: String = ""
-    
-    var body: some View {
-        NavigationStack {
-            VStack {
-                Header(showBackButton: true)
-                Spacer().frame(height: Constants.Register.Spacing.headerTopPadding)
-                
-                // MARK: - Title
-                HStack{
-                    Text(Strings.Register.title)
-                        .font(Font.custom(Fonts.Urbanist_Bold, size: Constants.Register.FontSizes.title))
-                        .foregroundStyle(.text)
-                        .padding(.leading, Constants.Register.Padding.horizontal)
-                    Spacer()
-                }
-                
-                Spacer().frame(height: Constants.Register.Spacing.sectionSpacing)
-                
-                // MARK: - Text fields
-                VStack(alignment: .leading, spacing: 5) {
-                    
-                    // MARK: - email field
-                    Text(Strings.Register.emailLabel)
-                        .foregroundStyle(.text)
-                        .padding(.leading, Constants.Register.Padding.horizontal + 10)
-                    
-                    TextField(Strings.Register.emailPlaceholder, text: $email)
-                        .padding()
-                        .background(Color.textFieldsBorders)
-                        .cornerRadius(Constants.Register.Dimensions.fieldCornerRadius)
-                        .padding(.horizontal, Constants.Register.Padding.horizontal)
-                    
-                    Spacer().frame(height: Constants.Register.Spacing.fieldSpacing)
-                    
-                    // MARK: - password field
-                    Text(Strings.Register.passwordLabel)
-                        .foregroundStyle(.text)
-                        .padding(.leading, Constants.Register.Padding.horizontal + 10)
-                    
-                    SecureField(Strings.Register.passwordPlaceholder, text: $password)
-                        .padding()
-                        .foregroundStyle(.text)
-                        .background(Color.textFieldsBorders)
-                        .cornerRadius(Constants.Register.Dimensions.fieldCornerRadius)
-                        .padding(.horizontal, Constants.Register.Padding.horizontal)
-                }.font(Font.custom(Fonts.Urbanist_Light, size: Constants.Register.FontSizes.fieldLabel))
-                
-                Spacer().frame(maxHeight: Constants.Register.Spacing.bottomSpacing)
-                
-                // MARK: - Navigation to next screen
-                NavigationLink(destination: SignUpUIView()) {
-                    Text(Strings.Register.signUpButton)
-                        .font(Font.custom(Fonts.Urbanist_Bold, size: Constants.Register.FontSizes.fieldLabel))
-                        .foregroundColor(Color.orangeButton)
-                        .padding()
-                        .frame(maxWidth: .infinity, maxHeight: Constants.Register.Dimensions.buttonHeight)
-                        .background(Color.alternativeButtonLight)
-                        .cornerRadius(Constants.Register.Dimensions.buttonCornerRadius)
-                        .overlay(
-                            RoundedRectangle(cornerRadius: Constants.Register.Dimensions.buttonCornerRadius)
-                                .stroke(Color.alternativeButtonLight, lineWidth: 1)
-                                .shadow(color: Color.alternativeButtonLight.opacity(0.5), radius: Constants.Register.Dimensions.smallCornerRadius, x: 0, y: 0)
-                        )
-                    
-                        .shadow(color: Color.alternativeButtonLight.opacity(0.3), radius: Constants.Register.Dimensions.smallCornerRadius, x: 0, y: 0)
-                }.padding(.horizontal, Constants.Register.Padding.horizontal)
-                
-                Spacer().frame(height: Constants.Register.Spacing.fieldVerticalSpacing)
-                
-                CustomDivider(text: Strings.Dividers.orContinueWith)
-                
-                Spacer().frame(height: Constants.Register.Spacing.fieldVerticalSpacing)
-                
-                // MARK: - Small social media login button
-                HStack(spacing: Constants.Register.Spacing.fieldSpacing) {
-                    AbstractSocialMediaNoTextButton(icon: Strings.Icons.vkIconString, action: {})
-                    AbstractSocialMediaNoTextButton(icon: Strings.Icons.googleIconString, action: {})
-                    AbstractSocialMediaNoTextButton(icon: Strings.Icons.appleIconString, action: {})
-                }
-                
-                Spacer()
-            }
-            .background(Color.background)
-            .navigationBarBackButtonHidden(true)
         }
     }
 }
@@ -373,20 +179,6 @@ struct CustomDivider: View {
         .foregroundColor(.textFieldsDarker)
     }
 }
-
-func signInAnonymously(onSuccess: @escaping () -> Void) {
-    Auth.auth().signInAnonymously { result, error in
-        if let error = error {
-            print("FirebaseAuthError: failed to sign in anonymously: \(error.localizedDescription)")
-        } else if let user = result?.user {
-            print("FirebaseAuthSuccess: Sign in anonymously, UID: \(user.uid)")
-            if Auth.auth().currentUser != nil {
-                onSuccess()
-            }
-        }
-    }
-}
-
 
 #Preview {
     AuthenticationFlowView { print("Successful authentication") }

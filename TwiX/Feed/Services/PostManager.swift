@@ -10,7 +10,7 @@ import FirebaseFirestore
 
 
 // TODO: Protocol, implement
-final class PostManager {
+class PostManager {
     
     // TODO: replace singltone
     static let shared = PostManager()
