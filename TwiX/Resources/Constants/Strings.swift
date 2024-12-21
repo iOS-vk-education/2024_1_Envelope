@@ -76,5 +76,13 @@ enum Strings {
         static let or: String = "or"
         static let orContinueWith: String = "or continue with"
     }
+    
+    enum Profile {
+        static let following: String = "following"
+        static let followers: String = "followers"
+        static let editProfile: String = "Edit profile"
+        static let posts: String = "Posts"
+        static let likes: String = "Likes"
+    }
 }
 
