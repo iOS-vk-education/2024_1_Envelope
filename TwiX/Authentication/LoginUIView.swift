@@ -11,8 +11,8 @@ struct LoginUIView: View {
     @State private var email: String = ""
     @State private var password: String = ""
     @State private var errorMessage: String?
-    @State private var isAuthenticated = false
     @State private var isRememberMeChecked: Bool = false
+    @State private var isButtonTemporarilyDisabled: Bool = false
     
     var onSuccess: () -> Void
     
@@ -98,7 +98,7 @@ struct LoginUIView: View {
                         )
                         .shadow(color: Color.alternativeButtonLight.opacity(0.3), radius: Constants.Login.Dimensions.smallCornerRadius, x: 0, y: 0)
                         .padding(.horizontal, Constants.Login.Padding.horizontal)
-                }
+                }.disabled(isButtonTemporarilyDisabled)
                 
                 Spacer().frame(height: Constants.Login.Spacing.fieldSpacing)
                 
@@ -128,15 +128,19 @@ struct LoginUIView: View {
     }
     
     private func login() {
+        isButtonTemporarilyDisabled = true
         if (isButtonDisabled) {
             AlertHelper.showAlert(title: "Login Error", message: "Empty Fields")
+            isButtonTemporarilyDisabled = false
         } else {
             AuthService.shared.loginUser(email: email, password: password,
              onSuccess: {
-                isAuthenticated = true
                 onSuccess()
-            }, onFailure: {msg in
-                AlertHelper.showAlert(title: "Login error", message: msg)})
+                isButtonTemporarilyDisabled = false
+            }, onFailure: { msg in
+                AlertHelper.showAlert(title: "Login error", message: msg)
+                isButtonTemporarilyDisabled = false
+            })
         }
     }
 }

@@ -26,21 +26,21 @@ final class UserSessionManager {
         return currentUser?.email
     }
     
-//    func saveUserToDatabase(uid: String, authorName: String, authorUsername: String, authorAvatarURL: URL?) {
-//        let userData: [String: Any] = [
-//            "authorName": authorName,
-//            "authorUsername": authorUsername,
-//            "authorAvatarURL": authorAvatarURL?.absoluteString ?? ""
-//        ]
-//        
-//        db.collection("users").document(uid).setData(userData) { error in
-//            if let error = error {
-//                print("Error saving user data: \(error.localizedDescription)")
-//            } else {
-//                print("User data saved successfully")
-//            }
-//        }
-//    }
+    func updateUserToDatabase(uid: String, authorName: String?, authorUsername: String?, authorAvatarURL: URL?) {
+        let userRef = db.collection("users").document(uid)
+        
+        if let newAuthorName = authorName {
+            userRef.updateData(["updatedAt": Timestamp(), "authorName": newAuthorName])
+        }
+        
+        if let newAuthorUsername = authorUsername {
+            userRef.updateData(["updatedAt": Timestamp(), "authorUsername": newAuthorUsername])
+        }
+        
+        if let newAuthorAvatarURL = authorAvatarURL {
+            userRef.updateData(["updatedAt": Timestamp(), "authorAvatarURL": newAuthorAvatarURL])
+        }
+    }
     
     func fetchUserFromDatabase(uid: String, completion: @escaping (Result<[String: Any], Error>) -> Void) {
         let db = Firestore.firestore()

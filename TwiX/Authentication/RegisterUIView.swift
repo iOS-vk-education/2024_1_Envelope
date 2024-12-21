@@ -10,14 +10,17 @@ import SwiftUI
 struct RegisterUIView: View {
     @State private var email: String = ""
     @State private var password: String = ""
-    @State private var isRegistered = false
+    
+    @State private var isSegueReady = false
+    
+    @State private var isButtonTemporarilyDisabled: Bool = false
     
     var onSuccess: () -> Void
-
+    
     private var isButtonDisabled: Bool {
         email.isEmpty || password.isEmpty
     }
-
+    
     var body: some View {
         NavigationStack {
             VStack {
@@ -67,23 +70,28 @@ struct RegisterUIView: View {
                 Spacer().frame(maxHeight: Constants.Register.Spacing.bottomSpacing)
                 
                 // MARK: - Navigation to next screen
-                Button(action: register) {
-                    Text(Strings.Register.signUpButton)
-                        .font(Font.custom(Fonts.Urbanist_Bold, size: Constants.Register.FontSizes.fieldLabel))
-                        .foregroundColor(Color.orangeButton)
-                        .padding()
-                        .frame(maxWidth: .infinity, maxHeight: Constants.Register.Dimensions.buttonHeight)
-                        .background(Color.alternativeButtonLight)
-                        .cornerRadius(Constants.Register.Dimensions.buttonCornerRadius)
-                        .overlay(
-                            RoundedRectangle(cornerRadius: Constants.Register.Dimensions.buttonCornerRadius)
-                                .stroke(Color.alternativeButtonLight, lineWidth: 1)
-                                .shadow(color: Color.alternativeButtonLight.opacity(0.5), radius: Constants.Register.Dimensions.smallCornerRadius, x: 0, y: 0)
-                        )
-                    
-                        .shadow(color: Color.alternativeButtonLight.opacity(0.3), radius: Constants.Register.Dimensions.smallCornerRadius, x: 0, y: 0)
-                }.padding(.horizontal, Constants.Register.Padding.horizontal)
-                
+                NavigationLink(
+                    destination: ProfileSetupView(onSuccess: onSuccess),
+                    isActive: $isSegueReady
+                ) {
+                    Button(action: register) {
+                        Text(Strings.Register.signUpButton)
+                            .font(Font.custom(Fonts.Urbanist_Bold, size: Constants.Register.FontSizes.fieldLabel))
+                            .foregroundColor(Color.orangeButton)
+                            .padding()
+                            .frame(maxWidth: .infinity, maxHeight: Constants.Register.Dimensions.buttonHeight)
+                            .background(Color.alternativeButtonLight)
+                            .cornerRadius(Constants.Register.Dimensions.buttonCornerRadius)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: Constants.Register.Dimensions.buttonCornerRadius)
+                                    .stroke(Color.alternativeButtonLight, lineWidth: 1)
+                                    .shadow(color: Color.alternativeButtonLight.opacity(0.5), radius: Constants.Register.Dimensions.smallCornerRadius, x: 0, y: 0)
+                            )
+                            .shadow(color: Color.alternativeButtonLight.opacity(0.3), radius: Constants.Register.Dimensions.smallCornerRadius, x: 0, y: 0)
+                    }
+                    .padding(.horizontal, Constants.Register.Padding.horizontal)
+                    .disabled(isButtonTemporarilyDisabled)
+                }
                 Spacer().frame(height: Constants.Register.Spacing.fieldVerticalSpacing)
                 
                 CustomDivider(text: Strings.Dividers.orContinueWith)
@@ -97,6 +105,7 @@ struct RegisterUIView: View {
                     AbstractSocialMediaNoTextButton(icon: Strings.Icons.appleIconString, action: {})
                 }
                 
+                
                 Spacer()
             }
             .background(Color.background)
@@ -105,15 +114,18 @@ struct RegisterUIView: View {
     }
     
     private func register() {
+        isButtonTemporarilyDisabled = true
         if (isButtonDisabled) {
             AlertHelper.showAlert(title: "Registration Error", message: "Empty Fields")
+            isButtonTemporarilyDisabled = false
         } else {
             AuthService.shared.registerUser(email: email, password: password, onSuccess: {
-                isRegistered = true
-                onSuccess()
+                isSegueReady = true
+                isButtonTemporarilyDisabled = false
             }, onFailure: {
                 msg in
                 AlertHelper.showAlert(title: "Registration Error", message: msg)
+                isButtonTemporarilyDisabled = false
             })
         }
     }

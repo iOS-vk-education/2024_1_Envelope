@@ -42,7 +42,7 @@ final class AuthService {
                 let userData: [String: Any] = [
                     "uid": user.uid,
                     "email": email,
-                    "createdAt": Timestamp(),
+                    "updatedAt": Timestamp(),
                     "authorName": String(email.prefix(through: email.firstIndex(of: "@")!)),
                     "authorUsername": String(email.prefix(through: email.firstIndex(of: "@")!)),
                     "authorAvatarURL": ""
