@@ -114,6 +114,7 @@ enum Constants {
             static let avatarButtonSize: CGFloat = 68
             static let settingsButtonSize: CGFloat = 48
             static let editProfileButtonSize: CGFloat = 50
+            static let editProfileButtonCornerRaduis: CGFloat = 16
         }
         
         enum Paddings {

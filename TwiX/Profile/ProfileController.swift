@@ -19,18 +19,23 @@ class ProfileController: UIViewController {
     private let statusLabel: UILabel = UILabel()
     private let followingLabel: UILabel = UILabel()
     private let followersLabel: UILabel = UILabel()
-    let postManager = PostManager.shared
-    let segmentedControl = UISegmentedControl(items: [Strings.Profile.posts, Strings.Profile.likes])
-    private let tableView = UITableView()
-    var posts: [Post] = []
-    var likes: [Post] = []
+    private let segmentedControl = UISegmentedControl(items: [Strings.Profile.posts, Strings.Profile.likes])
+    private let feedView = FeedView()
     
     // MARK: - View Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.addSubview(scrollView)
         setupView()
+    }
+    
+    // MARK: - Setup Methods
+    
+    private func setupView() {
+        view.addSubview(scrollView)
+        view.backgroundColor = Colors.backgroundColor
+        contentView.translatesAutoresizingMaskIntoConstraints = false
+        segmentedControl.translatesAutoresizingMaskIntoConstraints = false
         setupScrollView()
         setupEditProfileButton()
         setupAvatarButton()
@@ -44,29 +49,20 @@ class ProfileController: UIViewController {
         setupSegmentedControl()
     }
     
-    // MARK: - Setup Methods
-    
-    private func setupView() {
-        view.backgroundColor = Colors.backgroundColor
-        contentView.translatesAutoresizingMaskIntoConstraints = false
-        segmentedControl.translatesAutoresizingMaskIntoConstraints = false
-        fetchPosts()
-    }
-    
     private func setupScrollView() {
         scrollView.contentInsetAdjustmentBehavior = .never
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.addSubview(contentView)
         contentView.addSubviews(subviews: [
             editProfileButton, avatarButton, nameLabel, tagLabel, statusLabel,
-            followingLabel, followersLabel, segmentedControl, tableView,
+            followingLabel, followersLabel, segmentedControl, feedView,
         ])
     }
     
     private func setupEditProfileButton() {
         editProfileButton.setTitle(Strings.Profile.editProfile, for: .normal)
         editProfileButton.translatesAutoresizingMaskIntoConstraints = false
-        editProfileButton.layer.cornerRadius = 16
+        editProfileButton.layer.cornerRadius = Constants.ProfileController.Dimensions.editProfileButtonCornerRaduis
         editProfileButton.layer.borderWidth = 1
         editProfileButton.layer.borderColor = Colors.borderColor.cgColor
         editProfileButton.titleLabel?.font = UIFont(name: Fonts.Poppins_SemiBold, size: 14)
@@ -115,13 +111,8 @@ class ProfileController: UIViewController {
     }
     
     private func setupTableView() {
-        tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.register(PostTableViewCell.self, forCellReuseIdentifier: String(describing: PostTableViewCell.self))
-        tableView.dataSource = self
-        tableView.delegate = self
-        tableView.separatorStyle = .singleLine
-        tableView.separatorColor = .black
-        tableView.backgroundColor = Colors.backgroundColor
+        feedView.translatesAutoresizingMaskIntoConstraints = false
+        feedView.backgroundColor = .background
     }
     
     private func setupNavBar() {
@@ -149,8 +140,10 @@ class ProfileController: UIViewController {
     }
     
     // MARK: - Constraints
+    
     private func setupConstraints() {
         NSLayoutConstraint.activate([
+            
             // MARK: - scrollView constraints
             scrollView.topAnchor.constraint(equalTo: view.topAnchor),
             scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -203,37 +196,26 @@ class ProfileController: UIViewController {
             segmentedControl.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: Constants.ProfileController.Paddings.trailingAnchor),
             
             // MARK: - tableView constraints
-            tableView.topAnchor.constraint(equalTo: segmentedControl.bottomAnchor, constant: Constants.ProfileController.Paddings.bottomAnchor),
-            tableView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            tableView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: Constants.ProfileController.Paddings.trailingAnchor),
-            tableView.heightAnchor.constraint(equalToConstant: 800),
-            tableView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+            feedView.topAnchor.constraint(equalTo: segmentedControl.bottomAnchor, constant: Constants.ProfileController.Paddings.bottomAnchor),
+            feedView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Constants.ProfileController.Paddings.leadingAnchor),
+            feedView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: Constants.ProfileController.Paddings.trailingAnchor),
+            feedView.heightAnchor.constraint(equalToConstant: 800),
+            feedView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
         ])
     }
-    
+}
+
+private extension ProfileController {
     private func setupSegmentedControl() {
         segmentedControl.selectedSegmentIndex = 0
         segmentedControl.addTarget(self, action: #selector(segmentChanged), for: .valueChanged)
     }
     
     @objc private func segmentChanged() {
-        postManager.fetchPosts { posts in
-            DispatchQueue.main.async {
-                if self.segmentedControl.selectedSegmentIndex == 0 {
-                    self.posts = posts
-                } else {
-                    self.likes = posts.filter { $0.likesCount > 0 }
-                }
-                self.tableView.reloadData()
-            }
-        }
-    }
-    
-    private func fetchPosts() {
-        PostManager.shared.fetchPosts { [weak self] fetchedPosts in
-            self?.posts = fetchedPosts
-            self?.likes = fetchedPosts.filter { $0.likesCount > 0 }
-            self?.tableView.reloadData()
+        if self.segmentedControl.selectedSegmentIndex == 0 {
+            self.feedView.loadPosts()
+        } else {
+            self.feedView.loadPosts()
         }
     }
 }
