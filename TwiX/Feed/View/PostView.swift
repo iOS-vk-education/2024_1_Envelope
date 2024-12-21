@@ -7,7 +7,7 @@
 
 import UIKit
 
-class PostView: UIView {
+final class PostView: UIView {
     
     // MARK: - Private properties
     
@@ -47,8 +47,7 @@ class PostView: UIView {
         likeButtonAction = likeAction
         [authorLabel, postTextLabel].forEach({$0.textColor = .white})
         let task = URLSession.shared.dataTask(with: post.authorAvatarURL) { [weak self] data, response, error in
-            guard let self = self else { return }
-            guard let data = data else { return }
+            guard let self = self, let data = data else { return }
             
             DispatchQueue.main.async {
                 if let image = UIImage(data: data) {
@@ -75,34 +74,10 @@ private extension PostView {
         avatarImageView.layer.cornerRadius = 25
         avatarImageView.clipsToBounds = true
         
-        // Author styling
-        authorLabel.font = UIFont(name: Fonts.Urbanist_Regular, size: 16)
-        
-        // Username styling
-        usernameLabel.font = UIFont(name: Fonts.Urbanist_Regular, size: 16)
-        usernameLabel.textColor = .gray
-        
-        // Time styling
-        timeLabel.font = UIFont(name: Fonts.Urbanist_Regular, size: 16)
-        timeLabel.textColor = .gray
-        
-        // Post text styling
-        postTextLabel.font = UIFont(name: Fonts.Urbanist_Regular, size: 16)
-        postTextLabel.numberOfLines = 0
-        
         // Buttons styling
         likeButton.setImage(UIImage(systemName: "heart"), for: .normal)
-        likeButton.tintColor = .gray
-        
         commentsButton.setImage(UIImage(systemName: "message"), for: .normal)
-        commentsButton.tintColor = .gray
-        
-        // Counts styling
-        likesCountLabel.font = UIFont(name: Fonts.Urbanist_Regular, size: 16)
-        likesCountLabel.textColor = .gray
-        
-        commentsCountLabel.font = UIFont(name: Fonts.Urbanist_Regular, size: 16)
-        commentsCountLabel.textColor = .gray
+
     }
     
     func setupSubviews() {
@@ -111,8 +86,11 @@ private extension PostView {
             $0.translatesAutoresizingMaskIntoConstraints = false
             if let label = $0 as? UILabel {
                 label.font = UIFont(name: Fonts.Urbanist_Regular, size: 16)
+                label.textColor = .gray
+                label.numberOfLines = 0
             } else if let button = $0 as? UIButton {
                 button.titleLabel?.font = UIFont(name: Fonts.Urbanist_Regular, size: 16)
+                button.tintColor = .gray
             }
         }
     }

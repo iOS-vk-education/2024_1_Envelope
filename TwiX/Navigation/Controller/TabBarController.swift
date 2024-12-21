@@ -7,7 +7,7 @@
 
 import UIKit
 
-class TabBarController: UITabBarController {
+final class TabBarController: UITabBarController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -16,9 +16,9 @@ class TabBarController: UITabBarController {
     }
 
     private func setupViewControllers() {
-        let mainFeedVC = createNav(title: "", image: UIImage(named: Strings.Icons.mainFeedTabBarIcon), vc: MainFeedViewController())
-        let searchVC = createNav(title: "", image: UIImage(named: Strings.Icons.searchTabBarIcon), vc: ProfileController())
-        let createVC = createNav(title: "", image:  UIImage(named: Strings.Icons.addPostTabBarIcon), vc: CreatePostController())
+        let mainFeedVC = createNavItem(title: "", image: UIImage(named: Strings.Icons.mainFeedTabBarIcon), vc: MainFeedViewController())
+        let searchVC = createNavItem(title: "", image: UIImage(named: Strings.Icons.searchTabBarIcon), vc: ProfileController())
+        let createVC = createNavItem(title: "", image:  UIImage(named: Strings.Icons.addPostTabBarIcon), vc: CreatePostController())
         self.setViewControllers([mainFeedVC, createVC, searchVC], animated: true)
     }
 
@@ -28,7 +28,7 @@ class TabBarController: UITabBarController {
         tabBar.isTranslucent = false
     }
     
-    private func createNav(title: String, image: UIImage?, vc: UIViewController) -> UINavigationController {
+    private func createNavItem(title: String, image: UIImage?, vc: UIViewController) -> UINavigationController {
         let nav = UINavigationController(rootViewController: vc)
         
         nav.tabBarItem.title = title
