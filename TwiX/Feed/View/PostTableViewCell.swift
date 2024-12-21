@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class PostTableViewCell: UITableViewCell {
+class PostTableViewCell: UITableViewCell {
     
     // MARK: - Private properties
     

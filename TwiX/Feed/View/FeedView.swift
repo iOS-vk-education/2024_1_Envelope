@@ -7,13 +7,14 @@
 
 import UIKit
 
-final class FeedView : UIView {
+class FeedView : UIView {
     
     // MARK: - Private properties
     
     private let tableView = UITableView()
     private let postManager = PostManager.shared
     private var posts: [Post] = []
+    
     
     // MARK: - Initializers
     
@@ -48,7 +49,7 @@ private extension FeedView {
         var post = posts[indexPath.row]
         post.likesCount += 1
         posts[indexPath.row] = post
-        PostManager.shared.likePost(post.id)
+        postManager.likePost(post.id)
         
         if let cell = tableView.cellForRow(at: indexPath) as? PostTableViewCell {
             cell.updateLikesCount(post.likesCount)
@@ -91,6 +92,7 @@ private extension FeedView {
 // MARK: - Table view logic
 
 extension FeedView: UITableViewDataSource, UITableViewDelegate {
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
     }
@@ -105,8 +107,9 @@ extension FeedView: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: PostTableViewCell.self), for: indexPath) as? PostTableViewCell else { return PostTableViewCell() }
+        let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: PostTableViewCell.self), for: indexPath) as! PostTableViewCell
         cell.backgroundColor = self.backgroundColor
+        cell.selectionStyle = .none
         let post = posts[indexPath.row]
         cell.configure(with: post) { [weak self] in
             guard let self = self else { return }

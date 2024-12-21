@@ -23,7 +23,7 @@ enum Strings {
         static let mainFeedTabBarIcon: String = "homeTabBarIcon"
         static let searchTabBarIcon: String = "searchTabBarIcon"
         
-        static let backArrow: String = "chevron.backward"
+        static let backArrow: String = "backArrow"
         
         static let checkboxChecked: String = "checkmark.square"
         static let checkboxUnchecked: String = "square"

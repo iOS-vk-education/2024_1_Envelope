@@ -10,14 +10,16 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         
         let window = UIWindow(windowScene: windowScene)
-                
+
+        try! Auth.auth().signOut()
+
         if Auth.auth().currentUser != nil {
             let mainViewController = TabBarController()
             window.rootViewController = mainViewController
 //            window.rootViewController = UINavigationController(rootViewController: mainViewController)
         } else {
             let authView = AuthenticationFlowView(onSuccess: {
-                let mainViewController = MainViewController()
+                let mainViewController = TabBarController()
                 UIView.transition(with: window, duration: 0.5, options: .transitionCrossDissolve, animations: {
                     window.rootViewController = mainViewController
                 }, completion: nil)

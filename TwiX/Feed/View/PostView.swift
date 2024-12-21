@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class PostView: UIView {
+class PostView: UIView {
     
     // MARK: - Private properties
     
@@ -19,6 +19,8 @@ final class PostView: UIView {
     private let likeButton = UIButton()
     private let commentsButton = UIButton()
     private let commentsCountLabel = UILabel()
+    
+    private let moodsStackView = UIStackView()
     
     // MARK: - Public properties
     
@@ -46,8 +48,19 @@ final class PostView: UIView {
         commentsCountLabel.text = "\(post.commentsCount)"
         likeButtonAction = likeAction
         [authorLabel, postTextLabel].forEach({$0.textColor = .white})
+        
+        moodsStackView.arrangedSubviews.forEach { $0.removeFromSuperview() } // Очистить старые
+        post.mood.forEach { mood in
+            let label = UILabel()
+            label.text = mood.rawValue
+            label.font = UIFont.systemFont(ofSize: 24)
+            label.translatesAutoresizingMaskIntoConstraints = false
+            moodsStackView.addArrangedSubview(label)
+        }
+        
         let task = URLSession.shared.dataTask(with: post.authorAvatarURL) { [weak self] data, response, error in
-            guard let self = self, let data = data else { return }
+            guard let self = self else { return }
+            guard let data = data else { return }
             
             DispatchQueue.main.async {
                 if let image = UIImage(data: data) {
@@ -74,25 +87,51 @@ private extension PostView {
         avatarImageView.layer.cornerRadius = 25
         avatarImageView.clipsToBounds = true
         
+        // Author styling
+        authorLabel.font = UIFont(name: Fonts.Urbanist_Regular, size: 16)
+        
+        // Username styling
+        usernameLabel.font = UIFont(name: Fonts.Urbanist_Regular, size: 16)
+        usernameLabel.textColor = .gray
+        
+        // Time styling
+        timeLabel.font = UIFont(name: Fonts.Urbanist_Regular, size: 16)
+        timeLabel.textColor = .gray
+        
+        // Post text styling
+        postTextLabel.font = UIFont(name: Fonts.Urbanist_Regular, size: 16)
+        postTextLabel.numberOfLines = 0
+        
         // Buttons styling
         likeButton.setImage(UIImage(systemName: "heart"), for: .normal)
+        likeButton.tintColor = .gray
+        
         commentsButton.setImage(UIImage(systemName: "message"), for: .normal)
-
+        commentsButton.tintColor = .gray
+        
+        // Counts styling
+        likesCountLabel.font = UIFont(name: Fonts.Urbanist_Regular, size: 16)
+        likesCountLabel.textColor = .gray
+        
+        commentsCountLabel.font = UIFont(name: Fonts.Urbanist_Regular, size: 16)
+        commentsCountLabel.textColor = .gray
     }
     
     func setupSubviews() {
-        [avatarImageView, authorLabel, usernameLabel, timeLabel, postTextLabel, likeButton, commentsButton, likesCountLabel, commentsCountLabel].forEach {
+        [avatarImageView, authorLabel, usernameLabel, timeLabel, postTextLabel, likeButton, commentsButton, likesCountLabel, commentsCountLabel, moodsStackView].forEach {
             addSubview($0)
             $0.translatesAutoresizingMaskIntoConstraints = false
             if let label = $0 as? UILabel {
                 label.font = UIFont(name: Fonts.Urbanist_Regular, size: 16)
-                label.textColor = .gray
-                label.numberOfLines = 0
             } else if let button = $0 as? UIButton {
                 button.titleLabel?.font = UIFont(name: Fonts.Urbanist_Regular, size: 16)
-                button.tintColor = .gray
             }
         }
+        
+        moodsStackView.axis = .horizontal
+        moodsStackView.spacing = 4
+        moodsStackView.alignment = .center
+        moodsStackView.distribution = .equalSpacing
     }
     
     func setupTargets() {
@@ -116,13 +155,17 @@ private extension PostView {
             usernameLabel.centerYAnchor.constraint(equalTo: authorLabel.centerYAnchor),
             
             // Time
-            timeLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
-            timeLabel.centerYAnchor.constraint(equalTo: authorLabel.centerYAnchor),
+            timeLabel.leadingAnchor.constraint(equalTo: authorLabel.leadingAnchor),
+            timeLabel.topAnchor.constraint(equalTo: authorLabel.bottomAnchor, constant: 4),
             
-            // Tweet text
+            // Moods stack view
+            moodsStackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
+            moodsStackView.topAnchor.constraint(equalTo: topAnchor, constant: 16),
+            
+            // Post text
             postTextLabel.leadingAnchor.constraint(equalTo: authorLabel.leadingAnchor),
             postTextLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
-            postTextLabel.topAnchor.constraint(equalTo: authorLabel.bottomAnchor, constant: 8),
+            postTextLabel.topAnchor.constraint(equalTo: avatarImageView.bottomAnchor, constant: 8),
             
             // Like button
             likeButton.leadingAnchor.constraint(equalTo: postTextLabel.leadingAnchor),
