@@ -7,16 +7,20 @@
 
 import UIKit
 
-class MainFeedViewController : UIViewController, CreatePostControllerDelegate {
+final class MainFeedViewController : UIViewController, CreatePostControllerDelegate {
     
     private let feedView = FeedView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupNavBar()
         setupView()
+        setupNavBar()
         setupFeedView()
         setupFeedViewConstraints()
+    }
+    
+    func didCreatePost() {
+        feedView.loadPosts()
     }
 }
 
@@ -24,11 +28,8 @@ class MainFeedViewController : UIViewController, CreatePostControllerDelegate {
 
 private extension MainFeedViewController {
     
-    func didCreatePost() {
-        feedView.loadPosts()
-    }
-    
-    private func setupFeedView() {
+    func setupView() {
+        view.backgroundColor = .background
         view.addSubview(feedView)
     }
     
@@ -38,7 +39,7 @@ private extension MainFeedViewController {
             DispatchQueue.main.async {
                 let alert = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .default, handler: { _ in
-                NSLog("The \"OK\" alert occured.")
+                    NSLog("The \"OK\" alert occured.")
                 }))
                 self?.present(alert, animated: true, completion: nil)
             }
@@ -56,42 +57,19 @@ private extension MainFeedViewController {
         ])
     }
     
-    func openProfileScreen() {
-        let profileVC = ProfileController()
-        navigationController?.pushViewController(profileVC, animated: true)
-    }
-    
     func setupNavBar() {
         navigationItem.title = Strings.App.name
-        
-        navigationController?.navigationBar.prefersLargeTitles = true
-        navigationItem.largeTitleDisplayMode = .never
-        
-        let navigationBarAppearance = UINavigationBarAppearance()
-        navigationBarAppearance.configureWithDefaultBackground()
-        navigationBarAppearance.backgroundColor = Colors.backgroundColor
-        navigationBarAppearance.largeTitleTextAttributes = [
-            .foregroundColor: Colors.mainColor,
-            .font: UIFont(name: Fonts.Poppins_Bold, size: 30) ?? UIFont.systemFont(ofSize: 30)
+        navigationController?.navigationBar.titleTextAttributes = [
+            .font: UIFont(name: Fonts.Poppins_Bold, size: 30) ?? UIFont.systemFont(ofSize: 30),
+            .foregroundColor: UIColor(.text)
         ]
-        
-        navigationBarAppearance.titleTextAttributes = [
-            .foregroundColor: Colors.mainColor,
-            .font: UIFont(name: Fonts.Poppins_Bold, size: 30) ?? UIFont.systemFont(ofSize: 30)
-        ]
-        
         let profileButton = UIBarButtonItem(image: UIImage(systemName: "person.circle"), style: .plain, target: self, action: #selector(profileButtonTapped))
         navigationItem.leftBarButtonItem = profileButton
         
-        let settingsButton = UIBarButtonItem(image: UIImage(named: Strings.Icons.settingsIcon), style: .plain, target: self, action: nil)
+        let settingsButton = UIBarButtonItem(image: UIImage(systemName: "gear"), style: .plain, target: self, action: nil)
         navigationItem.rightBarButtonItem = settingsButton
-        
-        let backButton = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
-        backButton.image = UIImage(named: Strings.Icons.backArrow)
-        backButton.tintColor = Colors.mainColor
-        navigationItem.backBarButtonItem = backButton
-        
-        navigationController?.navigationBar.standardAppearance = navigationBarAppearance
+
+        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
     }
     
     @objc
