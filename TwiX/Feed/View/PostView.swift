@@ -46,24 +46,29 @@ final class PostView: UIView {
         commentsCountLabel.text = "\(post.commentsCount)"
         likeButtonAction = likeAction
         [authorLabel, postTextLabel].forEach({$0.textColor = .white})
-        let task = URLSession.shared.dataTask(with: post.authorAvatarURL) { [weak self] data, response, error in
-            guard let self = self else { return }
-            if let error = error {
-                errorAction(error.localizedDescription)
-                return
-            }
-            guard let data = data else {
-                errorAction("Failed to load data")
-                return
-            }
-            
-            DispatchQueue.main.async {
-                if let image = UIImage(data: data) {
-                    self.avatarImageView.image = image
+        if let avatarUrl = post.authorAvatarURL {
+            let task = URLSession.shared.dataTask(with: avatarUrl) { [weak self] data, response, error in
+                guard let self = self else { return }
+                
+                if let error = error {
+                    print("Avatar loading error: \(error.localizedDescription)")
+                    return
+                }
+                
+                guard let data = data else {
+                    print("Avatar loading error: No data received.")
+                    errorAction("Failed to load data")
+                    return
+                }
+                
+                DispatchQueue.main.async {
+                    if let image = UIImage(data: data) {
+                        self.avatarImageView.image = image
+                    }
                 }
             }
+            task.resume()
         }
-        task.resume()
     }
 }
 

@@ -12,9 +12,9 @@ final class CreatePostController: UIViewController {
     
     // MARK: Private properties
     
-    private var authorName: String = "boba"
-    private var authorUsername: String = "boba"
-    private var authorAvatarURL: URL = URL(string: "https://cataas.com/cat")!
+    private var authorName: String = "authorName"
+    private var authorUsername: String = "authorUsername"
+    private var authorAvatarURL: URL?
     private let likesCount: Int = 0
     private let commentsCount: Int = 0
     private let timestamp: Date = Date()
