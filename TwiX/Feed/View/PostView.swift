@@ -37,7 +37,7 @@ final class PostView: UIView {
         setupUI()
     }
     
-    func configure(with post: Post, likeAction: @escaping () -> Void) {
+    func configure(with post: Post, likeAction: @escaping () -> Void, errorAction: @escaping (_ message: String) -> Void) {
         authorLabel.text = post.authorName
         usernameLabel.text = "@\(post.authorUsername)"
         timeLabel.text = "\(Post.formatTimestamp(post.timestamp))"
@@ -47,7 +47,15 @@ final class PostView: UIView {
         likeButtonAction = likeAction
         [authorLabel, postTextLabel].forEach({$0.textColor = .white})
         let task = URLSession.shared.dataTask(with: post.authorAvatarURL) { [weak self] data, response, error in
-            guard let self = self, let data = data else { return }
+            guard let self = self else { return }
+            if let error = error {
+                errorAction(error.localizedDescription)
+                return
+            }
+            guard let data = data else {
+                errorAction("Failed to load data")
+                return
+            }
             
             DispatchQueue.main.async {
                 if let image = UIImage(data: data) {
@@ -77,7 +85,7 @@ private extension PostView {
         // Buttons styling
         likeButton.setImage(UIImage(systemName: "heart"), for: .normal)
         commentsButton.setImage(UIImage(systemName: "message"), for: .normal)
-
+        
     }
     
     func setupSubviews() {
