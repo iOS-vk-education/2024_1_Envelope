@@ -14,26 +14,22 @@ class MainFeedViewController : UIViewController, CreatePostControllerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupNavBar()
-        setupView()
         setupFeedView()
         setupFeedViewConstraints()
+    }
+    
+    func didCreatePost() {
+        feedView.loadPosts()
     }
 }
 
 // MARK: - Private functions
 
 private extension MainFeedViewController {
-    
-    func didCreatePost() {
-        feedView.loadPosts()
-    }
-    
-    private func setupFeedView() {
-        view.addSubview(feedView)
-    }
-    
+
     func setupFeedView() {
         feedView.backgroundColor = .background
+        view.addSubview(feedView)
         feedView.setErrorAction() { [weak self] message in
             DispatchQueue.main.async {
                 let alert = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
@@ -92,11 +88,5 @@ private extension MainFeedViewController {
     @objc
     func profileButtonTapped() {
         openProfileScreen()
-    }
-    
-    
-    private func openProfileScreen() {
-        let profileVC = ProfileController()
-        navigationController?.pushViewController(profileVC, animated: true)
     }
 }
