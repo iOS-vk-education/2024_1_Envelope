@@ -11,6 +11,7 @@ import FirebaseCore
 struct Post {
     let id: UUID
     let text: String
+    let mood: [Mood]
     let authorName: String
     // Without "@" prefix
     let authorUsername: String
@@ -19,9 +20,10 @@ struct Post {
     var commentsCount: Int
     let timestamp: Date
     
-    init(id: UUID, text: String, authorName: String, authorUsername: String, authorAvatarURL: URL?, likesCount: Int, commentsCount: Int, timestamp: Date) {
+    init(id: UUID, text: String, mood: [Mood], authorName: String, authorUsername: String, authorAvatarURL: URL?, likesCount: Int, commentsCount: Int, timestamp: Date) {
         self.id = id
         self.text = text.trimmingCharacters(in: .whitespacesAndNewlines)
+        self.mood = mood
         self.authorName = authorName.trimmingCharacters(in: .whitespacesAndNewlines)
         self.authorUsername = authorUsername.trimmingCharacters(in: .whitespacesAndNewlines)
         self.authorAvatarURL = authorAvatarURL
@@ -32,6 +34,7 @@ struct Post {
     
     init?(from document: [String: Any], id: String) {
         guard let text = document["text"] as? String,
+              let mood = document["mood"] as? [String],
               let authorName = document["authorName"] as? String,
               let authorUsername = document["authorUsername"] as? String,
               let likesCount = document["likesCount"] as? Int,
@@ -44,6 +47,7 @@ struct Post {
 
         self.id = uuid
         self.text = text.trimmingCharacters(in: .whitespacesAndNewlines)
+        self.mood = mood.compactMap { Mood(rawValue: $0) }
         self.authorName = authorName.trimmingCharacters(in: .whitespacesAndNewlines)
         self.authorUsername = authorUsername.trimmingCharacters(in: .whitespacesAndNewlines)
         if let authorAvatarURLString = document["authorAvatarURL"] as? String,
@@ -60,6 +64,7 @@ struct Post {
     func toDocument() -> [String: Any] {
         return [
             "text": text,
+            "mood": mood.map(\.rawValue),
             "authorName": authorName,
             "authorUsername": authorUsername,
             "authorAvatarURL": authorAvatarURL?.absoluteString ?? NSNull(),
