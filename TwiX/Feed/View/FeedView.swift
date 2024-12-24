@@ -49,7 +49,7 @@ final class FeedView : UIView {
 // MARK: Private action handlers
 
 private extension FeedView {
-    func likePost(at indexPath: IndexPath) {
+    func changeLikeStatus(at indexPath: IndexPath) {
         var post = posts[indexPath.row]
         
         guard let cell = self.tableView.cellForRow(at: indexPath) as? PostTableViewCell else {
@@ -59,15 +59,18 @@ private extension FeedView {
         cell.changeEnable(false)
         
         PostManager.shared.isPostLiked(post.id) { [weak self] isLiked in
+            guard let self else { return }
+            self.postManager.changeLikeStatus(post.id)
+            
             if !isLiked {
-                guard let self else { return }
-                self.postManager.likePost(post.id)
                 post.likesCount += 1
-                
-                self.posts[indexPath.row] = post
-                
                 cell.updateLikesCount(post.likesCount, true)
+            } else {
+                post.likesCount -= 1
+                cell.updateLikesCount(post.likesCount, false)
             }
+            
+            posts[indexPath.row] = post
             
             cell.changeEnable(true)
         }
@@ -130,8 +133,9 @@ extension FeedView: UITableViewDataSource, UITableViewDelegate {
         let post = posts[indexPath.row]
         cell.configure(with: post, likeAction: { [weak self] in
             guard let self = self else { return }
-            self.likePost(at: indexPath)
+            self.changeLikeStatus(at: indexPath)
         }, errorAction: errorAction ?? { _ in })
         return cell
     }
 }
+
