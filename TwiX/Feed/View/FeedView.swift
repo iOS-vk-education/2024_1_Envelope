@@ -41,6 +41,15 @@ final class FeedView : UIView {
         }
     }
     
+    public func loadUserPosts(userId: String) {
+        postManager.fetchUserPosts(userId: userId) { posts in
+            DispatchQueue.main.async {
+                self.posts = posts
+                self.tableView.reloadData()
+            }
+        }
+    }
+    
     public func setErrorAction(_ action: @escaping ((String) -> Void)) {
         errorAction = action
     }

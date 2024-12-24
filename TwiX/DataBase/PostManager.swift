@@ -36,6 +36,25 @@ final class PostManager {
         }
     }
     
+    func fetchUserPosts(userId: String, completion: @escaping ([Post]) -> Void) {
+        db.collection("posts").whereField("userId", isEqualTo: userId).getDocuments { (querySnapshot, error) in
+            if let error = error {
+                print("Error loading user's posts: \(error.localizedDescription)")
+                completion([])
+                return
+            }
+            
+            var posts: [Post] = []
+            for document in querySnapshot?.documents ?? [] {
+                if let post = Post(from: document.data(), id: document.documentID) {
+                    posts.append(post)
+                }
+            }
+            print("Fetched user's posts: \(posts)")
+            completion(posts)
+        }
+    }
+    
     func addPost(_ post: Post) {
         let postData = post.toDocument()
         

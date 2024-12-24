@@ -26,17 +26,19 @@ final class CreatePostController: UIViewController {
         let textView = UITextView()
         textView.font = UIFont(name: Fonts.Urbanist_Medium, size: 16)
         textView.textColor = .black
-        textView.backgroundColor = .systemGray6
+        textView.backgroundColor = UIColor(hex: "#01172F")
         textView.layer.cornerRadius = 8
         textView.layer.masksToBounds = true
         textView.translatesAutoresizingMaskIntoConstraints = false
+        textView.textColor = Colors.mainColor
         return textView
     }()
     
     private let closeButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setTitle("Close", for: .normal)
         button.setTitleColor(.systemBlue, for: .normal)
+        button.setImage(UIImage(named: "backArrow"), for: .normal)
+        button.tintColor = Colors.mainColor
         button.addTarget(self, action: #selector(closeTapped), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
@@ -44,10 +46,12 @@ final class CreatePostController: UIViewController {
     
     private let saveButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setTitle("Save", for: .normal)
-        button.setTitleColor(.systemBlue, for: .normal)
+        button.setTitle("Post", for: .normal)
+        button.setTitleColor(.white, for: .normal)
         button.addTarget(self, action: #selector(didSaveButtonTapped), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
+        button.layer.cornerRadius = 17
+        button.backgroundColor = UIColor(hex: "#F65826")
         return button
     }()
     
@@ -87,7 +91,7 @@ final class CreatePostController: UIViewController {
     // MARK: - UI Setup
     
     private func setupUI() {
-        view.backgroundColor = .white
+        view.backgroundColor = .background
         view.addSubview(textView)
         view.addSubview(closeButton)
         view.addSubview(saveButton)
@@ -100,6 +104,8 @@ final class CreatePostController: UIViewController {
             // Save button
             saveButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 16),
             saveButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            saveButton.widthAnchor.constraint(equalToConstant: 67),
+            saveButton.heightAnchor.constraint(equalToConstant: 34),
             
             // TextView
             textView.topAnchor.constraint(equalTo: closeButton.bottomAnchor, constant: 16),
@@ -151,4 +157,8 @@ final class CreatePostController: UIViewController {
         print("Post saved: \(post)")
         dismiss(animated: true, completion: nil)
     }
+}
+
+#Preview{
+    CreatePostController()
 }

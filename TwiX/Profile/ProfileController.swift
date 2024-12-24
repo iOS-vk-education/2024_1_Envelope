@@ -23,8 +23,8 @@ class ProfileController: UIViewController {
     private let followersLabel: UILabel = UILabel()
     private let segmentedControl = UISegmentedControl(items: [Strings.Profile.posts, Strings.Profile.likes])
     private let feedView = FeedView()
-    
     private var user = UserSessionManager.shared.currentProfile
+    
     
     // MARK: - View Lifecycle
     
@@ -247,7 +247,7 @@ private extension ProfileController {
     
     @objc private func segmentChanged() {
         if self.segmentedControl.selectedSegmentIndex == 0 {
-            self.feedView.loadPosts()
+            feedView.loadUserPosts(userId: user!.authorUsername)
         } else {
             self.feedView.loadPosts()
         }
