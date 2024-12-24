@@ -16,7 +16,6 @@ class PostView: UIView {
     private let timeLabel = UILabel()
     private let avatarImageView = UIImageView()
     private let postTextLabel = UILabel()
-    private let likeButton = UIButton()
     private let commentsButton = UIButton()
     private let commentsCountLabel = UILabel()
     
@@ -24,6 +23,7 @@ class PostView: UIView {
     
     // MARK: - Public properties
     
+    var likeButton = UIButton()
     var likesCountLabel = UILabel()
     var likeButtonAction: (() -> Void)?
     
@@ -48,6 +48,14 @@ class PostView: UIView {
         commentsCountLabel.text = "\(post.commentsCount)"
         likeButtonAction = likeAction
         [authorLabel, postTextLabel].forEach({$0.textColor = .white})
+        PostManager.shared.isPostLiked(post.id) { isLiked in
+            print(isLiked)
+            if isLiked {
+                self.likeButton.tintColor = .red
+            } else {
+                self.likeButton.tintColor = .gray
+            }
+        }
         
         moodsStackView.arrangedSubviews.forEach { $0.removeFromSuperview() } // Очистить старые
         post.mood.forEach { mood in
@@ -104,7 +112,6 @@ private extension PostView {
         
         // Buttons styling
         likeButton.setImage(UIImage(systemName: "heart"), for: .normal)
-        likeButton.tintColor = .gray
         
         commentsButton.setImage(UIImage(systemName: "message"), for: .normal)
         commentsButton.tintColor = .gray

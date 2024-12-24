@@ -47,12 +47,24 @@ class FeedView : UIView {
 private extension FeedView {
     func likePost(at indexPath: IndexPath) {
         var post = posts[indexPath.row]
-        post.likesCount += 1
-        posts[indexPath.row] = post
-        postManager.likePost(post.id)
         
-        if let cell = tableView.cellForRow(at: indexPath) as? PostTableViewCell {
-            cell.updateLikesCount(post.likesCount)
+        guard let cell = self.tableView.cellForRow(at: indexPath) as? PostTableViewCell else {
+            return
+        }
+        
+        cell.changeEnable(false)
+        
+        PostManager.shared.isPostLiked(post.id) { isLiked in
+            if !isLiked {
+                self.postManager.likePost(post.id)
+                post.likesCount += 1
+                
+                self.posts[indexPath.row] = post
+                
+                cell.updateLikesCount(post.likesCount, true)
+            }
+            
+            cell.changeEnable(true)
         }
     }
 }

@@ -48,9 +48,85 @@ final class PostManager {
         }
     }
     
-    
     func likePost(_ postID: UUID) {
+        guard let user = UserSessionManager.shared.currentUser else {
+            print("No user is logged in.")
+            return
+        }
+
+        let db = Firestore.firestore()
+        let likesRef = db.collection("likedBy").document(postID.uuidString)
+
+        likesRef.getDocument { (document, error) in
+            if let error = error {
+                print("Error fetching document: \(error.localizedDescription)")
+                return
+            }
+
+            if let document = document, !document.exists {
+                likesRef.setData([
+                    "likedBy": [user.uid]
+                ]) { error in
+                    if let error = error {
+                        print("Error creating document: \(error.localizedDescription)")
+                        return
+                    } else {
+                        self.incrementLikeCounter(postID)
+                    }
+                }
+            } else {
+                if let likedBy = document?.get("likedBy") as? [String], likedBy.contains(user.uid) {
+//                    print("User has already liked this post.")
+                    return
+                }
+                print("Continue")
+
+                likesRef.updateData([
+                    "likedBy": FieldValue.arrayUnion([user.uid])
+                ]) { error in
+                    if let error = error {
+                        print("Error liking post: \(error.localizedDescription)")
+                        return
+                    } else {
+                        self.incrementLikeCounter(postID)
+//                        print("User \(user.uid) liked the post.")
+                    }
+                }
+            }
+        }
+    }
+    
+    private func incrementLikeCounter(_ postID: UUID) {
         let postRef = db.collection("posts").document(postID.uuidString)
         postRef.updateData(["likesCount": FieldValue.increment(Int64(1))])
+    }
+    
+    func isPostLiked(_ postID: UUID, completion: @escaping (Bool) -> Void) {
+        guard let user = UserSessionManager.shared.currentUser else {
+            print("No user is logged in.")
+            completion(false)
+            return
+        }
+
+        let db = Firestore.firestore()
+        let likesRef = db.collection("likedBy").document(postID.uuidString)
+
+        likesRef.getDocument { (document, error) in
+            if let error = error {
+                print("Error fetching document: \(error.localizedDescription)")
+                completion(false)
+                return
+            }
+
+            if let document = document, document.exists {
+                if let likedBy = document.get("likedBy") as? [String], likedBy.contains(user.uid) {
+                    completion(true)
+                } else {
+                    completion(false)
+                }
+            } else {
+                completion(false)
+            }
+        }
     }
 }
