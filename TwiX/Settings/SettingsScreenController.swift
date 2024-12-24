@@ -8,7 +8,7 @@ class SettingsScreenController: UIViewController {
         
         button.translatesAutoresizingMaskIntoConstraints = false
         button.clipsToBounds = true
-        button.setImage(UIImage(named: Strings.Icons.customBackArrow), for: .normal)
+        button.setImage(UIImage(named: Strings.Icons.backArrow), for: .normal)
         button.tintColor = Colors.mainColor
         button.addTarget(self, action: #selector(closeSettingsController), for: .touchUpInside)
         return button
