@@ -16,12 +16,14 @@ final class PostView: UIView {
     private let timeLabel = UILabel()
     private let avatarImageView = UIImageView()
     private let postTextLabel = UILabel()
-    private let likeButton = UIButton()
     private let commentsButton = UIButton()
     private let commentsCountLabel = UILabel()
     
+    private let moodsStackView = UIStackView()
+    
     // MARK: - Public properties
     
+    var likeButton = UIButton()
     var likesCountLabel = UILabel()
     var likeButtonAction: (() -> Void)?
     
@@ -46,6 +48,24 @@ final class PostView: UIView {
         commentsCountLabel.text = "\(post.commentsCount)"
         likeButtonAction = likeAction
         [authorLabel, postTextLabel].forEach({$0.textColor = .white})
+        PostManager.shared.isPostLiked(post.id) { isLiked in
+            print(isLiked)
+            if isLiked {
+                self.likeButton.tintColor = .red
+            } else {
+                self.likeButton.tintColor = .gray
+            }
+        }
+        
+        moodsStackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
+        post.mood.forEach { mood in
+            let label = UILabel()
+            label.text = mood.rawValue
+            label.font = UIFont.systemFont(ofSize: 24)
+            label.translatesAutoresizingMaskIntoConstraints = false
+            moodsStackView.addArrangedSubview(label)
+        }
+        
         if let avatarUrl = post.authorAvatarURL {
             let task = URLSession.shared.dataTask(with: avatarUrl) { [weak self] data, response, error in
                 guard let self = self else { return }
@@ -87,25 +107,37 @@ private extension PostView {
         avatarImageView.layer.cornerRadius = 25
         avatarImageView.clipsToBounds = true
         
-        // Buttons styling
-        likeButton.setImage(UIImage(systemName: "heart"), for: .normal)
-        commentsButton.setImage(UIImage(systemName: "message"), for: .normal)
+        usernameLabel.textColor = .gray
         
+        timeLabel.textColor = .gray
+    
+        postTextLabel.numberOfLines = 0
+    
+        likeButton.setImage(UIImage(systemName: "heart"), for: .normal)
+        
+        commentsButton.setImage(UIImage(systemName: "message"), for: .normal)
+        commentsButton.tintColor = .gray
+        
+        likesCountLabel.textColor = .gray
+
+        commentsCountLabel.textColor = .gray
     }
     
     func setupSubviews() {
-        [avatarImageView, authorLabel, usernameLabel, timeLabel, postTextLabel, likeButton, commentsButton, likesCountLabel, commentsCountLabel].forEach {
+        [avatarImageView, authorLabel, usernameLabel, timeLabel, postTextLabel, likeButton, commentsButton, likesCountLabel, commentsCountLabel, moodsStackView].forEach {
             addSubview($0)
             $0.translatesAutoresizingMaskIntoConstraints = false
             if let label = $0 as? UILabel {
                 label.font = UIFont(name: Fonts.Urbanist_Regular, size: 16)
-                label.textColor = .gray
-                label.numberOfLines = 0
             } else if let button = $0 as? UIButton {
                 button.titleLabel?.font = UIFont(name: Fonts.Urbanist_Regular, size: 16)
-                button.tintColor = .gray
             }
         }
+        
+        moodsStackView.axis = .horizontal
+        moodsStackView.spacing = 4
+        moodsStackView.alignment = .center
+        moodsStackView.distribution = .equalSpacing
     }
     
     func setupTargets() {
@@ -129,13 +161,17 @@ private extension PostView {
             usernameLabel.centerYAnchor.constraint(equalTo: authorLabel.centerYAnchor),
             
             // Time
-            timeLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
-            timeLabel.centerYAnchor.constraint(equalTo: authorLabel.centerYAnchor),
+            timeLabel.leadingAnchor.constraint(equalTo: authorLabel.leadingAnchor),
+            timeLabel.topAnchor.constraint(equalTo: authorLabel.bottomAnchor, constant: 4),
             
-            // Tweet text
+            // Moods stack view
+            moodsStackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
+            moodsStackView.topAnchor.constraint(equalTo: topAnchor, constant: 16),
+            
+            // Post text
             postTextLabel.leadingAnchor.constraint(equalTo: authorLabel.leadingAnchor),
             postTextLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
-            postTextLabel.topAnchor.constraint(equalTo: authorLabel.bottomAnchor, constant: 8),
+            postTextLabel.topAnchor.constraint(equalTo: avatarImageView.bottomAnchor, constant: 8),
             
             // Like button
             likeButton.leadingAnchor.constraint(equalTo: postTextLabel.leadingAnchor),

@@ -49,6 +49,7 @@ private extension MainFeedViewController {
     
     func setupFeedViewConstraints() {
         feedView.translatesAutoresizingMaskIntoConstraints = false
+        
         NSLayoutConstraint.activate([
             feedView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             feedView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
@@ -76,7 +77,7 @@ private extension MainFeedViewController {
     }
     
     @objc
-    func profileButtonTapped() {
+    private func profileButtonTapped() {
         openProfileScreen()
     }
     

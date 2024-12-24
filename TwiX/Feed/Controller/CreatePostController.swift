@@ -9,17 +9,18 @@ import UIKit
 
 final class CreatePostController: UIViewController {
     weak var delegate: CreatePostControllerDelegate?
-    
+    df
     // MARK: Private properties
     
-    private var authorName: String = "authorName"
-    private var authorUsername: String = "authorUsername"
+    private var authorName: String?
+    private var authorUsername: String?
     private var authorAvatarURL: URL?
     private let likesCount: Int = 0
     private let commentsCount: Int = 0
     private let timestamp: Date = Date()
     
     private let postManager = PostManager.shared
+    private let userSession = UserSessionManager.shared
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -61,12 +62,34 @@ final class CreatePostController: UIViewController {
     }()
     
     // MARK: - Logic starts
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setupUI()
+        loadAuthorData()
+    }
     
-    public func setAuthor(authorUsername: String) {
-        // TODO: fetch author metadata from DB by username
-        self.authorName = "hello world"
-        self.authorUsername = authorUsername
-        self.authorAvatarURL = URL(string: "https://cataas.com/cat")!
+    public func loadAuthorData() {
+        let userSession = UserSessionManager.shared
+        guard let currentUserUID = userSession.currentUser?.uid else {
+                print("User not logged in")
+                return
+        }
+        userSession.fetchUserFromDatabase(uid: currentUserUID) { result in
+            switch result {
+            case .success(let userData):
+                if let name = userData["authorName"] as? String,
+                   let authorUsername = userData["authorUsername"] as? String,
+                   let avatarURLString = userData["authorAvatarURL"] as? String {
+                    self.authorName = name
+                    self.authorUsername = authorUsername
+                    self.authorAvatarURL = URL(string: avatarURLString)
+                } else {
+                    print("Error: user data is invalid")
+                }
+            case .failure(let error):
+                print("Error fetching user: \(error.localizedDescription)")
+            }
+        }
     }
     
     
@@ -119,7 +142,20 @@ final class CreatePostController: UIViewController {
             return
         }
         
-        let post = Post(id: UUID(), text: text, authorName: authorName, authorUsername: authorUsername, authorAvatarURL: authorAvatarURL, likesCount: likesCount, commentsCount: commentsCount, timestamp: timestamp)
+        guard let authorName = authorName, let authorUsername = authorUsername else {
+            let alert = UIAlertController(title: "Error", message: "User information are missing!", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            present(alert, animated: true, completion: nil)
+            return
+        }
+        
+        var moods: [Mood] = [.angry, .happy]
+        
+        if moods.count > 3 {
+            moods = Array(moods[..<3])
+        }
+        
+        let post = Post(id: UUID(), text: text, mood: moods, authorName: authorName, authorUsername: authorUsername, authorAvatarURL: authorAvatarURL, likesCount: likesCount, commentsCount: commentsCount, timestamp: timestamp)
         
         postManager.addPost(post)
         delegate?.didCreatePost()
