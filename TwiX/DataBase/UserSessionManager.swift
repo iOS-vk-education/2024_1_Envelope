@@ -14,6 +14,18 @@ final class UserSessionManager {
     
     private let db = Firestore.firestore()
     
+    private var cachedProfile: UserProfile?
+    
+    var currentProfile: UserProfile? {
+        get {
+            if let cachedProfile = cachedProfile {
+                return cachedProfile
+            }
+            loadUserProfile()
+            return nil
+        }
+    }
+    
     var currentUser: User? {
         return Auth.auth().currentUser
     }
@@ -29,18 +41,34 @@ final class UserSessionManager {
     func updateUserToDatabase(uid: String, authorName: String?, authorUsername: String?, authorAvatarURL: URL?) {
         let userRef = db.collection("users").document(uid)
         
+        var updateData: [String: Any] = ["updatedAt": Timestamp()]
+        
         if let newAuthorName = authorName {
-            userRef.updateData(["updatedAt": Timestamp(), "authorName": newAuthorName])
+            updateData["authorName"] = newAuthorName
         }
         
         if let newAuthorUsername = authorUsername {
-            userRef.updateData(["updatedAt": Timestamp(), "authorUsername": newAuthorUsername])
+            updateData["authorUsername"] = newAuthorUsername
         }
         
-        if let newAuthorAvatarURL = authorAvatarURL {
-            userRef.updateData(["updatedAt": Timestamp(), "authorAvatarURL": newAuthorAvatarURL])
+        if let newAuthorAvatarURL = authorAvatarURL, UIApplication.shared.canOpenURL(newAuthorAvatarURL) {
+            updateData["authorAvatarURL"] = newAuthorAvatarURL.absoluteString
+        } else {
+            print("Invalid URL: \(authorAvatarURL?.absoluteString ?? "")")
         }
+
+        if !updateData.isEmpty {
+            userRef.updateData(updateData) { error in
+                if let error = error {
+                    print("Error updating document: \(error)")
+                } else {
+                    print("Document successfully updated")
+                }
+            }
+        }
+        loadUserProfile()
     }
+
     
     func fetchUserFromDatabase(uid: String, completion: @escaping (Result<[String: Any], Error>) -> Void) {
         let db = Firestore.firestore()
@@ -56,4 +84,28 @@ final class UserSessionManager {
         }
     }
 
+    func loadUserProfile(completion: ((UserProfile?) -> Void)? = nil) {
+        guard let uid = currentUser?.uid else {
+            completion?(nil)
+            return
+        }
+        
+        db.collection("users").document(uid).getDocument { [weak self] document, error in
+            if let error = error {
+                print("Failed to fetch user profile: \(error)")
+                completion?(nil)
+                return
+            }
+            
+            guard let data = document?.data(),
+                  let profile = UserProfile(data: data) else {
+                print("User profile not found or invalid data")
+                completion?(nil)
+                return
+            }
+            
+            self?.cachedProfile = profile
+            completion?(profile)
+        }
+    }
 }
