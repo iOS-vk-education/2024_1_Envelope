@@ -107,10 +107,20 @@ private extension PostView {
         avatarImageView.layer.cornerRadius = 25
         avatarImageView.clipsToBounds = true
         
-        // Buttons styling
+        usernameLabel.textColor = .gray
+        
+        timeLabel.textColor = .gray
+    
+        postTextLabel.numberOfLines = 0
+    
         likeButton.setImage(UIImage(systemName: "heart"), for: .normal)
         
         commentsButton.setImage(UIImage(systemName: "message"), for: .normal)
+        commentsButton.tintColor = .gray
+        
+        likesCountLabel.textColor = .gray
+
+        commentsCountLabel.textColor = .gray
     }
     
     func setupSubviews() {
