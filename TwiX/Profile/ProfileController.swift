@@ -154,7 +154,7 @@ class ProfileController: UIViewController {
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.largeTitleDisplayMode = .never
 
-        let settingsButton = UIBarButtonItem(image: UIImage(named: "settingsIcon"), style: .plain, target: self, action: nil)
+        let settingsButton = UIBarButtonItem(image: UIImage(named: "settingsIcon"), style: .plain, target: self, action: #selector(openSettingsScreen))
         navigationItem.rightBarButtonItem = settingsButton
         
 
@@ -236,6 +236,14 @@ class ProfileController: UIViewController {
             feedView.heightAnchor.constraint(equalToConstant: 800),
             feedView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
         ])
+    }
+    
+    // MARK: Open settings screen
+    
+    @objc func openSettingsScreen() {
+        let to = SettingsScreenController()
+        to.modalPresentationStyle = .fullScreen
+        present(to, animated: true, completion: nil)
     }
 }
 
