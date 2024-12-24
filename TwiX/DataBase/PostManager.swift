@@ -48,7 +48,7 @@ final class PostManager {
         }
     }
     
-    func likePost(_ postID: UUID) {
+    func changeLikeStatus(_ postID: UUID) {
         guard let user = UserSessionManager.shared.currentUser else {
             print("No user is logged in.")
             return
@@ -76,16 +76,23 @@ final class PostManager {
                 }
             } else {
                 if let likedBy = document?.get("likedBy") as? [String], likedBy.contains(user.uid) {
+                    likesRef.updateData([
+                        "likedBy": FieldValue.arrayRemove([user.uid])
+                    ]) { error in
+                        if let error = error {
+                            print("Error unliking post: \(error.localizedDescription)")
+                        } else {
+                            self.decrementLikeCounter(postID)
+                        }
+                    }
                     return
                 }
-                print("Continue")
 
                 likesRef.updateData([
                     "likedBy": FieldValue.arrayUnion([user.uid])
                 ]) { error in
                     if let error = error {
                         print("Error liking post: \(error.localizedDescription)")
-                        return
                     } else {
                         self.incrementLikeCounter(postID)
                     }
@@ -97,6 +104,11 @@ final class PostManager {
     private func incrementLikeCounter(_ postID: UUID) {
         let postRef = db.collection("posts").document(postID.uuidString)
         postRef.updateData(["likesCount": FieldValue.increment(Int64(1))])
+    }
+    
+    private func decrementLikeCounter(_ postID: UUID) {
+        let postRef = db.collection("posts").document(postID.uuidString)
+        postRef.updateData(["likesCount": FieldValue.increment(Int64(-1))])
     }
     
     func isPostLiked(_ postID: UUID, completion: @escaping (Bool) -> Void) {
