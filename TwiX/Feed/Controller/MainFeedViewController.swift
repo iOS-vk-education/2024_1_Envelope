@@ -67,7 +67,7 @@ private extension MainFeedViewController {
         let profileButton = UIBarButtonItem(image: UIImage(systemName: "person.circle"), style: .plain, target: self, action: #selector(profileButtonTapped))
         navigationItem.leftBarButtonItem = profileButton
         
-        let settingsButton = UIBarButtonItem(image: UIImage(named: "settingsIcon"), style: .plain, target: self, action: nil)
+        let settingsButton = UIBarButtonItem(image: UIImage(named: "settingsIcon"), style: .plain, target: self, action: #selector(openSettingsScreen))
         navigationItem.rightBarButtonItem = settingsButton
         
         navigationItem.backBarButtonItem = UIBarButtonItem()
@@ -78,12 +78,13 @@ private extension MainFeedViewController {
     
     @objc
     private func profileButtonTapped() {
-        openProfileScreen()
-    }
-    
-    
-    private func openProfileScreen() {
         let profileVC = ProfileController()
         navigationController?.pushViewController(profileVC, animated: true)
+    }
+    
+    @objc func openSettingsScreen() {
+        let to = SettingsScreenController()
+        to.modalPresentationStyle = .fullScreen
+        present(to, animated: true, completion: nil)
     }
 }

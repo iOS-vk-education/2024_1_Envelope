@@ -84,5 +84,8 @@ enum Strings {
         static let posts: String = "Posts"
         static let likes: String = "Likes"
     }
+    enum Settings {
+        static let teamInfo = "developed by team Envelope on course of VK Education in ITMO University\n\nAlexander Filatov\nAlexey Tsvetkov\nAndrew Shustrov\nEgor Ulin";
+    }
 }
 
