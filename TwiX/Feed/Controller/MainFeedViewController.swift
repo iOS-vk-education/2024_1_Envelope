@@ -7,26 +7,47 @@
 
 import UIKit
 
-class MainFeedViewController : UIViewController, CreatePostControllerDelegate {
+final class MainFeedViewController : UIViewController, CreatePostControllerDelegate {
     
     private let feedView = FeedView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupView()
         setupNavBar()
         setupFeedView()
+        setupFeedViewConstraints()
     }
     
     func didCreatePost() {
         feedView.loadPosts()
     }
+}
+
+// MARK: - Private functions
+
+private extension MainFeedViewController {
     
-    private func setupFeedView() {
-        view.addSubview(feedView)
-        
+    func setupView() {
         view.backgroundColor = .background
+        view.addSubview(feedView)
+    }
+    
+    func setupFeedView() {
         feedView.backgroundColor = .background
-        
+        feedView.setErrorAction() { [weak self] message in
+            DispatchQueue.main.async {
+                let alert = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .default, handler: { _ in
+                    NSLog("The \"OK\" alert occured.")
+                }))
+                self?.present(alert, animated: true, completion: nil)
+            }
+        }
+    }
+    
+    
+    func setupFeedViewConstraints() {
         feedView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
@@ -37,7 +58,7 @@ class MainFeedViewController : UIViewController, CreatePostControllerDelegate {
         ])
     }
     
-    private func setupNavBar() {
+    func setupNavBar() {
         navigationItem.title = Strings.App.name
         navigationController?.navigationBar.titleTextAttributes = [
             .font: UIFont(name: Fonts.Poppins_Bold, size: 30) ?? UIFont.systemFont(ofSize: 30),
@@ -46,9 +67,12 @@ class MainFeedViewController : UIViewController, CreatePostControllerDelegate {
         let profileButton = UIBarButtonItem(image: UIImage(systemName: "person.circle"), style: .plain, target: self, action: #selector(profileButtonTapped))
         navigationItem.leftBarButtonItem = profileButton
         
-        let settingsButton = UIBarButtonItem(image: UIImage(systemName: "gear"), style: .plain, target: self, action: nil)
+        let settingsButton = UIBarButtonItem(image: UIImage(named: "settingsIcon"), style: .plain, target: self, action: nil)
         navigationItem.rightBarButtonItem = settingsButton
         
+        navigationItem.backBarButtonItem = UIBarButtonItem()
+        navigationItem.backBarButtonItem?.tintColor = .text
+
         navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
     }
     

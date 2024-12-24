@@ -7,7 +7,7 @@
 
 import UIKit
 
-class PostView: UIView {
+final class PostView: UIView {
     
     // MARK: - Private properties
     
@@ -39,7 +39,7 @@ class PostView: UIView {
         setupUI()
     }
     
-    func configure(with post: Post, likeAction: @escaping () -> Void) {
+    func configure(with post: Post, likeAction: @escaping () -> Void, errorAction: @escaping (_ message: String) -> Void) {
         authorLabel.text = post.authorName
         usernameLabel.text = "@\(post.authorUsername)"
         timeLabel.text = "\(Post.formatTimestamp(post.timestamp))"
@@ -66,17 +66,29 @@ class PostView: UIView {
             moodsStackView.addArrangedSubview(label)
         }
         
-        let task = URLSession.shared.dataTask(with: post.authorAvatarURL) { [weak self] data, response, error in
-            guard let self = self else { return }
-            guard let data = data else { return }
-            
-            DispatchQueue.main.async {
-                if let image = UIImage(data: data) {
-                    self.avatarImageView.image = image
+        if let avatarUrl = post.authorAvatarURL {
+            let task = URLSession.shared.dataTask(with: avatarUrl) { [weak self] data, response, error in
+                guard let self = self else { return }
+                
+                if let error = error {
+                    print("Avatar loading error: \(error.localizedDescription)")
+                    return
+                }
+                
+                guard let data = data else {
+                    print("Avatar loading error: No data received.")
+                    errorAction("Failed to load data")
+                    return
+                }
+                
+                DispatchQueue.main.async {
+                    if let image = UIImage(data: data) {
+                        self.avatarImageView.image = image
+                    }
                 }
             }
+            task.resume()
         }
-        task.resume()
     }
 }
 
@@ -95,33 +107,10 @@ private extension PostView {
         avatarImageView.layer.cornerRadius = 25
         avatarImageView.clipsToBounds = true
         
-        // Author styling
-        authorLabel.font = UIFont(name: Fonts.Urbanist_Regular, size: 16)
-        
-        // Username styling
-        usernameLabel.font = UIFont(name: Fonts.Urbanist_Regular, size: 16)
-        usernameLabel.textColor = .gray
-        
-        // Time styling
-        timeLabel.font = UIFont(name: Fonts.Urbanist_Regular, size: 16)
-        timeLabel.textColor = .gray
-        
-        // Post text styling
-        postTextLabel.font = UIFont(name: Fonts.Urbanist_Regular, size: 16)
-        postTextLabel.numberOfLines = 0
-        
         // Buttons styling
         likeButton.setImage(UIImage(systemName: "heart"), for: .normal)
         
         commentsButton.setImage(UIImage(systemName: "message"), for: .normal)
-        commentsButton.tintColor = .gray
-        
-        // Counts styling
-        likesCountLabel.font = UIFont(name: Fonts.Urbanist_Regular, size: 16)
-        likesCountLabel.textColor = .gray
-        
-        commentsCountLabel.font = UIFont(name: Fonts.Urbanist_Regular, size: 16)
-        commentsCountLabel.textColor = .gray
     }
     
     func setupSubviews() {

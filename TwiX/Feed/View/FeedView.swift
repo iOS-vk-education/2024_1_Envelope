@@ -7,13 +7,14 @@
 
 import UIKit
 
-class FeedView : UIView {
+final class FeedView : UIView {
     
     // MARK: - Private properties
     
     private let tableView = UITableView()
     private let postManager = PostManager.shared
     private var posts: [Post] = []
+    private var errorAction: ((String) -> Void)?
     
     
     // MARK: - Initializers
@@ -40,6 +41,10 @@ class FeedView : UIView {
             }
         }
     }
+    
+    public func setErrorAction(_ action: @escaping ((String) -> Void)) {
+        errorAction = action
+    }
 }
 
 // MARK: Private action handlers
@@ -54,8 +59,9 @@ private extension FeedView {
         
         cell.changeEnable(false)
         
-        PostManager.shared.isPostLiked(post.id) { isLiked in
+        PostManager.shared.isPostLiked(post.id) { [weak self] isLiked in
             if !isLiked {
+                guard let self else { return }
                 self.postManager.likePost(post.id)
                 post.likesCount += 1
                 
@@ -123,10 +129,10 @@ extension FeedView: UITableViewDataSource, UITableViewDelegate {
         cell.backgroundColor = self.backgroundColor
         cell.selectionStyle = .none
         let post = posts[indexPath.row]
-        cell.configure(with: post) { [weak self] in
+        cell.configure(with: post, likeAction: { [weak self] in
             guard let self = self else { return }
             self.likePost(at: indexPath)
-        }
+        }, errorAction: errorAction ?? { _ in })
         return cell
     }
 }
