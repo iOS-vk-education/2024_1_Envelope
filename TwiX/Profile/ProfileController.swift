@@ -6,8 +6,10 @@
 //
 
 import UIKit
+import SwiftUI
 
 class ProfileController: UIViewController {
+    
     // MARK: - UI Elements
     
     private let scrollView = UIScrollView()
@@ -22,10 +24,13 @@ class ProfileController: UIViewController {
     private let segmentedControl = UISegmentedControl(items: [Strings.Profile.posts, Strings.Profile.likes])
     private let feedView = FeedView()
     
+    private var user = UserSessionManager.shared.currentProfile
+    
     // MARK: - View Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        loadAvatarImage()
         setupView()
     }
     
@@ -63,20 +68,47 @@ class ProfileController: UIViewController {
         editProfileButton.setTitle(Strings.Profile.editProfile, for: .normal)
         editProfileButton.translatesAutoresizingMaskIntoConstraints = false
         editProfileButton.layer.cornerRadius = Constants.ProfileController.Dimensions.editProfileButtonCornerRaduis
+        editProfileButton.addTarget(self, action: #selector(editProfileButtonTapped), for: .touchUpInside)
         editProfileButton.layer.borderWidth = 1
         editProfileButton.layer.borderColor = Colors.borderColor.cgColor
         editProfileButton.titleLabel?.font = UIFont(name: Fonts.Poppins_SemiBold, size: 14)
         editProfileButton.tintColor = Colors.borderColor
     }
     
+    @objc
+    private func editProfileButtonTapped() {
+        let vc = UIHostingController(rootView: ProfileSetupView(onSuccess: { [weak self] in self?.dismiss(animated: true) }))
+        present(vc, animated: true)
+    }
+    
     private func setupAvatarButton() {
         avatarButton.setImage(UIImage(named: Strings.Icons.avatarIcon), for: .normal)
         avatarButton.translatesAutoresizingMaskIntoConstraints = false
         avatarButton.layer.cornerRadius = Constants.ProfileController.Dimensions.avatarButtonSize / 2
+        
+        loadAvatarImage()
+    }
+    
+    private func loadAvatarImage() {
+        guard let avatarURL = user?.authorAvatarURL else {
+            return
+        }
+        
+        let task = URLSession.shared.dataTask(with: avatarURL) { [weak self] data, response, error in
+            guard let self = self, error == nil, let data = data, let image = UIImage(data: data) else {
+                print("Failed to load avatar image: \(error?.localizedDescription ?? "Unknown error")")
+                return
+            }
+            
+            DispatchQueue.main.async {
+                self.avatarButton.setImage(image, for: .normal)
+            }
+        }
+        task.resume()
     }
     
     private func setupNameLabel() {
-        nameLabel.text = "Andrew"
+        nameLabel.text = user?.authorName
         nameLabel.textColor = UIColor.white
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
         nameLabel.font = UIFont(name: Fonts.Poppins_Bold, size: 22)
@@ -84,7 +116,9 @@ class ProfileController: UIViewController {
     
     private func setupTagLabel() {
         tagLabel.textColor = Colors.noteColor
-        tagLabel.text = "@asnx9"
+        if let username = user?.authorUsername {
+            tagLabel.text = "@" + username
+        }
         tagLabel.translatesAutoresizingMaskIntoConstraints = false
         tagLabel.font = UIFont(name: Fonts.Poppints_Regular, size: 16)
     }
