@@ -1,4 +1,6 @@
 import UIKit
+import SwiftUI
+import FirebaseAuth
 
 class SettingsScreenController: UIViewController {
     // MARK: - UI Elements
@@ -111,6 +113,12 @@ class SettingsScreenController: UIViewController {
     }
     
     @objc func unloginButtonController() {
-        // some code
+        do {
+            try Auth.auth().signOut()
+            
+            exit(0)
+        } catch let error {
+            print("Cant sign out, error: \(error.localizedDescription)")
+        }
     }
 }

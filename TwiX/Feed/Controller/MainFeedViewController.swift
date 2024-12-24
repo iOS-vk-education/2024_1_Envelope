@@ -60,6 +60,7 @@ private extension MainFeedViewController {
     
     func setupNavBar() {
         navigationItem.title = Strings.App.name
+        navigationController?.navigationBar.backgroundColor = .background
         navigationController?.navigationBar.titleTextAttributes = [
             .font: UIFont(name: Fonts.Poppins_Bold, size: 30) ?? UIFont.systemFont(ofSize: 30),
             .foregroundColor: UIColor(.text)
