@@ -5,7 +5,7 @@
 //  Created by Alexander on 14.12.2024.
 //
 
-public enum Mood: String, Codable {
+public enum Mood: String, Codable, CaseIterable {
     case happy = "😃"
     case sad = "😢"
     case neutral = "😐"
