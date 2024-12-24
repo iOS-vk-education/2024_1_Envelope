@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class PostTableViewCell: UITableViewCell {
+class PostTableViewCell: UITableViewCell {
     
     // MARK: - Private properties
     
@@ -30,8 +30,18 @@ final class PostTableViewCell: UITableViewCell {
         postView.configure(with: post, likeAction: likeAction, errorAction: errorAction)
     }
     
-    func updateLikesCount(_ count: Int) {
+    func updateLikesCount(_ count: Int, _ isLiked: Bool) {
         postView.likesCountLabel.text = "\(count)"
+        
+        if isLiked {
+            postView.likeButton.tintColor = .red
+        } else {
+            postView.likeButton.tintColor = .gray
+        }
+    }
+    
+    func changeEnable(_ isEnable: Bool) {
+        postView.likeButton.isEnabled = isEnable
     }
 }
 
