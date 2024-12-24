@@ -76,7 +76,6 @@ final class PostManager {
                 }
             } else {
                 if let likedBy = document?.get("likedBy") as? [String], likedBy.contains(user.uid) {
-//                    print("User has already liked this post.")
                     return
                 }
                 print("Continue")
@@ -89,7 +88,6 @@ final class PostManager {
                         return
                     } else {
                         self.incrementLikeCounter(postID)
-//                        print("User \(user.uid) liked the post.")
                     }
                 }
             }

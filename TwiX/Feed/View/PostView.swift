@@ -57,7 +57,7 @@ class PostView: UIView {
             }
         }
         
-        moodsStackView.arrangedSubviews.forEach { $0.removeFromSuperview() } // Очистить старые
+        moodsStackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
         post.mood.forEach { mood in
             let label = UILabel()
             label.text = mood.rawValue
