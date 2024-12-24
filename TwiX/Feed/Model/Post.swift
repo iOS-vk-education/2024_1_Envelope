@@ -20,7 +20,7 @@ struct Post {
     var commentsCount: Int
     let timestamp: Date
     
-    init(id: UUID, text: String, mood: [Mood], authorName: String, authorUsername: String, authorAvatarURL: URL, likesCount: Int, commentsCount: Int, timestamp: Date) {
+    init(id: UUID, text: String, mood: [Mood], authorName: String, authorUsername: String, authorAvatarURL: URL?, likesCount: Int, commentsCount: Int, timestamp: Date) {
         self.id = id
         self.text = text.trimmingCharacters(in: .whitespacesAndNewlines)
         self.mood = mood

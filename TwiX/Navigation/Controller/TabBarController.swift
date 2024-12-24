@@ -70,22 +70,3 @@ extension TabBarController: UITabBarControllerDelegate {
         return true
     }
 }
-
-extension TabBarController: UITabBarControllerDelegate {
-    func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
-        if let navController = viewController as? UINavigationController,
-           navController.viewControllers.first is CreatePostController {
-            guard let mainFeedNavController = self.viewControllers?.first as? UINavigationController,
-                  let mainFeedVC = mainFeedNavController.viewControllers.first as? MainFeedViewController else { return false
-            }
-            
-            let createPostVC = CreatePostController()
-            
-            createPostVC.delegate = mainFeedVC
-            
-            tabBarController.present(createPostVC, animated: true)
-            return false
-        }
-        return true
-    }
-}
