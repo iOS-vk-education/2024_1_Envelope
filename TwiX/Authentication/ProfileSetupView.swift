@@ -83,10 +83,3 @@ struct ProfileSetupView: View {
         }
     }
 }
-
-//
-//struct ProfileSetupView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        ProfileSetupView(onSuccess: {})
-//    }
-//}

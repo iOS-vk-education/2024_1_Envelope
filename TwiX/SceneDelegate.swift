@@ -23,7 +23,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             })
             window.rootViewController = UIHostingController(rootView: authView)
         }
-        
+        UserSessionManager.shared.loadUserProfile()
         self.window = window
         window.makeKeyAndVisible()
     }
