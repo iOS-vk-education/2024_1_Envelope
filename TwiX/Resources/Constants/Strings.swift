@@ -19,9 +19,9 @@ enum Strings {
         static let appleIconString: String = "appleIcon"
         static let guestIconString: String = "guestIcon"
         
-        static let addPostTabBarIcon: String = "addPostTabBarIcon"
-        static let mainFeedTabBarIcon: String = "homeTabBarIcon"
-        static let searchTabBarIcon: String = "searchTabBarIcon"
+        static let addPostTabBarIcon: String = "AddPostTabBarIcon"
+        static let mainFeedTabBarIcon: String = "HomeTabBarIcon"
+        static let searchTabBarIcon: String = "SearchTabBarIcon"
         
         static let backArrow: String = "backArrow"
         
