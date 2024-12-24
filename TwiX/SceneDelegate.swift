@@ -12,7 +12,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let window = UIWindow(windowScene: windowScene)
         
         let mainViewController = TabBarController()
-
+        
         if Auth.auth().currentUser != nil {
             window.rootViewController = mainViewController
         } else {

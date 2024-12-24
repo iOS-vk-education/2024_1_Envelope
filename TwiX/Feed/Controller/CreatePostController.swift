@@ -19,6 +19,12 @@ final class CreatePostController: UIViewController {
     private let commentsCount: Int = 0
     private let timestamp: Date = Date()
     
+    private var selectedMoods: [Mood] = [] {
+        didSet {
+            updateSelectedMoodsLabel()
+        }
+    }
+    
     private let postManager = PostManager.shared
     private let userSession = UserSessionManager.shared
     
@@ -55,6 +61,33 @@ final class CreatePostController: UIViewController {
         return button
     }()
     
+    private let selectedMoodsLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 16)
+        label.textColor = Colors.mainColor
+        label.text = "Selected Moods: None"
+        label.numberOfLines = 0
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    private let moodPickerButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setTitle("Select Mood", for: .normal)
+        button.setTitleColor(.white, for: .normal)
+        button.addTarget(self, action: #selector(showMoodPicker), for: .touchUpInside)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.layer.cornerRadius = 8
+        button.backgroundColor = UIColor(hex: "#026873")
+        return button
+    }()
+    
+    private lazy var moodPickerView: MoodPickerView = {
+        let picker = MoodPickerView()
+        picker.delegate = self
+        return picker
+    }()
+    
     // MARK: - Logic starts
     
     override func viewDidLoad() {
@@ -64,10 +97,9 @@ final class CreatePostController: UIViewController {
     }
     
     public func loadAuthorData() {
-        let userSession = UserSessionManager.shared
         guard let currentUserUID = userSession.currentUser?.uid else {
-                print("User not logged in")
-                return
+            print("User not logged in")
+            return
         }
         userSession.fetchUserFromDatabase(uid: currentUserUID) { result in
             switch result {
@@ -87,12 +119,13 @@ final class CreatePostController: UIViewController {
         }
     }
     
-    
     // MARK: - UI Setup
     
     private func setupUI() {
         view.backgroundColor = .background
         view.addSubview(textView)
+        view.addSubview(moodPickerButton)
+        view.addSubview(selectedMoodsLabel)
         view.addSubview(closeButton)
         view.addSubview(saveButton)
         
@@ -111,19 +144,41 @@ final class CreatePostController: UIViewController {
             textView.topAnchor.constraint(equalTo: closeButton.bottomAnchor, constant: 16),
             textView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             textView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-            textView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16)
+            textView.bottomAnchor.constraint(equalTo: selectedMoodsLabel.topAnchor, constant: -16),
+            
+            // Selected Moods Label
+            selectedMoodsLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            selectedMoodsLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            selectedMoodsLabel.bottomAnchor.constraint(equalTo: moodPickerButton.topAnchor, constant: -8),
+            
+            // Mood Picker Button
+            moodPickerButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            moodPickerButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            moodPickerButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16),
+            moodPickerButton.heightAnchor.constraint(equalToConstant: 44)
         ])
     }
     
     // MARK: - Actions
     
-    @objc
-    private func closeTapped() {
+    private func updateSelectedMoodsLabel() {
+        if selectedMoods.isEmpty {
+            selectedMoodsLabel.text = "Selected Moods: None"
+        } else {
+            let moodsText = selectedMoods.map { $0.rawValue }.joined(separator: " ")
+            selectedMoodsLabel.text = "Selected Moods: \(moodsText)"
+        }
+    }
+    
+    @objc private func showMoodPicker() {
+        moodPickerView.showPicker(from: self, selectedMoods: selectedMoods)
+    }
+    
+    @objc private func closeTapped() {
         dismiss(animated: true, completion: nil)
     }
     
-    @objc
-    private func didSaveButtonTapped() {
+    @objc private func didSaveButtonTapped() {
         saveTapped()
     }
     
@@ -138,19 +193,13 @@ final class CreatePostController: UIViewController {
         }
         
         guard let authorName = authorName, let authorUsername = authorUsername else {
-            let alert = UIAlertController(title: "Error", message: "User information are missing!", preferredStyle: .alert)
+            let alert = UIAlertController(title: "Error", message: "User information is missing!", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
             present(alert, animated: true, completion: nil)
             return
         }
         
-        var moods: [Mood] = [.angry, .happy]
-        
-        if moods.count > 3 {
-            moods = Array(moods[..<3])
-        }
-        
-        let post = Post(id: UUID(), text: text, mood: moods, authorName: authorName, authorUsername: authorUsername, authorAvatarURL: authorAvatarURL, likesCount: likesCount, commentsCount: commentsCount, timestamp: timestamp)
+        let post = Post(id: UUID(), text: text, mood: selectedMoods, authorName: authorName, authorUsername: authorUsername, authorAvatarURL: authorAvatarURL, likesCount: likesCount, commentsCount: commentsCount, timestamp: timestamp)
         
         postManager.addPost(post)
         delegate?.didCreatePost()
@@ -159,6 +208,8 @@ final class CreatePostController: UIViewController {
     }
 }
 
-#Preview{
-    CreatePostController()
+extension CreatePostController: MoodPickerViewDelegate {
+    func moodPickerView(_ pickerView: MoodPickerView, didSelectMoods moods: [Mood]) {
+        self.selectedMoods = moods
+    }
 }
