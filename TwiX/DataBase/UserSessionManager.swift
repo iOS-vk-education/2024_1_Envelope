@@ -1,10 +1,3 @@
-//
-//  UserManager.swift
-//  TwiX
-//
-//  Created by Alexander on 19.12.2024.
-//
-
 import FirebaseFirestore
 import FirebaseAuth
 

@@ -1,10 +1,3 @@
-//
-//  FeedView.swift
-//  TwiX
-//
-//  Created by Alexander on 02.12.2024.
-//
-
 import UIKit
 
 final class FeedView : UIView {

@@ -1,13 +1,17 @@
-//
-//  PostManager.swift
-//  TwiX
-//
-//  Created by Alexander on 28.11.2024.
-//
-
 import Foundation
 import FirebaseFirestore
 
+extension Array {
+    /// Делим массив на чанки фиксированного размера (например, по 10 элементов)
+    func chunked(into size: Int) -> [[Element]] {
+        var chunks: [[Element]] = []
+        for i in stride(from: 0, to: count, by: size) {
+            let end = index(i, offsetBy: size, limitedBy: count) ?? count
+            chunks.append(Array(self[i..<end]))
+        }
+        return chunks
+    }
+}
 
 // TODO: Protocol, implement
 final class PostManager {
@@ -18,46 +22,117 @@ final class PostManager {
     private init() {}
     
     func fetchPosts(completion: @escaping ([Post]) -> Void) {
-        db.collection("posts").getDocuments { (querySnapshot, error) in
-            if let error = error {
-                print("Error loading posts: \(error.localizedDescription)")
-                completion([])
-                return
-            }
-            
-            var posts: [Post] = []
-            for document in querySnapshot?.documents ?? [] {
-                if let post = Post(from: document.data(), id: document.documentID) {
-                    posts.append(post)
+        db.collection("posts")
+            .order(by: "timestamp", descending: true)
+            .getDocuments { (querySnapshot, error) in
+                if let error = error {
+                    print("Error loading posts: \(error.localizedDescription)")
+                    completion([])
+                    return
                 }
+                
+                var posts: [Post] = []
+                for document in querySnapshot?.documents ?? [] {
+                    if let post = Post(from: document.data(), id: document.documentID) {
+                        posts.append(post)
+                    }
+                }
+                print("Fetched posts: \(posts)")
+                completion(posts)
             }
-            print("Fetched posts: \(posts)")
-            completion(posts)
-        }
     }
     
     func fetchUserPosts(userId: String, completion: @escaping ([Post]) -> Void) {
-        db.collection("posts").whereField("userId", isEqualTo: userId).getDocuments { (querySnapshot, error) in
+        db.collection("posts")
+            .whereField("userId", isEqualTo: userId)
+            .order(by: "timestamp", descending: true)
+            .getDocuments { (querySnapshot, error) in
+                if let error = error {
+                    print("Error loading user's posts: \(error.localizedDescription)")
+                    completion([])
+                    return
+                }
+                
+                var posts: [Post] = []
+                for document in querySnapshot?.documents ?? [] {
+                    if let post = Post(from: document.data(), id: document.documentID) {
+                        posts.append(post)
+                    }
+                }
+                print("Fetched user's posts: \(posts)")
+                completion(posts)
+            }
+    }
+    
+    func fetchPostsLikedByUser(userId: String, completion: @escaping ([Post]) -> Void) {
+        let likesRef = db.collection("likedBy")
+        
+        // 1. Ищем все документы в "likedBy", где массив "likedBy" содержит userId
+        likesRef.whereField("likedBy", arrayContains: userId).getDocuments { [weak self] snapshot, error in
+            guard let self = self else { return }
+            
             if let error = error {
-                print("Error loading user's posts: \(error.localizedDescription)")
+                print("Ошибка при поиске likedBy документов: \(error.localizedDescription)")
                 completion([])
                 return
             }
             
-            var posts: [Post] = []
-            for document in querySnapshot?.documents ?? [] {
-                if let post = Post(from: document.data(), id: document.documentID) {
-                    posts.append(post)
-                }
+            guard let documents = snapshot?.documents, !documents.isEmpty else {
+                print("Пользователь \(userId) не лайкнул ни один пост.")
+                completion([])
+                return
             }
-            print("Fetched user's posts: \(posts)")
-            completion(posts)
+            
+            // 2. Собираем все postIDs (documentID) из коллекции "likedBy"
+            let postIDs = documents.map { $0.documentID }
+            
+            // 3. Теперь нужно сходить в "posts" и найти эти посты
+            // Firestore ограничивает запрос 'in' максимум 10 значениями за раз,
+            // поэтому делим postIDs на чанки.
+            let chunkedIDs = postIDs.chunked(into: 10)
+            
+            var allPosts: [Post] = []
+            let dispatchGroup = DispatchGroup()
+            
+            for chunk in chunkedIDs {
+                dispatchGroup.enter()
+                
+                self.db.collection("posts")
+                    .whereField(FieldPath.documentID(), in: chunk)
+                    .getDocuments { snap, err in
+                        if let err = err {
+                            print("Ошибка при загрузке постов по списку ID: \(err.localizedDescription)")
+                            dispatchGroup.leave()
+                            return
+                        }
+                        
+                        guard let docs = snap?.documents else {
+                            dispatchGroup.leave()
+                            return
+                        }
+                        
+                        let posts = docs.compactMap { doc -> Post? in
+                            // Инициализируем ваш Post
+                            Post(from: doc.data(), id: doc.documentID)
+                        }
+                        
+                        allPosts.append(contentsOf: posts)
+                        dispatchGroup.leave()
+                    }
+            }
+            
+            // Когда все чанки завершились:
+            dispatchGroup.notify(queue: .main) {
+                // Если нужно отсортировать, например, по timestamp, сделайте так:
+                // allPosts.sort { $0.timestamp > $1.timestamp }
+                
+                completion(allPosts)
+            }
         }
     }
     
     func addPost(_ post: Post) {
         let postData = post.toDocument()
-        
         db.collection("posts").document(post.id.uuidString).setData(postData) { error in
             if let error = error {
                 print("Error saving post: \(error.localizedDescription)")
