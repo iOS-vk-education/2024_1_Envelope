@@ -1,15 +1,9 @@
-//
-//  ProfileSetupView.swift
-//  TwiX
-//
-//  Created by Alexander on 20.12.2024.
-//
-
 import SwiftUI
 
 struct ProfileSetupView: View {
     @State private var name: String = ""
     @State private var userName: String = ""
+    @State private var userBio: String = ""
     @State private var avatarUrl: String = ""
     
     // TODO: - Data validation

@@ -4,10 +4,10 @@ final class FeedView : UIView {
     
     // MARK: - Private properties
     
-    private let tableView = UITableView()
     private let postManager = PostManager.shared
-    private var posts: [Post] = []
+    let tableView = UITableView()
     private var errorAction: ((String) -> Void)?
+    var posts: [Post] = []
     
     // MARK: - Initializers
     
@@ -140,4 +140,3 @@ extension FeedView: UITableViewDataSource, UITableViewDelegate {
         return cell
     }
 }
-

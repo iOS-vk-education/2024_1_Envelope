@@ -12,8 +12,8 @@ class ProfileController: UIViewController {
     private let nameLabel: UILabel = UILabel()
     private let tagLabel: UILabel = UILabel()
     private let statusLabel: UILabel = UILabel()
-    private let segmentedControl = UISegmentedControl(items: [Strings.Profile.posts, Strings.Profile.likes])
     private let feedView = FeedView()
+    private let postManager = PostManager.shared
     private var user = UserSessionManager.shared.currentProfile
     
     // MARK: - View Lifecycle
@@ -31,7 +31,6 @@ class ProfileController: UIViewController {
         view.backgroundColor = Colors.backgroundColor
         
         contentView.translatesAutoresizingMaskIntoConstraints = false
-        segmentedControl.translatesAutoresizingMaskIntoConstraints = false
         
         setupScrollView()
         setupEditProfileButton()
@@ -42,7 +41,13 @@ class ProfileController: UIViewController {
         setupTableView()
         setupNavBar()
         setupConstraints()
-        setupSegmentedControl()
+        
+        postManager.fetchUserPosts(userId: user?.authorName ?? "") { posts in
+            DispatchQueue.main.async {
+                self.feedView.posts = posts
+                self.feedView.tableView.reloadData()
+            }
+        }
     }
     
     private func setupScrollView() {
@@ -55,7 +60,6 @@ class ProfileController: UIViewController {
             nameLabel,
             tagLabel,
             statusLabel,
-            segmentedControl,
             feedView
         ])
     }
@@ -222,16 +226,8 @@ class ProfileController: UIViewController {
             statusLabel.topAnchor.constraint(equalTo: tagLabel.bottomAnchor,
                                              constant: Constants.ProfileController.Paddings.topAnchor),
             
-            // segmentedControl
-            segmentedControl.topAnchor.constraint(equalTo: statusLabel.bottomAnchor,
-                                                  constant: Constants.ProfileController.Paddings.bottomAnchor),
-            segmentedControl.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,
-                                                      constant: Constants.ProfileController.Paddings.leadingAnchor),
-            segmentedControl.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,
-                                                       constant: Constants.ProfileController.Paddings.trailingAnchor),
-            
             // feedView
-            feedView.topAnchor.constraint(equalTo: segmentedControl.bottomAnchor,
+            feedView.topAnchor.constraint(equalTo: statusLabel.bottomAnchor,
                                           constant: Constants.ProfileController.Paddings.bottomAnchor),
             feedView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,
                                               constant: Constants.ProfileController.Paddings.leadingAnchor),
@@ -248,21 +244,5 @@ class ProfileController: UIViewController {
         let to = SettingsScreenController()
         to.modalPresentationStyle = .fullScreen
         present(to, animated: true, completion: nil)
-    }
-}
-
-// MARK: - SegmentedControl
-private extension ProfileController {
-    private func setupSegmentedControl() {
-        segmentedControl.selectedSegmentIndex = 0
-        segmentedControl.addTarget(self, action: #selector(segmentChanged), for: .valueChanged)
-    }
-    
-    @objc private func segmentChanged() {
-        if self.segmentedControl.selectedSegmentIndex == 0 {
-            feedView.loadUserPosts(userId: user!.authorUsername)
-        } else {
-            self.feedView.loadPosts()
-        }
     }
 }

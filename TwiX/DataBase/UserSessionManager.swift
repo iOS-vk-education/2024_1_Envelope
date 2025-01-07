@@ -82,7 +82,8 @@ final class UserSessionManager {
             completion?(nil)
             return
         }
-        
+        print("UID:")
+        print(uid)
         db.collection("users").document(uid).getDocument { [weak self] document, error in
             if let error = error {
                 print("Failed to fetch user profile: \(error)")
