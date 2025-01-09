@@ -1,55 +1,29 @@
 import Foundation
 import FirebaseFirestore
 
-// TODO: Protocol, implement
 final class PostManager {
     
-    // TODO: replace singltone
     static let shared = PostManager()
     private let db = Firestore.firestore()
     private init() {}
     
-    func fetchPosts(completion: @escaping ([Post]) -> Void) {
-        db.collection("posts")
-            .order(by: "timestamp", descending: true)
-            .getDocuments { (querySnapshot, error) in
-                if let error = error {
-                    print("Error loading posts: \(error.localizedDescription)")
-                    completion([])
-                    return
-                }
-                
-                var posts: [Post] = []
-                for document in querySnapshot?.documents ?? [] {
-                    if let post = Post(from: document.data(), id: document.documentID) {
-                        posts.append(post)
-                    }
-                }
-                print("Fetched posts: \(posts)")
-                completion(posts)
+    func fetchPosts(with query: Query, completion: @escaping ([Post]) -> Void) {
+        query.getDocuments { (querySnapshot, error) in
+            if let error = error {
+                print("Error loading posts: \(error.localizedDescription)")
+                completion([])
+                return
             }
-    }
-    
-    func fetchUserPosts(userId: String, completion: @escaping ([Post]) -> Void) {
-        db.collection("posts")
-            .whereField("authorUsername", isEqualTo: userId)
-            .order(by: "timestamp", descending: true)
-            .getDocuments { (querySnapshot, error) in
-                if let error = error {
-                    print("Error loading user's posts: \(error.localizedDescription)")
-                    completion([])
-                    return
+            
+            var posts: [Post] = []
+            for document in querySnapshot?.documents ?? [] {
+                if let post = Post(from: document.data(), id: document.documentID) {
+                    posts.append(post)
                 }
-                
-                var posts: [Post] = []
-                for document in querySnapshot?.documents ?? [] {
-                    if let post = Post(from: document.data(), id: document.documentID) {
-                        posts.append(post)
-                    }
-                }
-                print("Fetched user's posts: \(posts)")
-                completion(posts)
             }
+            print("Fetched posts: \(posts)")
+            completion(posts)
+        }
     }
     
     func addPost(_ post: Post) {

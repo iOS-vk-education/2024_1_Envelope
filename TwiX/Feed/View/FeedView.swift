@@ -1,4 +1,5 @@
 import UIKit
+import FirebaseFirestore
 
 final class FeedView : UIView {
     
@@ -8,16 +9,19 @@ final class FeedView : UIView {
     let tableView = UITableView()
     private var errorAction: ((String) -> Void)?
     var posts: [Post] = []
+    private var query: Query
     
     // MARK: - Initializers
     
-    override init(frame: CGRect) {
+    init(frame: CGRect = .zero, query: Query = Firestore.firestore().collection("posts").order(by: "timestamp", descending: true)) {
+        self.query = query
         super.init(frame: frame)
         setupView()
         loadPosts()
     }
     
     required init?(coder: NSCoder) {
+        self.query = Firestore.firestore().collection("posts").order(by: "timestamp", descending: true)
         super.init(coder: coder)
         setupView()
         loadPosts()
@@ -26,7 +30,7 @@ final class FeedView : UIView {
     // MARK: - Public functions
     
     public func loadPosts() {
-        postManager.fetchPosts { posts in
+        postManager.fetchPosts(with: query) { posts in
             DispatchQueue.main.async {
                 self.posts = posts
                 self.tableView.reloadData()
@@ -35,13 +39,39 @@ final class FeedView : UIView {
     }
     
     public func loadUserPosts(userId: String) {
-        postManager.fetchUserPosts(userId: userId) { posts in
-            DispatchQueue.main.async {
-                self.posts = posts
-                self.tableView.reloadData()
-            }
-        }
+        let tmp = query
+        query = Firestore.firestore().collection("posts")
+            .whereField("authorUsername", isEqualTo: userId)
+            .order(by: "timestamp", descending: true)
+        loadPosts()
+        query = tmp
     }
+    
+    public func loadLikedPosts(uid: String) {
+        Firestore.firestore().collection("likedBy")
+            .whereField("likedBy", arrayContains: uid)
+            .getDocuments { (querySnapshot, error) in
+                if let error = error {
+                    print("Error fetching liked documents: \(error.localizedDescription)")
+                    return
+                }
+                
+                guard let documents = querySnapshot?.documents else {
+                    print("No liked documents found")
+                    return
+                }
+                
+                let postIds = documents.map { $0.documentID }
+                if !postIds.isEmpty {
+                    self.query = Firestore.firestore().collection("posts")
+                        .whereField(FieldPath.documentID(), in: postIds)
+                    self.loadPosts()
+                } else {
+                    print("No posts found for the user")
+                }
+            }
+    }
+
     
     public func setErrorAction(_ action: @escaping ((String) -> Void)) {
         errorAction = action

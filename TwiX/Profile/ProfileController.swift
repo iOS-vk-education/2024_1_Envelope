@@ -1,5 +1,6 @@
 import UIKit
 import SwiftUI
+import FirebaseFirestore
 
 class ProfileController: UIViewController {
     
@@ -12,7 +13,8 @@ class ProfileController: UIViewController {
     private let nameLabel: UILabel = UILabel()
     private let tagLabel: UILabel = UILabel()
     private let statusLabel: UILabel = UILabel()
-    private let feedView = FeedView()
+    private let segmentedControl = UISegmentedControl(items: [Strings.Profile.posts, Strings.Profile.likes])
+    private var feedView: FeedView!
     private let postManager = PostManager.shared
     private var user = UserSessionManager.shared.currentProfile
     
@@ -20,6 +22,16 @@ class ProfileController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        guard let user = user else {
+            print("User is not loaded")
+            return
+        }
+        
+        feedView = FeedView(query: Firestore.firestore().collection("posts")
+            .whereField("authorUsername", isEqualTo: user.authorUsername)
+            .order(by: "timestamp", descending: true))
+
         loadAvatarImage()
         setupView()
     }
@@ -38,16 +50,10 @@ class ProfileController: UIViewController {
         setupNameLabel()
         setupTagLabel()
         setupStatusLabel()
+        setupSegmentedControl()
         setupTableView()
         setupNavBar()
         setupConstraints()
-        
-        postManager.fetchUserPosts(userId: user?.authorName ?? "") { posts in
-            DispatchQueue.main.async {
-                self.feedView.posts = posts
-                self.feedView.tableView.reloadData()
-            }
-        }
     }
     
     private func setupScrollView() {
@@ -60,6 +66,7 @@ class ProfileController: UIViewController {
             nameLabel,
             tagLabel,
             statusLabel,
+            segmentedControl,
             feedView
         ])
     }
@@ -136,6 +143,24 @@ class ProfileController: UIViewController {
         statusLabel.numberOfLines = 2
         statusLabel.font = UIFont(name: Fonts.Poppints_Regular, size: 16)
         statusLabel.lineBreakMode = .byWordWrapping
+    }
+    
+    private func setupSegmentedControl() {
+        segmentedControl.translatesAutoresizingMaskIntoConstraints = false
+        segmentedControl.selectedSegmentIndex = 0
+        segmentedControl.addTarget(self, action: #selector(segmentChanged), for: .valueChanged)
+    }
+    
+    @objc private func segmentChanged() {
+        if segmentedControl.selectedSegmentIndex == 0 {
+            if let username = user?.authorUsername {
+                feedView.loadUserPosts(userId: username)
+            }
+        } else {
+            if let uid = UserSessionManager.shared.currentUser?.uid {
+                feedView.loadLikedPosts(uid: uid)
+            }
+        }
     }
     
     private func setupTableView() {
@@ -226,8 +251,16 @@ class ProfileController: UIViewController {
             statusLabel.topAnchor.constraint(equalTo: tagLabel.bottomAnchor,
                                              constant: Constants.ProfileController.Paddings.topAnchor),
             
+            // segmentedControl
+            segmentedControl.topAnchor.constraint(equalTo: statusLabel.bottomAnchor,
+                                                  constant: Constants.ProfileController.Paddings.bottomAnchor),
+            segmentedControl.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,
+                                                      constant: Constants.ProfileController.Paddings.leadingAnchor),
+            segmentedControl.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,
+                                                       constant: Constants.ProfileController.Paddings.trailingAnchor),
+            
             // feedView
-            feedView.topAnchor.constraint(equalTo: statusLabel.bottomAnchor,
+            feedView.topAnchor.constraint(equalTo: segmentedControl.bottomAnchor,
                                           constant: Constants.ProfileController.Paddings.bottomAnchor),
             feedView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,
                                               constant: Constants.ProfileController.Paddings.leadingAnchor),
