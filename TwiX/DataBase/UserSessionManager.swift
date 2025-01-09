@@ -31,7 +31,7 @@ final class UserSessionManager {
         return currentUser?.email
     }
     
-    func updateUserToDatabase(uid: String, authorName: String?, authorUsername: String?, authorAvatarURL: URL?) {
+    func updateUserToDatabase(uid: String, authorName: String?, authorUsername: String?, authorBio: String?, authorAvatarURL: URL?) {
         let userRef = db.collection("users").document(uid)
         
         var updateData: [String: Any] = ["updatedAt": Timestamp()]
@@ -42,6 +42,10 @@ final class UserSessionManager {
         
         if let newAuthorUsername = authorUsername {
             updateData["authorUsername"] = newAuthorUsername
+        }
+        
+        if let newAuthorBio = authorBio {
+            updateData["authorBio"] = newAuthorBio
         }
         
         if let newAuthorAvatarURL = authorAvatarURL, UIApplication.shared.canOpenURL(newAuthorAvatarURL) {
@@ -72,7 +76,7 @@ final class UserSessionManager {
             } else if let document = document, document.exists {
                 completion(.success(document.data() ?? [:]))
             } else {
-                // User not found
+                print("User not found")
             }
         }
     }

@@ -137,7 +137,7 @@ class ProfileController: UIViewController {
     }
     
     private func setupStatusLabel() {
-        statusLabel.text = "CT ITMO ENJOYER - Mobile UI/UX development; Math analysis monster"
+        statusLabel.text = user?.authorBio ?? "No status set" // Отображаем статус из профиля
         statusLabel.translatesAutoresizingMaskIntoConstraints = false
         statusLabel.textColor = UIColor.white
         statusLabel.numberOfLines = 2
