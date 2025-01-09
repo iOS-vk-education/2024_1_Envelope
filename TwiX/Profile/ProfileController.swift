@@ -170,7 +170,7 @@ class ProfileController: UIViewController {
     
     private func setupNavBar() {
         navigationItem.title = Strings.App.name
-        navigationController?.navigationBar.prefersLargeTitles = true
+        navigationController?.navigationBar.prefersLargeTitles = false
         navigationItem.largeTitleDisplayMode = .never
         
         let settingsButton = UIBarButtonItem(image: UIImage(named: "settingsIcon"),

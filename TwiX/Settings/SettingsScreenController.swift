@@ -48,12 +48,12 @@ class SettingsScreenController: UIViewController {
         view.backgroundColor = Colors.backgroundColor
         
         // MARK: setup header
+        titleLabel = generateText(text: Strings.App.name, font: Fonts.Urbanist_Bold, size: Constants.SettingsController.Dimensions.titleSize, alignment: .center)
         teamInfo = generateText(text: Strings.Settings.teamInfo, font: Fonts.Montserrat_Regular, size: Constants.SettingsController.Dimensions.infoFontSize, alignment: .center)
-        titleLabel = generateText(text: "TwiX", font: Fonts.Poppins_Bold, size: Constants.SettingsController.Dimensions.titleSize, alignment: .center)
         
         view.addSubview(settingsButton)
-        view.addSubview(teamInfo)
         view.addSubview(titleLabel)
+        view.addSubview(teamInfo)
         view.addSubview(unloginButton)
         
         setupConstraits()
@@ -116,7 +116,21 @@ class SettingsScreenController: UIViewController {
         do {
             try Auth.auth().signOut()
             
-            exit(0)
+            if let window = UIApplication.shared.windows.first {
+                let authView = AuthenticationFlowView(onSuccess: {
+                    let mainViewController = TabBarController()
+                    UIView.transition(with: window, duration: 0.5, options: .transitionCrossDissolve, animations: {
+                        window.rootViewController = mainViewController
+                    }, completion: nil)
+                })
+                
+                let hostingController = UIHostingController(rootView: authView)
+                window.rootViewController = hostingController
+                window.makeKeyAndVisible()
+                
+                UIView.transition(with: window, duration: 0.3, options: .transitionCrossDissolve, animations: {}, completion: nil)
+            }
+            
         } catch let error {
             print("Cant sign out, error: \(error.localizedDescription)")
         }

@@ -1,10 +1,3 @@
-//
-//  Post.swift
-//  TwiX
-//
-//  Created by Alexander on 28.11.2024.
-//
-
 import Foundation
 import FirebaseCore
 

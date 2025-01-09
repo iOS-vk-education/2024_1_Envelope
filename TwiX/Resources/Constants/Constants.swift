@@ -122,9 +122,9 @@ enum Constants {
             static let trailingAnchor: CGFloat = -20
             static let bottomAnchor: CGFloat = 20
             static let topAnchor: CGFloat = 10
-            static let topAvatarAnchor: CGFloat = 80
+            static let topAvatarAnchor: CGFloat = 100
             static let followersLabelLeadingAnchor: CGFloat = 140
-            static let nameLabelTopAnchor: CGFloat = 159
+            static let nameLabelTopAnchor: CGFloat = 185
             static let editProfileTopAnchor: CGFloat = 115
         }
     }
