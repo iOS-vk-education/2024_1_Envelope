@@ -1,13 +1,6 @@
-//
-//  MainFeedViewController.swift
-//  TwiX
-//
-//  Created by Alexander on 02.12.2024.
-//
-
 import UIKit
 
-final class MainFeedViewController : UIViewController, CreatePostControllerDelegate {
+final class MainFeedViewController: UIViewController, CreatePostControllerDelegate {
     
     private let feedView = FeedView()
     
@@ -46,7 +39,6 @@ private extension MainFeedViewController {
         }
     }
     
-    
     func setupFeedViewConstraints() {
         feedView.translatesAutoresizingMaskIntoConstraints = false
         
@@ -60,20 +52,27 @@ private extension MainFeedViewController {
     
     func setupNavBar() {
         navigationItem.title = Strings.App.name
+        navigationController?.navigationBar.prefersLargeTitles = false
         navigationController?.navigationBar.backgroundColor = .background
         navigationController?.navigationBar.titleTextAttributes = [
-            .font: UIFont(name: Fonts.Poppins_Bold, size: 30) ?? UIFont.systemFont(ofSize: 30),
+            .font: UIFont(name: Fonts.Poppins_Bold, size: 30) ?? UIFont.boldSystemFont(ofSize: 30),
             .foregroundColor: UIColor(.text)
         ]
-        let profileButton = UIBarButtonItem(image: UIImage(systemName: "person.circle"), style: .plain, target: self, action: #selector(profileButtonTapped))
+        
+        let profileButton = UIBarButtonItem(image: UIImage(systemName: "person.circle"),
+                                            style: .plain,
+                                            target: self,
+                                            action: #selector(profileButtonTapped))
         navigationItem.leftBarButtonItem = profileButton
         
-        let settingsButton = UIBarButtonItem(image: UIImage(named: "settingsIcon"), style: .plain, target: self, action: #selector(openSettingsScreen))
+        let settingsButton = UIBarButtonItem(image: UIImage(named: "settingsIcon"),
+                                             style: .plain,
+                                             target: self,
+                                             action: #selector(openSettingsScreen))
         navigationItem.rightBarButtonItem = settingsButton
         
         navigationItem.backBarButtonItem = UIBarButtonItem()
         navigationItem.backBarButtonItem?.tintColor = .text
-
         navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
     }
     
@@ -83,9 +82,10 @@ private extension MainFeedViewController {
         navigationController?.pushViewController(profileVC, animated: true)
     }
     
-    @objc func openSettingsScreen() {
-        let to = SettingsScreenController()
-        to.modalPresentationStyle = .fullScreen
-        present(to, animated: true, completion: nil)
+    @objc
+    func openSettingsScreen() {
+        let settingsVC = SettingsScreenController()
+        settingsVC.modalPresentationStyle = .fullScreen
+        present(settingsVC, animated: true, completion: nil)
     }
 }

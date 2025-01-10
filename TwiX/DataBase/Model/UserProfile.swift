@@ -1,20 +1,15 @@
-//
-//  UserProfile.swift
-//  TwiX
-//
-//  Created by Alexander on 19.12.2024.
-//
-
 import Foundation
 
 struct UserProfile {
     let authorName: String
     let authorUsername: String
+    let authorBio: String?
     let authorAvatarURL: URL?
     
-    init(authorName: String, authorUsername: String, authorAvatarURL: URL?) {
+    init(authorName: String, authorUsername: String, authorBio: String?, authorAvatarURL: URL?) {
         self.authorName = authorName
         self.authorUsername = authorUsername
+        self.authorBio = authorBio
         self.authorAvatarURL = authorAvatarURL
     }
     
@@ -26,6 +21,7 @@ struct UserProfile {
         
         self.authorName = name
         self.authorUsername = username
+        self.authorBio = data["authorBio"] as? String
         
         if let avatarURLString = data["authorAvatarURL"] as? String,
            let avatarURL = URL(string: avatarURLString) {

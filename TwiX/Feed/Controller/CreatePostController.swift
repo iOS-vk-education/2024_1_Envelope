@@ -1,10 +1,3 @@
-//
-//  CreatePostController.swift
-//  TwiX
-//
-//  Created by Alexander on 04.12.2024.
-//
-
 import UIKit
 
 final class CreatePostController: UIViewController {
@@ -71,6 +64,26 @@ final class CreatePostController: UIViewController {
         return label
     }()
     
+    private let selectedMoodsCountLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 16)
+        label.textColor = Colors.mainColor
+        label.text = "Selected Moods: 0/3"
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    private let removeLastMoodButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setTitle("Remove Last Mood", for: .normal)
+        button.setTitleColor(.white, for: .normal)
+        button.addTarget(self, action: #selector(removeLastMoodTapped), for: .touchUpInside)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.layer.cornerRadius = 8
+        button.backgroundColor = UIColor(hex: "#FF0000")
+        return button
+    }()
+    
     private let moodPickerButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("Select Mood", for: .normal)
@@ -126,6 +139,8 @@ final class CreatePostController: UIViewController {
         view.addSubview(textView)
         view.addSubview(moodPickerButton)
         view.addSubview(selectedMoodsLabel)
+        view.addSubview(selectedMoodsCountLabel)
+        view.addSubview(removeLastMoodButton)
         view.addSubview(closeButton)
         view.addSubview(saveButton)
         
@@ -149,7 +164,18 @@ final class CreatePostController: UIViewController {
             // Selected Moods Label
             selectedMoodsLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             selectedMoodsLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-            selectedMoodsLabel.bottomAnchor.constraint(equalTo: moodPickerButton.topAnchor, constant: -8),
+            selectedMoodsLabel.bottomAnchor.constraint(equalTo: selectedMoodsCountLabel.topAnchor, constant: -8),
+            
+            // Selected Moods Count Label
+            selectedMoodsCountLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            selectedMoodsCountLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            selectedMoodsCountLabel.bottomAnchor.constraint(equalTo: removeLastMoodButton.topAnchor, constant: -8),
+            
+            // Remove Last Mood Button
+            removeLastMoodButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            removeLastMoodButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            removeLastMoodButton.bottomAnchor.constraint(equalTo: moodPickerButton.topAnchor, constant: -16),
+            removeLastMoodButton.heightAnchor.constraint(equalToConstant: 44),
             
             // Mood Picker Button
             moodPickerButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
@@ -168,6 +194,7 @@ final class CreatePostController: UIViewController {
             let moodsText = selectedMoods.map { $0.rawValue }.joined(separator: " ")
             selectedMoodsLabel.text = "Selected Moods: \(moodsText)"
         }
+        selectedMoodsCountLabel.text = "Selected Moods: \(selectedMoods.count)/3"
     }
     
     @objc private func showMoodPicker() {
@@ -180,6 +207,13 @@ final class CreatePostController: UIViewController {
     
     @objc private func didSaveButtonTapped() {
         saveTapped()
+    }
+    
+    @objc private func removeLastMoodTapped() {
+        if !selectedMoods.isEmpty {
+            selectedMoods.removeLast()
+            updateSelectedMoodsLabel()
+        }
     }
     
     // MARK: - Post saving to DB
@@ -211,5 +245,6 @@ final class CreatePostController: UIViewController {
 extension CreatePostController: MoodPickerViewDelegate {
     func moodPickerView(_ pickerView: MoodPickerView, didSelectMoods moods: [Mood]) {
         self.selectedMoods = moods
+        updateSelectedMoodsLabel()
     }
 }
