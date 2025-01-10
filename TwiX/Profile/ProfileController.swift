@@ -23,6 +23,20 @@ class ProfileController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        guard UserSessionManager.shared.isUserLoggedIn else {
+            let guestLabel = UILabel()
+            guestLabel.text = "Guest"
+            guestLabel.textColor = .white
+            guestLabel.font = .boldSystemFont(ofSize: 24)
+            guestLabel.translatesAutoresizingMaskIntoConstraints = false
+            view.addSubview(guestLabel)
+            NSLayoutConstraint.activate([
+                guestLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+                guestLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+            ])
+            return
+        }
+        
         guard let user = user else {
             print("User is not loaded")
             return

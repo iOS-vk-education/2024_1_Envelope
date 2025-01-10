@@ -112,9 +112,10 @@ class SettingsScreenController: UIViewController {
         }
     }
     
-    @objc func unloginButtonController() {
+    @objc
+    func unloginButtonController() {
         do {
-            try Auth.auth().signOut()
+            UserSessionManager.shared.logout()
             
             if let window = UIApplication.shared.windows.first {
                 let authView = AuthenticationFlowView(onSuccess: {

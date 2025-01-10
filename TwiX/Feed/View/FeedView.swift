@@ -169,4 +169,46 @@ extension FeedView: UITableViewDataSource, UITableViewDelegate {
         }, errorAction: errorAction ?? { _ in })
         return cell
     }
+    
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        let post = posts[indexPath.row]
+        guard let currentUsername = UserSessionManager.shared.currentProfile?.authorUsername else {
+            return false
+        }
+        return post.authorUsername == currentUsername
+    }
+
+    func tableView(_ tableView: UITableView,
+                   commit editingStyle: UITableViewCell.EditingStyle,
+                   forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            let post = posts[indexPath.row]
+            let alert = UIAlertController(title: "Delete Post?",
+                                          message: "Are you sure you want to delete this post?",
+                                          preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+            alert.addAction(UIAlertAction(title: "Delete", style: .destructive) { _ in
+                self.postManager.deletePost(post.id) { success in
+                    if success {
+                        self.posts.remove(at: indexPath.row)
+                        tableView.deleteRows(at: [indexPath], with: .automatic)
+                    }
+                }
+            })
+            if let vc = self.findViewController() {
+                vc.present(alert, animated: true)
+            }
+        }
+    }
+}
+
+private extension UIView {
+    func findViewController() -> UIViewController? {
+        if let nextResponder = next as? UIViewController {
+            return nextResponder
+        } else if let nextResponder = next as? UIView {
+            return nextResponder.findViewController()
+        }
+        return nil
+    }
 }

@@ -37,6 +37,18 @@ final class PostManager {
         }
     }
     
+    func deletePost(_ postID: UUID, completion: @escaping (Bool) -> Void) {
+        db.collection("posts").document(postID.uuidString).delete { error in
+            if let error = error {
+                print("Error deleting post: \(error.localizedDescription)")
+                completion(false)
+            } else {
+                print("Post successfully deleted!")
+                completion(true)
+            }
+        }
+    }
+    
     func changeLikeStatus(_ postID: UUID) {
         guard let user = UserSessionManager.shared.currentUser else {
             print("No user is logged in.")
