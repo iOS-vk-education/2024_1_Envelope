@@ -92,19 +92,16 @@ private extension FeedView {
         
         PostManager.shared.isPostLiked(post.id) { [weak self] isLiked in
             guard let self else { return }
-            self.postManager.changeLikeStatus(post.id)
-            
-            if !isLiked {
-                post.likesCount += 1
-                cell.updateLikesCount(post.likesCount, true)
-            } else {
-                post.likesCount -= 1
-                cell.updateLikesCount(post.likesCount, false)
+            self.postManager.changeLikeStatus(post.id) { likes, isLiked in
+                post.likesCount = likes
+                print(likes, isLiked)
+                print("change Likes")
+                cell.updateLikesCount(post.likesCount, isLiked)
+                
+                self.posts[indexPath.row] = post
+                
+                cell.changeEnable(true)
             }
-            
-            posts[indexPath.row] = post
-            
-            cell.changeEnable(true)
         }
     }
 }

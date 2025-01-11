@@ -37,7 +37,7 @@ final class PostManager {
         }
     }
     
-    func changeLikeStatus(_ postID: UUID) {
+    func changeLikeStatus(_ postID: UUID, completion: @escaping (Int, Bool) -> Void) {
         guard let user = UserSessionManager.shared.currentUser else {
             print("No user is logged in.")
             return
@@ -60,30 +60,38 @@ final class PostManager {
                         print("Error creating document: \(error.localizedDescription)")
                         return
                     } else {
+                        completion(1, true)
                         self.incrementLikeCounter(postID)
                     }
                 }
             } else {
-                if let likedBy = document?.get("likedBy") as? [String], likedBy.contains(user.uid) {
-                    likesRef.updateData([
-                        "likedBy": FieldValue.arrayRemove([user.uid])
-                    ]) { error in
-                        if let error = error {
-                            print("Error unliking post: \(error.localizedDescription)")
-                        } else {
-                            self.decrementLikeCounter(postID)
+                if let likedBy = document?.get("likedBy") as? [String] {
+                    if likedBy.contains(user.uid) {
+                        likesRef.updateData([
+                            "likedBy": FieldValue.arrayRemove([user.uid])
+                        ]) { error in
+                            if let error = error {
+                                print("Error unliking post: \(error.localizedDescription)")
+                            } else {
+                                print("remove")
+                                print(likedBy)
+                                completion(likedBy.count - 1, false)
+                                self.decrementLikeCounter(postID)
+                            }
                         }
-                    }
-                    return
-                }
-
-                likesRef.updateData([
-                    "likedBy": FieldValue.arrayUnion([user.uid])
-                ]) { error in
-                    if let error = error {
-                        print("Error liking post: \(error.localizedDescription)")
                     } else {
-                        self.incrementLikeCounter(postID)
+                        likesRef.updateData([
+                            "likedBy": FieldValue.arrayUnion([user.uid])
+                        ]) { error in
+                            if let error = error {
+                                print("Error liking post: \(error.localizedDescription)")
+                            } else {
+                                print("insert")
+                                print(likedBy)
+                                completion(likedBy.count + 1, true)
+                                self.incrementLikeCounter(postID)
+                            }
+                        }
                     }
                 }
             }
