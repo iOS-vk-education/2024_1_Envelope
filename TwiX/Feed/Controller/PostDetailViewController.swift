@@ -61,7 +61,7 @@ final class PostDetailViewController: UIViewController {
         textView.layer.cornerRadius = 8
         textView.layer.masksToBounds = true
         textView.font = UIFont(name: Fonts.Urbanist_Regular, size: 16)
-        textView.textColor = Colors.mainColor
+        textView.textColor = .white
         textView.textContainerInset = UIEdgeInsets(top: 16, left: 16, bottom: 16, right: 16)
         return textView
     }()
