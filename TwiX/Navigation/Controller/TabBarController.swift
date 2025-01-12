@@ -11,6 +11,7 @@ final class TabBarController: UITabBarController {
     // MARK: - Create Navigation Controller
     
     private func createNav(title: String, image: UIImage?, vc: UIViewController) -> UINavigationController {
+        
         let nav = UINavigationController(rootViewController: vc)
 
         nav.tabBarItem.title = title
@@ -50,8 +51,7 @@ extension TabBarController: UITabBarControllerDelegate {
         if let navController = viewController as? UINavigationController,
            navController.viewControllers.first is CreatePostController {
             guard let mainFeedNavController = self.viewControllers?.first as? UINavigationController,
-                  let mainFeedVC = mainFeedNavController.viewControllers.first as? MainFeedViewController else { return false
-            }
+                  let mainFeedVC = mainFeedNavController.viewControllers.first as? MainFeedViewController else { return false }
             
             let createPostVC = CreatePostController()
             

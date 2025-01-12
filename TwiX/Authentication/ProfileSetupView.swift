@@ -58,7 +58,6 @@ struct ProfileSetupView: View {
                 .cornerRadius(10)
                 .padding(.horizontal)
             
-            // Save Button
             Button(action: saveProfile) {
                 Text("Save")
                     .font(.headline)
@@ -82,7 +81,6 @@ struct ProfileSetupView: View {
         .background(Color.background)
     }
     
-    // Проверка уникальности username
     func checkUsernameAvailability(username: String) {
         Firestore.firestore().collection("users").whereField("authorUsername", isEqualTo: username).getDocuments { snapshot, error in
             if let error = error {
@@ -98,7 +96,6 @@ struct ProfileSetupView: View {
         }
     }
     
-    // Save profile action
     func saveProfile() {
         if isDataInvalid {
             AlertHelper.showAlert(title: "Error", message: "Invalid Fields")

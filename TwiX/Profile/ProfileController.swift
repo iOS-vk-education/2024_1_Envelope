@@ -43,36 +43,19 @@ class ProfileController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if username == UserSessionManager.shared.currentProfile?.authorUsername {
+        if username == userSession.currentProfile?.authorUsername {
             setupCurrentUserProfile()
         } else {
             fetchUserProfile()
         }
     }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        if username == UserSessionManager.shared.currentProfile?.authorUsername {
-            // Show navigation bar for current user's profile
-            self.navigationController?.setNavigationBarHidden(false, animated: animated)
-        } else {
-            // Hide navigation bar for other users' profiles
-            self.navigationController?.setNavigationBarHidden(true, animated: animated)
-        }
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        // Ensure the navigation bar is visible for other view controllers
-        self.navigationController?.setNavigationBarHidden(false, animated: animated)
-    }
+
     
     // MARK: - Setup Methods
     
     private func setupCurrentUserProfile() {
-        guard UserSessionManager.shared.isUserLoggedIn else {
-            // Uncomment if you want to show a guest profile
-            // showGuestProfile()
+        guard userSession.isUserLoggedIn else {
+            showGuestProfile()
             return
         }
         
@@ -93,24 +76,19 @@ class ProfileController: UIViewController {
     
     private func fetchUserProfile() {
         userSession.searchUserByUsername(username: username) { [weak self] result in
-            DispatchQueue.main.async { // Ensure UI updates are on the main thread
+            DispatchQueue.main.async {
                 switch result {
                 case .success(let userProfile):
                     self?.user = userProfile
                     
-                    // Initialize feedView with the fetched user's posts
                     self?.feedView = FeedView(query: Firestore.firestore().collection("posts")
                         .whereField("authorUsername", isEqualTo: userProfile.authorUsername)
                         .order(by: "timestamp", descending: true))
                     
-                    // Set up the view with the fetched user data
                     self?.setupView()
-                    
-                    // Load the user's avatar image
                     self?.loadAvatarImage()
                     
                 case .failure(let error):
-                    // Handle the error, e.g., show an alert to the user
                     self?.showErrorAlert(message: error.localizedDescription)
                     print("Error fetching user profile: \(error.localizedDescription)")
                 }
@@ -118,18 +96,19 @@ class ProfileController: UIViewController {
         }
     }
 
-//    private func showGuestProfile() {
-//        let guestLabel = UILabel()
-//        guestLabel.text = "Guest"
-//        guestLabel.textColor = .white
-//        guestLabel.font = .boldSystemFont(ofSize: 24)
-//        guestLabel.translatesAutoresizingMaskIntoConstraints = false
-//        view.addSubview(guestLabel)
-//        NSLayoutConstraint.activate([
-//            guestLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-//            guestLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor)
-//        ])
-//    }
+    private func showGuestProfile() {
+        let guestLabel = UILabel()
+        guestLabel.text = "Guest"
+        guestLabel.textColor = .white
+        guestLabel.font = .boldSystemFont(ofSize: 24)
+        guestLabel.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(guestLabel)
+        NSLayoutConstraint.activate([
+            guestLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            guestLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+        ])
+        setupView()
+    }
     
     private func setupView() {
         view.addSubview(scrollView)
@@ -138,6 +117,7 @@ class ProfileController: UIViewController {
         contentView.translatesAutoresizingMaskIntoConstraints = false
         
         setupScrollView()
+        setupNavBar()
         setupEditProfileButton()
         setupAvatarButton()
         setupNameLabel()
@@ -146,18 +126,15 @@ class ProfileController: UIViewController {
         setupSegmentedControl()
         setupTableView()
         
-        // Call setupNavBar only for the current user's profile
-        if username == UserSessionManager.shared.currentProfile?.authorUsername {
-            setupNavBar()
-        }
-        
         setupConstraints()
     }
     
     private func setupScrollView() {
         scrollView.contentInsetAdjustmentBehavior = .never
         scrollView.translatesAutoresizingMaskIntoConstraints = false
+        contentView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.addSubview(contentView)
+    
         contentView.addSubviews(subviews: [
             editProfileButton,
             avatarButton,
@@ -170,7 +147,7 @@ class ProfileController: UIViewController {
     }
     
     private func setupEditProfileButton() {
-        guard username == UserSessionManager.shared.currentProfile?.authorUsername else {
+        guard username == userSession.currentProfile?.authorUsername else {
             editProfileButton.isHidden = true
             return
         }
@@ -203,8 +180,7 @@ class ProfileController: UIViewController {
     
     @objc
     private func avatarTapped() {
-        // Prevent navigating to the same profile
-        // Optionally, you could implement functionality here
+        
     }
     
     private func loadAvatarImage() {
@@ -266,7 +242,7 @@ class ProfileController: UIViewController {
                 feedView.loadUserPosts(userId: username)
             }
         } else {
-            if let uid = UserSessionManager.shared.currentUser?.uid {
+            if let uid = userSession.currentUser?.uid {
                 feedView.loadLikedPosts(uid: uid)
             }
         }
@@ -289,11 +265,26 @@ class ProfileController: UIViewController {
         navigationController?.navigationBar.prefersLargeTitles = false
         navigationItem.largeTitleDisplayMode = .never
         
-        let settingsButton = UIBarButtonItem(image: UIImage(named: "settingsIcon"),
-                                             style: .plain,
-                                             target: self,
-                                             action: #selector(openSettingsScreen))
-        navigationItem.rightBarButtonItem = settingsButton
+        let backButton = UIBarButtonItem(
+            image: UIImage(named: "backArrow"),
+            style: .plain,
+            target: self,
+            action: #selector(backButtonTapped)
+        )
+        
+        backButton.tintColor = Colors.mainColor
+        
+        navigationItem.leftBarButtonItem = backButton
+        navigationItem.hidesBackButton = true
+        
+        let settingsButton = UIBarButtonItem(
+            image: UIImage(named: "settingsIcon"),
+            style: .plain,
+            target: self,
+            action: #selector(openSettingsScreen)
+        )
+        
+        navigationItem.rightBarButtonItem = username == userSession.currentProfile?.authorUsername ? settingsButton : nil
         
         let navigationBarAppearance = UINavigationBarAppearance()
         navigationBarAppearance.configureWithDefaultBackground()
@@ -308,6 +299,7 @@ class ProfileController: UIViewController {
             .font: UIFont(name: Fonts.Poppins_Bold, size: 30) ?? UIFont.systemFont(ofSize: 30)
         ]
         navigationController?.navigationBar.standardAppearance = navigationBarAppearance
+        navigationController?.navigationBar.scrollEdgeAppearance = navigationBarAppearance
     }
     
     // MARK: - Constraints
@@ -337,6 +329,7 @@ class ProfileController: UIViewController {
             editProfileButton.heightAnchor.constraint(equalToConstant:
                 Constants.ProfileController.Dimensions.editProfileButtonSize),
             
+            // avatarButton
             avatarButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,
                                                   constant: Constants.ProfileController.Paddings.leadingAnchor),
             avatarButton.topAnchor.constraint(equalTo: contentView.topAnchor,
@@ -391,6 +384,16 @@ class ProfileController: UIViewController {
         let to = SettingsScreenController()
         to.modalPresentationStyle = .fullScreen
         present(to, animated: true, completion: nil)
+    }
+    
+    // MARK: - Back Button Action
+    
+    @objc private func backButtonTapped() {
+        if navigationController?.presentationController != nil {
+            dismiss(animated: true)
+        } else {
+            navigationController?.popViewController(animated: true)
+        }
     }
     
     // MARK: - Error Handling

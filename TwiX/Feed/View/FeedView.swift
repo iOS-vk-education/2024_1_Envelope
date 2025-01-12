@@ -217,8 +217,7 @@ private extension UIView {
     func presentFullPost(_ post: Post) {
         guard let parentVC = findViewController() else { return }
         let detailVC = PostDetailViewController(post: post)
-        let navController = UINavigationController(rootViewController: detailVC)
-        parentVC.present(navController, animated: true)
+        parentVC.present(detailVC, animated: true)
     }
     
     func navigateToProfile(username: String) {

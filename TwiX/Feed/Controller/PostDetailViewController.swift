@@ -165,8 +165,9 @@ final class PostDetailViewController: UIViewController {
     }
     
     @objc private func avatarTapped() {
-        guard let authorUsername = post.authorUsername as String? else { return }
-        let profileVC = ProfileController(username: authorUsername)
-        navigationController?.pushViewController(profileVC, animated: true)
+        let profileVC = ProfileController(username: post.authorUsername)
+        let navController = UINavigationController(rootViewController: profileVC)
+        navController.modalPresentationStyle = .fullScreen
+        present(navController, animated: true, completion: nil)
     }
 }
