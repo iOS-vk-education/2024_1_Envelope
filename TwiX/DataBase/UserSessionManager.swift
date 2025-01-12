@@ -106,4 +106,9 @@ final class UserSessionManager {
             completion?(profile)
         }
     }
+    
+    func logout() {
+        cachedProfile = nil
+        AuthService.shared.logoutUser(completion: { error in print(error ?? "")})
+    }
 }
