@@ -104,14 +104,6 @@ private extension FeedView {
             }
         }
     }
-    
-    func presentFullPost(_ post: Post) {
-        guard let parentVC = findViewController() else { return }
-        let detailVC = PostDetailViewController(post: post)
-        detailVC.modalPresentationStyle = .fullScreen
-        detailVC.modalTransitionStyle = .coverVertical
-        parentVC.present(detailVC, animated: true)
-    }
 }
 
 // MARK: - Private setup functions
@@ -170,7 +162,10 @@ extension FeedView: UITableViewDataSource, UITableViewDelegate {
         cell.backgroundColor = self.backgroundColor
         cell.selectionStyle = .none
         let post = posts[indexPath.row]
-        cell.configure(with: post, likeAction: { [weak self] in
+        cell.configure(with: post, avatarTapAction: { [weak self] in
+            guard let self = self else { return }
+            self.navigateToProfile(username: post.authorUsername)
+        }, likeAction: { [weak self] in
             guard let self = self else { return }
             self.changeLikeStatus(at: indexPath)
         }, errorAction: errorAction ?? { _ in })
@@ -217,5 +212,19 @@ private extension UIView {
             return nextResponder.findViewController()
         }
         return nil
+    }
+    
+    func presentFullPost(_ post: Post) {
+        guard let parentVC = findViewController() else { return }
+        let detailVC = PostDetailViewController(post: post)
+        let navController = UINavigationController(rootViewController: detailVC)
+        parentVC.present(navController, animated: true)
+    }
+    
+    func navigateToProfile(username: String) {
+        guard let parentVC = findViewController(),
+              let navController = parentVC.navigationController else { return }
+        let profileVC = ProfileController(username: username)
+        navController.pushViewController(profileVC, animated: true)
     }
 }

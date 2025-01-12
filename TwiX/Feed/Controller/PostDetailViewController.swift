@@ -8,6 +8,7 @@ final class PostDetailViewController: UIViewController {
         imageView.layer.cornerRadius = 20
         imageView.layer.masksToBounds = true
         imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.isUserInteractionEnabled = true
         return imageView
     }()
 
@@ -65,7 +66,9 @@ final class PostDetailViewController: UIViewController {
         textView.textContainerInset = UIEdgeInsets(top: 16, left: 16, bottom: 16, right: 16)
         return textView
     }()
-
+    
+    // MARK: - Initializer
+    
     init(post: Post) {
         self.post = post
         super.init(nibName: nil, bundle: nil)
@@ -81,13 +84,18 @@ final class PostDetailViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
 
+    // MARK: - View Lifecycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .background
         setupLayout()
         loadData()
+        setupAvatarTapGesture()
     }
-
+    
+    // MARK: - Setup Methods
+    
     private func setupLayout() {
         view.addSubview(closeButton)
         view.addSubview(avatarImageView)
@@ -126,14 +134,14 @@ final class PostDetailViewController: UIViewController {
             textView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16)
         ])
     }
-
+    
     private func loadData() {
         textView.text = post.text
         authorNameLabel.text = post.authorName
         authorUsernameLabel.text = "@\(post.authorUsername)"
         dateLabel.text = Post.formatTimestamp(post.timestamp)
         likesLabel.text = "\(post.likesCount) likes"
-
+        
         if let url = post.authorAvatarURL {
             DispatchQueue.global().async {
                 if let data = try? Data(contentsOf: url), let image = UIImage(data: data) {
@@ -144,8 +152,21 @@ final class PostDetailViewController: UIViewController {
             }
         }
     }
-
+    
+    private func setupAvatarTapGesture() {
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(avatarTapped))
+        avatarImageView.addGestureRecognizer(tapGesture)
+    }
+    
+    // MARK: - Actions
+    
     @objc private func closeTapped() {
         dismiss(animated: true)
+    }
+    
+    @objc private func avatarTapped() {
+        guard let authorUsername = post.authorUsername as String? else { return }
+        let profileVC = ProfileController(username: authorUsername)
+        navigationController?.pushViewController(profileVC, animated: true)
     }
 }

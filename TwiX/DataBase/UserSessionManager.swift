@@ -107,6 +107,34 @@ final class UserSessionManager {
         }
     }
     
+    func searchUserByUsername(username: String, completion: @escaping (Result<UserProfile, Error>) -> Void) {
+        db.collection("users")
+        .whereField("authorUsername", isEqualTo: username)
+        .limit(to: 1)
+        .getDocuments { snapshot, error in
+            if let error = error {
+                completion(.failure(error))
+                return
+            }
+
+            guard let documents = snapshot?.documents, let document = documents.first else {
+                let notFoundError = NSError(domain: "", code: 404, userInfo: [NSLocalizedDescriptionKey: "User not found"])
+                completion(.failure(notFoundError))
+                return
+            }
+
+            let data = document.data()
+
+            guard let userProfile = UserProfile(data: data) else {
+                let invalidDataError = NSError(domain: "", code: 400, userInfo: [NSLocalizedDescriptionKey: "User data is invalid"])
+                completion(.failure(invalidDataError))
+                return
+            }
+
+            completion(.success(userProfile))
+        }
+    }
+
     func logout() {
         cachedProfile = nil
         AuthService.shared.logoutUser(completion: { error in print(error ?? "")})

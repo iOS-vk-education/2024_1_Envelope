@@ -26,8 +26,8 @@ class PostTableViewCell: UITableViewCell {
     
     // MARK: - Functions
     
-    func configure(with post: Post, likeAction: @escaping () -> Void, errorAction: @escaping (String) -> Void) {
-        postView.configure(with: post, likeAction: likeAction, errorAction: errorAction)
+    func configure(with post: Post, avatarTapAction: @escaping () -> Void, likeAction: @escaping () -> Void, errorAction: @escaping (String) -> Void) {
+        postView.configure(with: post, avatarTapAction: avatarTapAction, likeAction: likeAction, errorAction: errorAction)
     }
     
     func updateLikesCount(_ count: Int, _ isLiked: Bool) {

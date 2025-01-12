@@ -18,7 +18,9 @@ final class PostView: UIView {
     
     var likeButton = UIButton()
     var likesCountLabel = UILabel()
+    
     var likeButtonAction: (() -> Void)?
+    var avatarTapAction: (() -> Void)?
     
     // MARK: - Initializers
     
@@ -32,14 +34,15 @@ final class PostView: UIView {
         setupUI()
     }
     
-    func configure(with post: Post, likeAction: @escaping () -> Void, errorAction: @escaping (_ message: String) -> Void) {
+    func configure(with post: Post, avatarTapAction: @escaping () -> Void, likeAction: @escaping () -> Void, errorAction: @escaping (_ message: String) -> Void) {
         authorLabel.text = post.authorName
         usernameLabel.text = "@\(post.authorUsername)"
         timeLabel.text = "\(Post.formatTimestamp(post.timestamp))"
         postTextLabel.text = post.text
         likesCountLabel.text = "\(post.likesCount)"
         commentsCountLabel.text = "\(post.commentsCount)"
-        likeButtonAction = likeAction
+        self.likeButtonAction = likeAction
+        self.avatarTapAction = avatarTapAction
         [authorLabel, postTextLabel].forEach({$0.textColor = .white})
         PostManager.shared.isPostLiked(post.id) { isLiked in
             print(isLiked)
@@ -135,6 +138,7 @@ private extension PostView {
     
     func setupTargets() {
         likeButton.addTarget(self, action: #selector(likeButtonTapped), for: .touchUpInside)
+        avatarImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(avatarTapped)))
     }
     
     func setupConstraints() {
@@ -194,5 +198,10 @@ private extension PostView {
     @objc
     func likeButtonTapped() {
         likeButtonAction?()
+    }
+    
+    @objc
+    private func avatarTapped() {
+        avatarTapAction?()
     }
 }
