@@ -104,6 +104,14 @@ private extension FeedView {
             }
         }
     }
+    
+    func presentFullPost(_ post: Post) {
+        guard let parentVC = findViewController() else { return }
+        let detailVC = PostDetailViewController(post: post)
+        detailVC.modalPresentationStyle = .fullScreen
+        detailVC.modalTransitionStyle = .coverVertical
+        parentVC.present(detailVC, animated: true)
+    }
 }
 
 // MARK: - Private setup functions
@@ -143,9 +151,11 @@ private extension FeedView {
 extension FeedView: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
+        let selectedPost = posts[indexPath.row]
+        presentFullPost(selectedPost)
     }
     
+  
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
         let cell = tableView.cellForRow(at: indexPath)
         cell?.backgroundColor = .background

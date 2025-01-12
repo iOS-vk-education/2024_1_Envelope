@@ -104,7 +104,7 @@ private extension PostView {
         
         timeLabel.textColor = .gray
     
-        postTextLabel.numberOfLines = 0
+        postTextLabel.numberOfLines = 5
     
         likeButton.setImage(UIImage(systemName: "heart"), for: .normal)
         
