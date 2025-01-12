@@ -31,6 +31,8 @@ class PostTableViewCell: UITableViewCell {
     }
     
     func updateLikesCount(_ count: Int, _ isLiked: Bool) {
+        print("update")
+        print(count)
         postView.likesCountLabel.text = "\(count)"
         
         if isLiked {

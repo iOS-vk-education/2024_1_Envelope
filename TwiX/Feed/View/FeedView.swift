@@ -92,19 +92,16 @@ private extension FeedView {
         
         PostManager.shared.isPostLiked(post.id) { [weak self] isLiked in
             guard let self else { return }
-            self.postManager.changeLikeStatus(post.id)
-            
-            if !isLiked {
-                post.likesCount += 1
-                cell.updateLikesCount(post.likesCount, true)
-            } else {
-                post.likesCount -= 1
-                cell.updateLikesCount(post.likesCount, false)
+            self.postManager.changeLikeStatus(post.id) { likes, isLiked in
+                post.likesCount = likes
+                print(likes, isLiked)
+                print("change Likes")
+                cell.updateLikesCount(post.likesCount, isLiked)
+                
+                self.posts[indexPath.row] = post
+                
+                cell.changeEnable(true)
             }
-            
-            posts[indexPath.row] = post
-            
-            cell.changeEnable(true)
         }
     }
 }
@@ -168,5 +165,47 @@ extension FeedView: UITableViewDataSource, UITableViewDelegate {
             self.changeLikeStatus(at: indexPath)
         }, errorAction: errorAction ?? { _ in })
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        let post = posts[indexPath.row]
+        guard let currentUsername = UserSessionManager.shared.currentProfile?.authorUsername else {
+            return false
+        }
+        return post.authorUsername == currentUsername
+    }
+
+    func tableView(_ tableView: UITableView,
+                   commit editingStyle: UITableViewCell.EditingStyle,
+                   forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            let post = posts[indexPath.row]
+            let alert = UIAlertController(title: "Delete Post?",
+                                          message: "Are you sure you want to delete this post?",
+                                          preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+            alert.addAction(UIAlertAction(title: "Delete", style: .destructive) { _ in
+                self.postManager.deletePost(post.id) { success in
+                    if success {
+                        self.posts.remove(at: indexPath.row)
+                        tableView.deleteRows(at: [indexPath], with: .automatic)
+                    }
+                }
+            })
+            if let vc = self.findViewController() {
+                vc.present(alert, animated: true)
+            }
+        }
+    }
+}
+
+private extension UIView {
+    func findViewController() -> UIViewController? {
+        if let nextResponder = next as? UIViewController {
+            return nextResponder
+        } else if let nextResponder = next as? UIView {
+            return nextResponder.findViewController()
+        }
+        return nil
     }
 }
