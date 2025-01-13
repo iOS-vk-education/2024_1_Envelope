@@ -148,4 +148,18 @@ enum Constants {
             static let unloginButtonTopAnchor: CGFloat = 42
         }
     }
+    
+    enum SearchController {
+        enum Paddings {
+            static let titleTopAnchor: CGFloat = 57
+            static let searchButtonTopAnchor: CGFloat = 9
+        }
+        
+        enum Dimensions {
+            static let titleSize: CGFloat = 40
+            static let searchButtonWidth: CGFloat = 48
+            static let searchButtonHeight: CGFloat = 48
+            static let searchButtonSize: CGFloat = 48
+        }
+    }
 }
