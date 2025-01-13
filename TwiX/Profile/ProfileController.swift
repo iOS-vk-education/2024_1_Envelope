@@ -16,7 +16,16 @@ class ProfileController: UIViewController {
     private let segmentedControl = UISegmentedControl(items: [Strings.Profile.posts, Strings.Profile.likes])
     private var feedView: FeedView!
     private let postManager = PostManager.shared
-    private var user = UserSessionManager.shared.currentProfile
+    private var user: UserProfile?
+    
+    init(user: UserProfile?) {
+        super.init(nibName: nil, bundle: nil)
+        self.user = user
+    }
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+    }
     
     // MARK: - View Lifecycle
     
@@ -27,6 +36,7 @@ class ProfileController: UIViewController {
             print("User is not loaded")
             return
         }
+        
         
         feedView = FeedView(query: Firestore.firestore().collection("posts")
             .whereField("authorUsername", isEqualTo: user.authorUsername)
@@ -72,14 +82,18 @@ class ProfileController: UIViewController {
     }
     
     private func setupEditProfileButton() {
-        editProfileButton.setTitle(Strings.Profile.editProfile, for: .normal)
-        editProfileButton.translatesAutoresizingMaskIntoConstraints = false
-        editProfileButton.layer.cornerRadius = Constants.ProfileController.Dimensions.editProfileButtonCornerRaduis
-        editProfileButton.addTarget(self, action: #selector(editProfileButtonTapped), for: .touchUpInside)
-        editProfileButton.layer.borderWidth = 1
-        editProfileButton.layer.borderColor = Colors.borderColor.cgColor
-        editProfileButton.titleLabel?.font = UIFont(name: Fonts.Poppins_SemiBold, size: 14)
-        editProfileButton.tintColor = Colors.borderColor
+        if user?.authorUsername == UserSessionManager.shared.currentProfile?.authorUsername {
+            editProfileButton.setTitle(Strings.Profile.editProfile, for: .normal)
+            editProfileButton.translatesAutoresizingMaskIntoConstraints = false
+            editProfileButton.layer.cornerRadius = Constants.ProfileController.Dimensions.editProfileButtonCornerRaduis
+            editProfileButton.addTarget(self, action: #selector(editProfileButtonTapped), for: .touchUpInside)
+            editProfileButton.layer.borderWidth = 1
+            editProfileButton.layer.borderColor = Colors.borderColor.cgColor
+            editProfileButton.titleLabel?.font = UIFont(name: Fonts.Poppins_SemiBold, size: 14)
+            editProfileButton.tintColor = Colors.borderColor
+        } else {
+            editProfileButton.isHidden = true
+        }
     }
     
     @objc
@@ -94,7 +108,7 @@ class ProfileController: UIViewController {
         avatarButton.setImage(UIImage(named: Strings.Icons.avatarIcon), for: .normal)
         avatarButton.translatesAutoresizingMaskIntoConstraints = false
         avatarButton.layer.cornerRadius = Constants.ProfileController.Dimensions.avatarButtonSize / 2
-        
+        avatarButton.clipsToBounds = true
         loadAvatarImage()
     }
     

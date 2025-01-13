@@ -10,6 +10,7 @@ final class FeedView : UIView {
     private var errorAction: ((String) -> Void)?
     var posts: [Post] = []
     private var query: Query
+    var navigationController: UINavigationController?
     
     // MARK: - Initializers
     
@@ -159,14 +160,62 @@ extension FeedView: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: PostTableViewCell.self), for: indexPath) as? PostTableViewCell else { return PostTableViewCell() }
+        guard let cell = tableView.dequeueReusableCell(
+            withIdentifier: String(describing: PostTableViewCell.self),
+            for: indexPath
+        ) as? PostTableViewCell else { return PostTableViewCell() }
         cell.backgroundColor = self.backgroundColor
         cell.selectionStyle = .none
-        let post = posts[indexPath.row]
-        cell.configure(with: post, likeAction: { [weak self] in
-            guard let self = self else { return }
-            self.changeLikeStatus(at: indexPath)
-        }, errorAction: errorAction ?? { _ in })
+        cell.configure(
+            with: posts[indexPath.row],
+            likeAction: { [weak self] in
+                self?.changeLikeStatus(at: indexPath)
+            },
+            avatarTapAction: { [weak self] in
+                guard let self = self else { return }
+                self.navigateToUserProfile(username: self.posts[indexPath.row].authorUsername)
+            },
+            errorAction: errorAction ?? { _ in }
+        )
+        
         return cell
+    }
+}
+
+extension FeedView {
+    private func navigateToUserProfile(username: String) {
+        let query = Firestore.firestore()
+            .collection("users")
+            .whereField("authorUsername", isEqualTo: username)
+            .limit(to: 1)
+        
+        query.getDocuments { [weak self] snapshot, error in
+            guard let self = self else { return }
+            
+            if let error = error {
+                print("Error fetching user profile: \(error.localizedDescription)")
+                self.errorAction?("Не удалось загрузить профиль пользователя.")
+                return
+            }
+            
+            guard let document = snapshot?.documents.first else {
+                print("User not found for username: \(username)")
+                self.errorAction?("Пользователь не найден.")
+                return
+            }
+            
+            guard let user = UserProfile(data: document.data()) else {
+                print("Invalid user data for document: \(document.documentID)")
+                self.errorAction?("Некорректные данные профиля.")
+                return
+            }
+            
+            DispatchQueue.main.async {
+                if let navigationController = self.navigationController {
+                    let profileController = ProfileController(user: user)
+                    navigationController.pushViewController(profileController, animated: true)
+                }
+            }
+        }
     }
 }

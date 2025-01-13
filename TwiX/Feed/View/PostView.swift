@@ -7,11 +7,10 @@ final class PostView: UIView {
     private let authorLabel = UILabel()
     private let usernameLabel = UILabel()
     private let timeLabel = UILabel()
-    private let avatarImageView = UIImageView()
+    private let avatarImageView = UIButton()
     private let postTextLabel = UILabel()
     private let commentsButton = UIButton()
-    private let commentsCountLabel = UILabel()
-    
+    private let commentsCountLabel = UILabel()    
     private let moodsStackView = UIStackView()
     
     // MARK: - Public properties
@@ -19,6 +18,7 @@ final class PostView: UIView {
     var likeButton = UIButton()
     var likesCountLabel = UILabel()
     var likeButtonAction: (() -> Void)?
+    var avatarTapAction: (() -> Void)?
     
     // MARK: - Initializers
     
@@ -76,7 +76,7 @@ final class PostView: UIView {
                 
                 DispatchQueue.main.async {
                     if let image = UIImage(data: data) {
-                        self.avatarImageView.image = image
+                        self.avatarImageView.setImage(image, for: .normal)
                     }
                 }
             }
@@ -135,6 +135,7 @@ private extension PostView {
     
     func setupTargets() {
         likeButton.addTarget(self, action: #selector(likeButtonTapped), for: .touchUpInside)
+        avatarImageView.addTarget(self, action: #selector(avatarTapped), for: .touchUpInside)
     }
     
     func setupConstraints() {
@@ -194,5 +195,10 @@ private extension PostView {
     @objc
     func likeButtonTapped() {
         likeButtonAction?()
+    }
+    
+    @objc
+    func avatarTapped() {
+        avatarTapAction?()
     }
 }
