@@ -10,6 +10,7 @@ final class MainFeedViewController: UIViewController, CreatePostControllerDelega
         setupNavBar()
         setupFeedView()
         setupFeedViewConstraints()
+        feedView.navigationController = navigationController
     }
     
     func didCreatePost() {
@@ -78,7 +79,7 @@ private extension MainFeedViewController {
     
     @objc
     private func profileButtonTapped() {
-        let profileVC = ProfileController()
+        let profileVC = ProfileController(user: UserSessionManager.shared.currentProfile)
         navigationController?.pushViewController(profileVC, animated: true)
     }
     
