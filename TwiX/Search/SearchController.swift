@@ -89,21 +89,21 @@ class SearchController: UIViewController, UITableViewDelegate, UITableViewDataSo
         ])
         
         NSLayoutConstraint.activate([
-            searchPlaceholder.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 10),
-            searchPlaceholder.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 18),
-            searchPlaceholder.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -(10 + 48 + 5)),
-            searchPlaceholder.heightAnchor.constraint(equalToConstant: 48)
+            searchPlaceholder.leftAnchor.constraint(equalTo: view.leftAnchor, constant: Constants.SearchController.Paddings.commonPadding),
+            searchPlaceholder.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: Constants.SearchController.Paddings.searchTopAnchor),
+            searchPlaceholder.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -(Constants.SearchController.Paddings.commonPadding + Constants.SearchController.Dimensions.searchButtonSize + Constants.SearchController.Paddings.commonPadding / 2)),
+            searchPlaceholder.heightAnchor.constraint(equalToConstant: Constants.SearchController.Dimensions.searchButtonSize)
         ])
         
         NSLayoutConstraint.activate([
-            searchButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -10),
+            searchButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -Constants.SearchController.Paddings.commonPadding),
             searchButton.topAnchor.constraint(equalTo: searchPlaceholder.topAnchor),
-            searchButton.leftAnchor.constraint(equalTo: searchPlaceholder.rightAnchor, constant: 5),
-            searchButton.heightAnchor.constraint(equalToConstant: Constants.SearchController.Dimensions.searchButtonHeight)
+            searchButton.leftAnchor.constraint(equalTo: searchPlaceholder.rightAnchor, constant: Constants.SearchController.Paddings.commonPadding / 2),
+            searchButton.heightAnchor.constraint(equalToConstant: Constants.SearchController.Dimensions.searchButtonSize)
         ])
         
         NSLayoutConstraint.activate([
-            usersTableView.topAnchor.constraint(equalTo: searchPlaceholder.bottomAnchor, constant: 20),
+            usersTableView.topAnchor.constraint(equalTo: searchPlaceholder.bottomAnchor, constant: Constants.SearchController.Paddings.userViewTopAnchor),
             usersTableView.leftAnchor.constraint(equalTo: view.leftAnchor),
             usersTableView.rightAnchor.constraint(equalTo: view.rightAnchor),
             usersTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
@@ -170,7 +170,7 @@ class UserTableViewCell: UITableViewCell {
     private let userImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.layer.cornerRadius = 25
+        imageView.layer.cornerRadius = Constants.SearchController.Dimensions.avatarSize / 2
         imageView.clipsToBounds = true
         return imageView
     }()
@@ -178,7 +178,7 @@ class UserTableViewCell: UITableViewCell {
     private let userNameLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont(name: Fonts.Montserrat_Regular, size: 14)
+        label.font = UIFont(name: Fonts.Montserrat_Regular, size: Constants.SearchController.Dimensions.avatarFontSize)
         label.textColor = Colors.mainColor
     
         return label
@@ -187,7 +187,7 @@ class UserTableViewCell: UITableViewCell {
     private let userUsernameLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont(name: Fonts.Montserrat_Regular, size: 14)
+        label.font = UIFont(name: Fonts.Montserrat_Regular, size: Constants.SearchController.Dimensions.avatarFontSize)
         label.textColor = Colors.noteColor
     
         return label
@@ -209,18 +209,18 @@ class UserTableViewCell: UITableViewCell {
 
     private func setupConstraints() {
         NSLayoutConstraint.activate([
-            userImageView.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 10),
+            userImageView.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: Constants.SearchController.Paddings.commonPadding),
             userImageView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            userImageView.widthAnchor.constraint(equalToConstant: 50),
-            userImageView.heightAnchor.constraint(equalToConstant: 50),
+            userImageView.widthAnchor.constraint(equalToConstant: Constants.SearchController.Dimensions.avatarSize),
+            userImageView.heightAnchor.constraint(equalToConstant: Constants.SearchController.Dimensions.avatarSize),
 
-            userNameLabel.leftAnchor.constraint(equalTo: userImageView.rightAnchor, constant: 10),
+            userNameLabel.leftAnchor.constraint(equalTo: userImageView.rightAnchor, constant: Constants.SearchController.Paddings.commonPadding),
             userNameLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             
-            userUsernameLabel.leftAnchor.constraint(equalTo: userNameLabel.rightAnchor, constant: 10),
+            userUsernameLabel.leftAnchor.constraint(equalTo: userNameLabel.rightAnchor, constant: Constants.SearchController.Paddings.commonPadding),
             userUsernameLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             
-            contentView.heightAnchor.constraint(equalToConstant: 70)
+            contentView.heightAnchor.constraint(equalToConstant: Constants.SearchController.Dimensions.cellHeight)
         ])
     }
 
