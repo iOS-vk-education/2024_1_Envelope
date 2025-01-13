@@ -13,6 +13,7 @@ final class PostView: UIView {
     private let commentsCountLabel = UILabel()    
     private let moodsStackView = UIStackView()
     
+    
     // MARK: - Public properties
     
     var likeButton = UIButton()
