@@ -36,7 +36,7 @@ final class CreatePostController: UIViewController {
     private let closeButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitleColor(.systemBlue, for: .normal)
-        button.setImage(UIImage(named: "backArrow"), for: .normal)
+        button.setImage(UIImage(named: "closeIcon"), for: .normal)
         button.tintColor = Colors.mainColor
         button.addTarget(self, action: #selector(closeTapped), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
