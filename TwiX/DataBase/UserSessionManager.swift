@@ -37,7 +37,7 @@ final class UserSessionManager {
         var updateData: [String: Any] = ["updatedAt": Timestamp()]
         
         if let newAuthorName = authorName {
-            updateData["authorNname"] = newAuthorName
+            updateData["authorName"] = newAuthorName
         }
         
         if let newAuthorUsername = authorUsername {
@@ -121,11 +121,16 @@ final class UserSessionManager {
 
         updateData["authorName"] = authorName
         updateData["authorUsername"] = authorUsername
-        updateData["authorBio"] = authorBio
+        
+        if let newAuthorBio = authorBio {
+            updateData["authorBio"] = newAuthorBio
+        }
+        
         if let newAuthorAvatarURL = authorAvatarURL, UIApplication.shared.canOpenURL(newAuthorAvatarURL) {
             updateData["authorAvatarURL"] = newAuthorAvatarURL.absoluteString
         } else {
             print("Invalid URL: \(authorAvatarURL?.absoluteString ?? "")")
+            updateData["authorAvatarURL"] = "https://avatars.mds.yandex.net/i?id=7d3c8e0a5e3e1ea0705bdd6c0139af4b6767cc57-10852819-images-thumbs&n=13"
         }
 
         addUserHash(username: authorUsername, uid: uid)

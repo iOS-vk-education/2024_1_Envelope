@@ -177,6 +177,7 @@ class ProfileController: UIViewController {
         segmentedControl.translatesAutoresizingMaskIntoConstraints = false
         segmentedControl.selectedSegmentIndex = 0
         segmentedControl.addTarget(self, action: #selector(segmentChanged), for: .valueChanged)
+        segmentedControl.setTitleTextAttributes([.foregroundColor: Colors.buttonsBackgroundColor], for: .selected)
     }
     
     @objc private func segmentChanged() {
