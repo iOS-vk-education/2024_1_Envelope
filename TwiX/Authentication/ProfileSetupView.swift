@@ -34,7 +34,7 @@ struct ProfileSetupView: View {
                 .background(Color.textFieldsDarker)
                 .cornerRadius(10)
                 .padding(.horizontal)
-                .onChange(of: userName) { newValue, _ in
+                .onChange(of: userName) { newValue in
                     checkUsernameAvailability(username: newValue)
                 }
             
