@@ -133,7 +133,6 @@ private extension FeedView {
     func setup() {
         addSubview(tableView)
         tableView.backgroundColor = self.backgroundColor
-        tableView.separatorColor = UIColor.black
     }
     
     func layout() {
@@ -171,10 +170,14 @@ extension FeedView: UITableViewDataSource, UITableViewDelegate {
             withIdentifier: String(describing: PostTableViewCell.self),
             for: indexPath
         ) as? PostTableViewCell else { return PostTableViewCell() }
-        cell.backgroundColor = self.backgroundColor
+        
+        let post = posts[indexPath.row]
+        
+        cell.backgroundColor = .clear
         cell.selectionStyle = .none
+        
         cell.configure(
-            with: posts[indexPath.row],
+            with: post,
             likeAction: { [weak self] in
                 self?.changeLikeStatus(at: indexPath)
             },
@@ -185,8 +188,28 @@ extension FeedView: UITableViewDataSource, UITableViewDelegate {
             errorAction: errorAction ?? { _ in }
         )
         
+        let cardView = UIView()
+        cardView.translatesAutoresizingMaskIntoConstraints = false
+        cardView.backgroundColor = UIColor(hex: "#01162D")
+        cardView.layer.cornerRadius = 12
+        cardView.layer.shadowColor = UIColor.black.cgColor
+        cardView.layer.shadowOpacity = 0.1
+        cardView.layer.shadowOffset = CGSize(width: 0, height: 2)
+        cardView.layer.shadowRadius = 4
+        
+        cell.contentView.addSubview(cardView)
+        cell.contentView.sendSubviewToBack(cardView)
+        
+        NSLayoutConstraint.activate([
+            cardView.leadingAnchor.constraint(equalTo: cell.contentView.leadingAnchor, constant: 10),
+            cardView.trailingAnchor.constraint(equalTo: cell.contentView.trailingAnchor, constant: -10),
+            cardView.topAnchor.constraint(equalTo: cell.contentView.topAnchor, constant: 5),
+            cardView.bottomAnchor.constraint(equalTo: cell.contentView.bottomAnchor, constant: -5)
+        ])
+        
         return cell
     }
+
     
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         let post = posts[indexPath.row]

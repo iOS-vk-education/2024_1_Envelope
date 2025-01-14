@@ -9,10 +9,7 @@ final class PostView: UIView {
     private let timeLabel = UILabel()
     private let avatarImageView = UIButton()
     private let postTextLabel = UILabel()
-    private let commentsButton = UIButton()
-    private let commentsCountLabel = UILabel()    
     private let moodsStackView = UIStackView()
-    
     
     // MARK: - Public properties
     
@@ -39,7 +36,6 @@ final class PostView: UIView {
         timeLabel.text = "\(Post.formatTimestamp(post.timestamp))"
         postTextLabel.text = post.text
         likesCountLabel.text = "\(post.likesCount)"
-        commentsCountLabel.text = "\(post.commentsCount)"
         likeButtonAction = likeAction
         [authorLabel, postTextLabel].forEach({$0.textColor = .white})
         PostManager.shared.isPostLiked(post.id) { isLiked in
@@ -109,16 +105,11 @@ private extension PostView {
     
         likeButton.setImage(UIImage(systemName: "heart"), for: .normal)
         
-        commentsButton.setImage(UIImage(systemName: "message"), for: .normal)
-        commentsButton.tintColor = .gray
-        
         likesCountLabel.textColor = .gray
-
-        commentsCountLabel.textColor = .gray
     }
     
     func setupSubviews() {
-        [avatarImageView, authorLabel, usernameLabel, timeLabel, postTextLabel, likeButton, commentsButton, likesCountLabel, commentsCountLabel, moodsStackView].forEach {
+        [avatarImageView, authorLabel, usernameLabel, timeLabel, postTextLabel, likeButton, likesCountLabel, moodsStackView].forEach {
             addSubview($0)
             $0.translatesAutoresizingMaskIntoConstraints = false
             if let label = $0 as? UILabel {
@@ -176,16 +167,8 @@ private extension PostView {
             likesCountLabel.leadingAnchor.constraint(equalTo: likeButton.trailingAnchor, constant: 8),
             likesCountLabel.centerYAnchor.constraint(equalTo: likeButton.centerYAnchor),
             
-            // Comment button
-            commentsButton.leadingAnchor.constraint(equalTo: likesCountLabel.trailingAnchor, constant: 24),
-            commentsButton.centerYAnchor.constraint(equalTo: likeButton.centerYAnchor),
-            
-            // Comment count
-            commentsCountLabel.leadingAnchor.constraint(equalTo: commentsButton.trailingAnchor, constant: 8),
-            commentsCountLabel.centerYAnchor.constraint(equalTo: commentsButton.centerYAnchor),
-            
             // Bottom constraint
-            commentsButton.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -16)
+            likeButton.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -16)
         ])
     }
 }
