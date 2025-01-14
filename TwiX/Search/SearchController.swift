@@ -123,6 +123,19 @@ class SearchController: UIViewController, UITableViewDelegate, UITableViewDataSo
         return cell
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let selectedUid = users[indexPath.row]
+        
+        fetchUsername(for: selectedUid) { [weak self] username in
+            guard let username = username else {
+                print("Failed to fetch username.")
+                return
+            }
+            
+            self?.openUserProfile(username: username)
+        }
+    }
+    
     // MARK: - Supporting Functions
     
     @objc func performSearch() {
@@ -163,6 +176,34 @@ class SearchController: UIViewController, UITableViewDelegate, UITableViewDataSo
     
     private func updateFeed() {
         usersTableView.reloadData()
+    }
+    
+    func openUserProfile(username: String) {
+        let profileVC = ProfileController(username: username)
+        let navController = UINavigationController(rootViewController: profileVC)
+        navController.modalPresentationStyle = .fullScreen
+        present(navController, animated: true)
+    }
+    
+    func fetchUsername(for uid: String, completion: @escaping (String?) -> Void) {
+        let db = Firestore.firestore()
+        let userDoc = db.collection("users").document(uid)
+        
+        userDoc.getDocument { (document, error) in
+            if let error = error {
+                print("Error fetching user document: \(error.localizedDescription)")
+                completion(nil)
+                return
+            }
+            
+            if let document = document, document.exists {
+                let username = document.get("authorUsername") as? String
+                completion(username)
+            } else {
+                print("User document does not exist.")
+                completion(nil)
+            }
+        }
     }
 }
 

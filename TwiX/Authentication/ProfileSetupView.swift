@@ -106,7 +106,7 @@ struct ProfileSetupView: View {
                 AlertHelper.showAlert(title: "User not logged in", message: "User not logged in")
                 return
             }
-            UserSessionManager.shared.updateUserToDatabase(uid: currUser.uid, authorName: name, authorUsername: userName, authorBio: userBio, authorAvatarURL: URL(string: avatarUrl))
+            UserSessionManager.shared.initUserToDatabase(uid: currUser.uid, authorName: name, authorUsername: userName, authorBio: userBio, authorAvatarURL: URL(string: avatarUrl))
             print("Profile updated!")
             onSuccess()
         }

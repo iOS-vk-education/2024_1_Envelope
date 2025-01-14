@@ -41,7 +41,9 @@ final class UserSessionManager {
         }
         
         if let newAuthorUsername = authorUsername {
+            removeUserHash(username: updateData["authorUsername"] as! String, uid: uid)
             updateData["authorUsername"] = newAuthorUsername
+            addUserHash(username: newAuthorUsername, uid: uid)
         }
         
         if let newAuthorBio = authorBio {
@@ -53,6 +55,34 @@ final class UserSessionManager {
         } else {
             print("Invalid URL: \(authorAvatarURL?.absoluteString ?? "")")
         }
+
+        if !updateData.isEmpty {
+            userRef.updateData(updateData) { error in
+                if let error = error {
+                    print("Error updating document: \(error)")
+                } else {
+                    print("Document successfully updated")
+                }
+            }
+        }
+        loadUserProfile()
+    }
+    
+    func initUserToDatabase(uid: String, authorName: String, authorUsername: String, authorBio: String?, authorAvatarURL: URL?) {
+        let userRef = db.collection("users").document(uid)
+        
+        var updateData: [String: Any] = ["updatedAt": Timestamp()]
+        
+        updateData["authorName"] = authorName
+        updateData["authorUsername"] = authorUsername
+        updateData["authorBio"] = authorBio
+        if let newAuthorAvatarURL = authorAvatarURL, UIApplication.shared.canOpenURL(newAuthorAvatarURL) {
+            updateData["authorAvatarURL"] = newAuthorAvatarURL.absoluteString
+        } else {
+            print("Invalid URL: \(authorAvatarURL?.absoluteString ?? "")")
+        }
+        
+        addUserHash(username: authorUsername, uid: uid)
 
         if !updateData.isEmpty {
             userRef.updateData(updateData) { error in
@@ -134,9 +164,98 @@ final class UserSessionManager {
             completion(.success(userProfile))
         }
     }
-
+    
     func logout() {
         cachedProfile = nil
         AuthService.shared.logoutUser(completion: { error in print(error ?? "")})
+    }
+    
+    // MARK: Hash for users
+    
+    private func addUserHash(username: String, uid: String) {
+        let db = Firestore.firestore()
+        let usersHash = db.collection("usersHash")
+        
+        var substrings = Set<String>()
+            
+        for start in 0..<username.count {
+            for end in start+1...username.count {
+                let startIndex = username.index(username.startIndex, offsetBy: start)
+                let endIndex = username.index(username.startIndex, offsetBy: end)
+                let substring = String(username[startIndex..<endIndex])
+                substrings.insert(substring)
+            }
+        }
+        
+        for substring in substrings {
+            let documentRef = usersHash.document("0_\(substring)")
+            
+            documentRef.getDocument { (document, error) in
+                if let error = error {
+                    print("Error fetching document: \(error.localizedDescription)")
+                } else if let document = document, !document.exists {
+                    documentRef.setData([
+                        "uuid": [uid]
+                    ]) { error in
+                        if let error = error {
+                            print("Error creating document: \(error.localizedDescription)")
+                        }
+                    }
+                } else {
+                    documentRef.updateData([
+                        "uuid": FieldValue.arrayUnion([uid])
+                    ]) { error in
+                        if let error = error {
+                            print("Error adding string to array for substring \(substring): \(error.localizedDescription)")
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    private func removeUserHash(username: String, uid: String) {
+        let db = Firestore.firestore()
+        let usersHash = db.collection("usersHash")
+        
+        var substrings = Set<String>()
+        
+        for start in 0..<username.count {
+            for end in start+1...username.count {
+                let startIndex = username.index(username.startIndex, offsetBy: start)
+                let endIndex = username.index(username.startIndex, offsetBy: end)
+                let substring = String(username[startIndex..<endIndex])
+                substrings.insert(substring)
+            }
+        }
+        
+        for substring in substrings {
+            let documentRef = usersHash.document("0_\(substring)")
+            
+            documentRef.getDocument { (document, error) in
+                if let error = error {
+                    print("Error fetching document: \(error.localizedDescription)")
+                } else if let document = document, document.exists {
+                    if var uuidArray = document.data()?["uuid"] as? [String], let index = uuidArray.firstIndex(of: uid) {
+                        uuidArray.remove(at: index)
+                        if uuidArray.isEmpty {
+                            documentRef.delete { error in
+                                if let error = error {
+                                    print("Error deleting document: \(error.localizedDescription)")
+                                }
+                            }
+                        } else {
+                            documentRef.updateData([
+                                "uuid": uuidArray
+                            ]) { error in
+                                if let error = error {
+                                    print("Error updating document: \(error.localizedDescription)")
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 }
