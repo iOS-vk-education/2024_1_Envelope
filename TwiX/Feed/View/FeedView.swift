@@ -1,35 +1,42 @@
 import UIKit
 import FirebaseFirestore
 
-final class FeedView : UIView {
-    
+final class FeedView: UIView {
+
     // MARK: - Private properties
-    
+
     private let postManager = PostManager.shared
     let tableView = UITableView()
     private var errorAction: ((String) -> Void)?
     var posts: [Post] = []
     private var query: Query
     var navigationController: UINavigationController?
-    
+    private var refreshTimer: Timer?
+
     // MARK: - Initializers
-    
+
     init(frame: CGRect = .zero, query: Query = Firestore.firestore().collection("posts").order(by: "timestamp", descending: true)) {
         self.query = query
         super.init(frame: frame)
         setupView()
         loadPosts()
+        startRefreshTimer()
     }
-    
+
     required init?(coder: NSCoder) {
         self.query = Firestore.firestore().collection("posts").order(by: "timestamp", descending: true)
         super.init(coder: coder)
         setupView()
         loadPosts()
+        startRefreshTimer()
     }
-    
+
+    deinit {
+        stopRefreshTimer()
+    }
+
     // MARK: - Public functions
-    
+
     public func loadPosts() {
         postManager.fetchPosts(with: query) { posts in
             DispatchQueue.main.async {
@@ -38,7 +45,7 @@ final class FeedView : UIView {
             }
         }
     }
-    
+
     public func loadUserPosts(userId: String) {
         let tmp = query
         query = Firestore.firestore().collection("posts")
@@ -47,7 +54,7 @@ final class FeedView : UIView {
         loadPosts()
         query = tmp
     }
-    
+
     public func loadLikedPosts(uid: String) {
         Firestore.firestore().collection("likedBy")
             .whereField("likedBy", arrayContains: uid)
@@ -56,12 +63,12 @@ final class FeedView : UIView {
                     print("Error fetching liked documents: \(error.localizedDescription)")
                     return
                 }
-                
+
                 guard let documents = querySnapshot?.documents else {
                     print("No liked documents found")
                     return
                 }
-                
+
                 let postIds = documents.map { $0.documentID }
                 if !postIds.isEmpty {
                     self.query = Firestore.firestore().collection("posts")
@@ -73,24 +80,36 @@ final class FeedView : UIView {
             }
     }
 
-    
     public func setErrorAction(_ action: @escaping ((String) -> Void)) {
         errorAction = action
     }
+
+    // MARK: - Timer management
+
+    private func startRefreshTimer() {
+        refreshTimer = Timer.scheduledTimer(withTimeInterval: 10.0, repeats: true) { [weak self] _ in
+            self?.loadPosts()
+        }
+    }
+
+    private func stopRefreshTimer() {
+        refreshTimer?.invalidate()
+        refreshTimer = nil
+    }
 }
 
-// MARK: Private action handlers
+// MARK: - Private action handlers
 
 private extension FeedView {
     func changeLikeStatus(at indexPath: IndexPath) {
         var post = posts[indexPath.row]
-        
+
         guard let cell = self.tableView.cellForRow(at: indexPath) as? PostTableViewCell else {
             return
         }
-        
+
         cell.changeEnable(false)
-        
+
         PostManager.shared.isPostLiked(post.id) { [weak self] isLiked in
             guard let self else { return }
             self.postManager.changeLikeStatus(post.id) { likes, isLiked in
@@ -98,14 +117,14 @@ private extension FeedView {
                 print(likes, isLiked)
                 print("change Likes")
                 cell.updateLikesCount(post.likesCount, isLiked)
-                
+
                 self.posts[indexPath.row] = post
-                
+
                 cell.changeEnable(true)
             }
         }
     }
-    
+
     func presentFullPost(_ post: Post) {
         guard let parentVC = findViewController() else { return }
         let detailVC = PostDetailViewController(post: post)
@@ -123,18 +142,18 @@ private extension FeedView {
         setup()
         layout()
     }
-    
+
     func setupTableView() {
         tableView.register(PostTableViewCell.self, forCellReuseIdentifier: String(describing: PostTableViewCell.self))
         tableView.dataSource = self
         tableView.delegate = self
     }
-    
+
     func setup() {
         addSubview(tableView)
         tableView.backgroundColor = self.backgroundColor
     }
-    
+
     func layout() {
         tableView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
@@ -149,33 +168,32 @@ private extension FeedView {
 // MARK: - Table view logic
 
 extension FeedView: UITableViewDataSource, UITableViewDelegate {
-    
+
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let selectedPost = posts[indexPath.row]
         presentFullPost(selectedPost)
     }
-    
-  
+
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
         let cell = tableView.cellForRow(at: indexPath)
         cell?.backgroundColor = .background
     }
-    
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return posts.count
     }
-    
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(
             withIdentifier: String(describing: PostTableViewCell.self),
             for: indexPath
         ) as? PostTableViewCell else { return PostTableViewCell() }
-        
+
         let post = posts[indexPath.row]
-        
+
         cell.backgroundColor = .clear
         cell.selectionStyle = .none
-        
+
         cell.configure(
             with: post,
             likeAction: { [weak self] in
@@ -187,7 +205,7 @@ extension FeedView: UITableViewDataSource, UITableViewDelegate {
             },
             errorAction: errorAction ?? { _ in }
         )
-        
+
         let cardView = UIView()
         cardView.translatesAutoresizingMaskIntoConstraints = false
         cardView.backgroundColor = UIColor(hex: "#01162D")
@@ -196,21 +214,20 @@ extension FeedView: UITableViewDataSource, UITableViewDelegate {
         cardView.layer.shadowOpacity = 0.1
         cardView.layer.shadowOffset = CGSize(width: 0, height: 2)
         cardView.layer.shadowRadius = 4
-        
+
         cell.contentView.addSubview(cardView)
         cell.contentView.sendSubviewToBack(cardView)
-        
+
         NSLayoutConstraint.activate([
             cardView.leadingAnchor.constraint(equalTo: cell.contentView.leadingAnchor, constant: 10),
             cardView.trailingAnchor.constraint(equalTo: cell.contentView.trailingAnchor, constant: -10),
             cardView.topAnchor.constraint(equalTo: cell.contentView.topAnchor, constant: 5),
             cardView.bottomAnchor.constraint(equalTo: cell.contentView.bottomAnchor, constant: -5)
         ])
-        
+
         return cell
     }
 
-    
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         let post = posts[indexPath.row]
         guard let currentUsername = UserSessionManager.shared.currentProfile?.authorUsername else {
@@ -243,6 +260,48 @@ extension FeedView: UITableViewDataSource, UITableViewDelegate {
     }
 }
 
+// MARK: - Navigation
+
+extension FeedView {
+    private func navigateToUserProfile(username: String) {
+        let query = Firestore.firestore()
+            .collection("users")
+            .whereField("authorUsername", isEqualTo: username)
+            .limit(to: 1)
+
+        query.getDocuments { [weak self] snapshot, error in
+            guard let self = self else { return }
+
+            if let error = error {
+                print("Error fetching user profile: \(error.localizedDescription)")
+                self.errorAction?("Не удалось загрузить профиль пользователя.")
+                return
+            }
+
+            guard let document = snapshot?.documents.first else {
+                print("User not found for username: \(username)")
+                self.errorAction?("Пользователь не найден.")
+                return
+            }
+
+            guard let user = UserProfile(data: document.data()) else {
+                print("Invalid user data for document: \(document.documentID)")
+                self.errorAction?("Некорректные данные профиля.")
+                return
+            }
+
+            DispatchQueue.main.async {
+                if let navigationController = self.navigationController {
+                    let profileController = ProfileController(user: user)
+                    navigationController.pushViewController(profileController, animated: true)
+                }
+            }
+        }
+    }
+}
+
+// MARK: - UIView Extension
+
 private extension UIView {
     func findViewController() -> UIViewController? {
         if let nextResponder = next as? UIViewController {
@@ -251,43 +310,5 @@ private extension UIView {
             return nextResponder.findViewController()
         }
         return nil
-    }
-}
-
-extension FeedView {
-    private func navigateToUserProfile(username: String) {
-        let query = Firestore.firestore()
-            .collection("users")
-            .whereField("authorUsername", isEqualTo: username)
-            .limit(to: 1)
-        
-        query.getDocuments { [weak self] snapshot, error in
-            guard let self = self else { return }
-            
-            if let error = error {
-                print("Error fetching user profile: \(error.localizedDescription)")
-                self.errorAction?("Не удалось загрузить профиль пользователя.")
-                return
-            }
-            
-            guard let document = snapshot?.documents.first else {
-                print("User not found for username: \(username)")
-                self.errorAction?("Пользователь не найден.")
-                return
-            }
-            
-            guard let user = UserProfile(data: document.data()) else {
-                print("Invalid user data for document: \(document.documentID)")
-                self.errorAction?("Некорректные данные профиля.")
-                return
-            }
-            
-            DispatchQueue.main.async {
-                if let navigationController = self.navigationController {
-                    let profileController = ProfileController(user: user)
-                    navigationController.pushViewController(profileController, animated: true)
-                }
-            }
-        }
     }
 }
