@@ -19,34 +19,42 @@ struct ProfileSetupView: View {
                 .foregroundStyle(.text)
                 .padding(.top, 40)
             
-            TextField("", text: $name, prompt: Text("Name").foregroundColor(Color(UIColor(hex: "2A4663"))))
+            // TextField for Name
+            TextField("Name", text: $name)
                 .font(Font.custom(Fonts.Urbanist_Regular, size: Constants.Login.FontSizes.fieldLabel))
+                .foregroundStyle(.text)
                 .padding()
-                .background(Color.textFieldsBorders)
+                .background(Color.textFieldsDarker)
                 .cornerRadius(10)
                 .padding(.horizontal)
             
-            TextField("", text: $userName, prompt: Text("Username").foregroundColor(Color(UIColor(hex: "2A4663"))))
+            // TextField for UserName
+            TextField("UserName", text: $userName)
                 .padding()
                 .font(Font.custom(Fonts.Urbanist_Regular, size: Constants.Login.FontSizes.fieldLabel))
-                .background(Color.textFieldsBorders)
+                .foregroundStyle(.text)
+                .background(Color.textFieldsDarker)
                 .cornerRadius(10)
                 .padding(.horizontal)
                 .onChange(of: userName) { newValue in
                     checkUsernameAvailability(username: newValue)
                 }
             
-            TextField("", text: $userBio, prompt: Text("Bio (Status)").foregroundColor(Color(UIColor(hex: "2A4663"))))
+            // TextField for Bio (Status)
+            TextField("Bio (Status)", text: $userBio)
                 .padding()
                 .font(Font.custom(Fonts.Urbanist_Regular, size: Constants.Login.FontSizes.fieldLabel))
-                .background(Color.textFieldsBorders)
+                .foregroundStyle(.text)
+                .background(Color.textFieldsDarker)
                 .cornerRadius(10)
                 .padding(.horizontal)
             
-            TextField("", text: $avatarUrl, prompt: Text("Avatar URL").foregroundColor(Color(UIColor(hex: "2A4663"))))
+            // TextField for AvatarUrl
+            TextField("Avatar URL", text: $avatarUrl)
                 .padding()
                 .font(Font.custom(Fonts.Urbanist_Regular, size: Constants.Login.FontSizes.fieldLabel))
-                .background(Color.textFieldsBorders)
+                .foregroundStyle(.text)
+                .background(Color.textFieldsDarker)
                 .cornerRadius(10)
                 .padding(.horizontal)
             
@@ -74,41 +82,31 @@ struct ProfileSetupView: View {
     }
     
     func checkUsernameAvailability(username: String) {
-        if UserSessionManager.shared.currentProfile?.authorUsername == username {
-            isUsernameTaken = false
-        }
-        else {
-            Firestore.firestore().collection("users").whereField("authorUsername", isEqualTo: username).getDocuments { snapshot, error in
-                if let error = error {
-                    print("Error checking username: \(error)")
-                    return
-                }
-                if let snapshot = snapshot, !snapshot.isEmpty {
-                    isUsernameTaken = true
-                } else {
-                    isUsernameTaken = false
-                }
+        Firestore.firestore().collection("users").whereField("authorUsername", isEqualTo: username).getDocuments { snapshot, error in
+            if let error = error {
+                print("Error checking username: \(error)")
+                return
+            }
+            
+            if let snapshot = snapshot, !snapshot.isEmpty {
+                isUsernameTaken = true
+            } else {
+                isUsernameTaken = false
             }
         }
     }
     
     func saveProfile() {
-        guard let currUser = UserSessionManager.shared.currentUser else {
-            AlertHelper.showAlert(title: "User not logged in", message: "User not logged in")
-            return
-        }
-        
-        let currentProfile = UserSessionManager.shared.currentProfile
-        let updatedName = name.isEmpty ? currentProfile?.authorName ?? "" : name
-        let updatedUserName = userName.isEmpty ? currentProfile?.authorUsername ?? "" : userName
-        let updatedAvatarUrl = avatarUrl.isEmpty ? currentProfile?.authorAvatarURL?.absoluteString ?? "" : avatarUrl
-        
         if isDataInvalid {
             AlertHelper.showAlert(title: "Error", message: "Invalid Fields")
         } else if isUsernameTaken {
             AlertHelper.showAlert(title: "Error", message: "Username is already taken")
         } else {
-            UserSessionManager.shared.initUserToDatabase(uid: currUser.uid, authorName: name, authorUsername: userName, authorBio: userBio, authorAvatarURL: URL(string: avatarUrl))
+            guard let currUser = UserSessionManager.shared.currentUser else {
+                AlertHelper.showAlert(title: "User not logged in", message: "User not logged in")
+                return
+            }
+            UserSessionManager.shared.updateUserToDatabase(uid: currUser.uid, authorName: name, authorUsername: userName, authorBio: userBio, authorAvatarURL: URL(string: avatarUrl))
             print("Profile updated!")
             onSuccess()
         }
