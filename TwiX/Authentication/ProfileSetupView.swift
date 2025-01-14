@@ -19,38 +19,34 @@ struct ProfileSetupView: View {
                 .foregroundStyle(.text)
                 .padding(.top, 40)
             
-            TextField("Name", text: $name)
+            TextField("", text: $name, prompt: Text("Name").foregroundColor(Color(UIColor(hex: "2A4663"))))
                 .font(Font.custom(Fonts.Urbanist_Regular, size: Constants.Login.FontSizes.fieldLabel))
-                .foregroundStyle(.text)
                 .padding()
-                .background(Color.textFieldsDarker)
+                .background(Color.textFieldsBorders)
                 .cornerRadius(10)
                 .padding(.horizontal)
             
-            TextField("UserName", text: $userName)
+            TextField("", text: $userName, prompt: Text("Username").foregroundColor(Color(UIColor(hex: "2A4663"))))
                 .padding()
                 .font(Font.custom(Fonts.Urbanist_Regular, size: Constants.Login.FontSizes.fieldLabel))
-                .foregroundStyle(.text)
-                .background(Color.textFieldsDarker)
+                .background(Color.textFieldsBorders)
                 .cornerRadius(10)
                 .padding(.horizontal)
                 .onChange(of: userName) { newValue in
                     checkUsernameAvailability(username: newValue)
                 }
             
-            TextField("Bio (Status)", text: $userBio)
+            TextField("Bio (Status)", text: $userBio, prompt: Text("Bio (Status)").foregroundColor(Color(UIColor(hex: "2A4663"))))
                 .padding()
                 .font(Font.custom(Fonts.Urbanist_Regular, size: Constants.Login.FontSizes.fieldLabel))
-                .foregroundStyle(.text)
-                .background(Color.textFieldsDarker)
+                .background(Color.textFieldsBorders)
                 .cornerRadius(10)
                 .padding(.horizontal)
             
-            TextField("Avatar URL", text: $avatarUrl)
+            TextField("Avatar URL", text: $avatarUrl, prompt: Text("Avatar URL").foregroundColor(Color(UIColor(hex: "2A4663"))))
                 .padding()
                 .font(Font.custom(Fonts.Urbanist_Regular, size: Constants.Login.FontSizes.fieldLabel))
-                .foregroundStyle(.text)
-                .background(Color.textFieldsDarker)
+                .background(Color.textFieldsBorders)
                 .cornerRadius(10)
                 .padding(.horizontal)
             
@@ -112,7 +108,7 @@ struct ProfileSetupView: View {
         } else if isUsernameTaken {
             AlertHelper.showAlert(title: "Error", message: "Username is already taken")
         } else {
-            UserSessionManager.shared.updateUserToDatabase(uid: currUser.uid, authorName: updatedName, authorUsername: updatedUserName, authorBio: userBio, authorAvatarURL: URL(string: updatedAvatarUrl))
+            UserSessionManager.shared.initUserToDatabase(uid: currUser.uid, authorName: updatedName, authorUsername: updatedUserName, authorBio: userBio, authorAvatarURL: URL(string: updatedAvatarUrl))
             print("Profile updated!")
             onSuccess()
         }

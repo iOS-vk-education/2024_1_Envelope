@@ -64,6 +64,7 @@ private extension MainFeedViewController {
                                             style: .plain,
                                             target: self,
                                             action: #selector(profileButtonTapped))
+        profileButton.tintColor = Colors.mainColor
         navigationItem.leftBarButtonItem = profileButton
         
         let settingsButton = UIBarButtonItem(image: UIImage(named: "settingsIcon"),
