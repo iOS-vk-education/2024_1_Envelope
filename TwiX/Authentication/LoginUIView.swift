@@ -47,7 +47,7 @@ struct LoginUIView: View {
                     
                     TextField(Strings.Login.emailPlaceholder, text: $email)
                         .padding()
-                        .background(Color.textFieldsBorders)
+                        .background(Color.textFieldsDarker)
                         .cornerRadius(8)
                         .padding(.horizontal, Constants.Login.Padding.horizontal)
                     
@@ -60,7 +60,7 @@ struct LoginUIView: View {
                     SecureField(Strings.Login.passwordPlaceholder, text: $password)
                         .padding()
                         .foregroundStyle(.text)
-                        .background(Color.textFieldsBorders)
+                        .background(Color.textFieldsDarker)
                         .cornerRadius(8)
                         .padding(.horizontal, Constants.Login.Padding.horizontal)
                 }.font(Font.custom(Fonts.Urbanist_Light, size: Constants.Login.FontSizes.fieldLabel))

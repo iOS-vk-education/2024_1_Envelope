@@ -48,7 +48,7 @@ struct RegisterUIView: View {
                     
                     TextField(Strings.Register.emailPlaceholder, text: $email)
                         .padding()
-                        .background(Color.textFieldsBorders)
+                        .background(Color.textFieldsDarker)
                         .cornerRadius(Constants.Register.Dimensions.fieldCornerRadius)
                         .padding(.horizontal, Constants.Register.Padding.horizontal)
                     
@@ -62,7 +62,7 @@ struct RegisterUIView: View {
                     SecureField(Strings.Register.passwordPlaceholder, text: $password)
                         .padding()
                         .foregroundStyle(.text)
-                        .background(Color.textFieldsBorders)
+                        .background(Color.textFieldsDarker)
                         .cornerRadius(Constants.Register.Dimensions.fieldCornerRadius)
                         .padding(.horizontal, Constants.Register.Padding.horizontal)
                 }.font(Font.custom(Fonts.Urbanist_Light, size: Constants.Register.FontSizes.fieldLabel))
