@@ -23,8 +23,8 @@ final class TabBarController: UITabBarController {
     
     private func setupViewControllers() {
         let mainFeedVC = createNav(title: "", image: UIImage(named: Strings.Icons.mainFeedTabBarIcon), vc: MainFeedViewController())
-        let searchVC = createNav(title: "", image: UIImage(named: Strings.Icons.searchTabBarIcon), vc: ProfileController(user: UserSessionManager.shared.currentProfile))
         let createVC = createNav(title: "", image:  UIImage(named: Strings.Icons.addPostTabBarIcon), vc: CreatePostController())
+        let searchVC = createNav(title: "", image: UIImage(named: Strings.Icons.searchTabBarIcon), vc: SearchController())
         self.setViewControllers([mainFeedVC, createVC, searchVC], animated: true)
     }
     
